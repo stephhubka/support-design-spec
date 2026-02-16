@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-root: #0a0c10;
+    --bg-surface: #12151c;
+    --bg-surface-raised: #1a1e28;
+    --bg-surface-hover: #1f2430;
+    --border-default: #252a36;
+    --border-subtle: #1e2330;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8b91a0;
+    --text-tertiary: #5c6270;
+    --accent-blue: #4b7cf3;
+    --accent-blue-dim: rgba(75,124,243,0.12);
+    --accent-purple: #9775fa;
+    --accent-purple-dim: rgba(151,117,250,0.12);
+    --accent-green: #34d399;
+    --accent-green-dim: rgba(52,211,153,0.10);
+    --accent-orange: #f59e0b;
+    --accent-orange-dim: rgba(245,158,11,0.10);
+    --accent-red: #f87171;
+    --accent-red-dim: rgba(248,113,113,0.10);
+    --accent-cyan: #22d3ee;
+    --accent-cyan-dim: rgba(34,211,238,0.10);
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --sidebar-w: 260px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-root);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-default);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent-blue), #6c5ce7);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: #fff;
+  }
+
+  .sidebar-logo-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .sidebar-version {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    margin-top: 6px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    overflow-y: auto;
+  }
+
+  .nav-group-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    padding: 12px 12px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .nav-item:hover { background: var(--bg-surface-hover); color: var(--text-primary); }
+  .nav-item.active { background: var(--accent-blue-dim); color: var(--accent-blue); font-weight: 500; }
+
+  .nav-item--top {
+    padding: 8px 12px;
+    font-weight: 500;
+  }
+
+  .nav-item-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    min-width: 22px;
+    opacity: 0.5;
+  }
+
+  .nav-chip {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .nav-chip--progress { background: var(--accent-blue-dim); color: var(--accent-blue); }
+  .nav-chip--not-started { background: var(--bg-surface-hover); color: var(--text-tertiary); }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-default);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+
+  /* ── Main content ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .main-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10,12,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-default);
+    padding: 14px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .main-header-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .main-header-meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  .content {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 48px 120px;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 72px;
+    scroll-margin-top: 80px;
+    max-width: 784px;
+    display: none;
+  }
+
+  .section.active {
+    display: block;
+  }
+
+  /* ── Bottom Section Navigation ── */
+  .section-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-default);
+  }
+
+  .section-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    transition: color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+
+  .section-nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+  }
+
+  .section-nav-link--hidden {
+    visibility: hidden;
+  }
+
+  .section-nav-arrow {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-blue);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 680px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .card-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+  }
+
+  .card-list li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .card-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-weight: 600;
+  }
+
+  .card-list li strong { color: var(--text-primary); font-weight: 500; }
+
+  /* ── Callout ── */
+  .callout {
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 16px 0;
+  }
+
+  .callout--blue { background: var(--accent-blue-dim); border-left: 3px solid var(--accent-blue); color: var(--accent-blue); }
+  .callout--purple { background: var(--accent-purple-dim); border-left: 3px solid var(--accent-purple); color: var(--accent-purple); }
+  .callout--green { background: var(--accent-green-dim); border-left: 3px solid var(--accent-green); color: var(--accent-green); }
+  .callout--orange { background: var(--accent-orange-dim); border-left: 3px solid var(--accent-orange); color: var(--accent-orange); }
+  .callout--red { background: var(--accent-red-dim); border-left: 3px solid var(--accent-red); color: var(--accent-red); }
+
+  /* ── Subsection heading ── */
+  .sub-heading {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 40px 0 16px;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent-blue);
+  }
+
+  .sub-heading--purple { border-left-color: var(--accent-purple); }
+  .sub-heading--green { border-left-color: var(--accent-green); }
+  .sub-heading--orange { border-left-color: var(--accent-orange); }
+  .sub-heading--red { border-left-color: var(--accent-red); }
+
+  /* ── Tables ── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13.5px;
+  }
+
+  .spec-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-default);
+    background: var(--bg-surface);
+  }
+
+  .spec-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { color: var(--text-primary); font-weight: 500; }
+
+  .spec-table code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg-surface-raised);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent-cyan);
+  }
+
+  /* ── Status badges ── */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .status--progress { background: var(--accent-blue-dim); color: var(--accent-blue); }
+  .status--not-started { background: var(--bg-surface-hover); color: var(--text-tertiary); }
+  .status--done { background: var(--accent-green-dim); color: var(--accent-green); }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ── Image mockups ── */
+  .mockup-group {
+    margin: 24px 0;
+  }
+
+  .mockup-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mockup-label::before {
+    content: '🖼';
+    font-size: 13px;
+  }
+
+  .mockup-frame {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-default);
+    background: var(--bg-surface);
+  }
+
+  .mockup-frame img {
+    width: 100%;
+    display: block;
+  }
+
+  .mockup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .mockup-grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .mockup-grid .mockup-frame { border-radius: var(--radius-md); }
+
+  .mockup-caption {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* ── Interaction specs ── */
+  .interaction-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .interaction-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-orange);
+    margin-bottom: 6px;
+  }
+
+  .interaction-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .interaction-text strong { color: var(--text-primary); }
+
+  /* ── Edge case grid ── */
+  .edge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .edge-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 16px;
+  }
+
+  .edge-card-badge {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+
+  .edge-card-badge--design { background: var(--accent-purple-dim); color: var(--accent-purple); }
+  .edge-card-badge--spec { background: var(--accent-blue-dim); color: var(--accent-blue); }
+
+  .edge-card-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .edge-card-desc {
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+    line-height: 1.45;
+  }
+
+  /* ── Q&A section ── */
+  .qa-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .qa-item--open { border-left: 3px solid var(--accent-orange); }
+  .qa-item--decided { border-left: 3px solid var(--accent-green); }
+
+  .qa-question {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .qa-context {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+
+  .qa-decision {
+    font-size: 13px;
+    color: var(--accent-green);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* ── Chunk overview table ── */
+  .chunk-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+  }
+
+  .chunk-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .chunk-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 14px;
+  }
+
+  .chunk-table tr:hover td { background: var(--bg-surface); }
+
+  .chunk-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .chunk-name { font-weight: 600; color: var(--text-primary); }
+  .chunk-desc { color: var(--text-secondary); font-size: 13px; }
+
+  /* ── Flow diagram ── */
+  .flow-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 20px 0;
+    margin: 16px 0;
+    overflow-x: auto;
+    flex-wrap: wrap;
+  }
+
+  .flow-node {
+    background: var(--bg-surface-raised);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .flow-node--active { background: var(--accent-blue-dim); border-color: var(--accent-blue); color: var(--accent-blue); }
+  .flow-node--pending { opacity: 0.5; }
+
+  .flow-arrow {
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  /* ── Keyboard shortcut ── */
+  .kbd {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--bg-surface-raised);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    padding: 2px 7px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* ── Settings grid ── */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .settings-grid .mockup-frame { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .settings-grid .mockup-frame:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+  /* ── Pattern demos ── */
+  .pattern-placeholder {
+    background: var(--bg-surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin: 10px 0 0;
+  }
+
+  /* Skeleton demo */
+  .skeleton-demo { display: flex; flex-direction: column; gap: 10px; }
+  .skeleton-line {
+    height: 14px;
+    background: linear-gradient(90deg, var(--border-default) 25%, var(--bg-surface-hover) 50%, var(--border-default) 75%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* Empty state demo */
+  .empty-state-demo { text-align: center; padding: 16px 0; }
+  .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty-state-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+  .empty-state-desc { font-size: 13.5px; color: var(--text-tertiary); max-width: 340px; margin: 0 auto 16px; line-height: 1.5; }
+  .empty-state-cta {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent-blue);
+    padding: 8px 18px;
+    border-radius: 8px;
+  }
+
+  /* Error demo */
+  .error-demo { padding: 4px 0; }
+  .error-demo-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-red-dim);
+    border: 1px solid rgba(248,113,113,0.2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13.5px;
+    color: var(--accent-red);
+  }
+  .error-demo-icon { font-size: 16px; }
+  .error-demo-retry { margin-left: auto; font-weight: 600; text-decoration: underline; cursor: pointer; }
+
+  /* Toast demo */
+  .toast-demo { padding: 4px 0; display: flex; justify-content: center; }
+  .toast-demo-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .toast-demo-check {
+    color: var(--accent-green);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* Readonly demo */
+  .readonly-demo { max-width: 320px; }
+  .readonly-demo-label { font-size: 12px; font-weight: 600; color: var(--text-tertiary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .readonly-demo-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+  .readonly-demo-avatar {
+    width: 26px; height: 26px;
+    background: var(--accent-purple);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .readonly-demo-lock { margin-left: auto; font-size: 13px; }
+  .readonly-demo-hint { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; }
+
+  /* AI demo */
+  .ai-demo { }
+  .ai-demo-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .ai-demo-sparkle { font-size: 16px; color: var(--accent-purple); }
+  .ai-demo-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .ai-demo-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent-blue-dim);
+    color: var(--accent-blue);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-left: auto;
+  }
+  .ai-demo-suggestions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ai-demo-chip {
+    font-size: 12.5px;
+    font-weight: 500;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: var(--accent-blue);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .ai-demo-chip:hover { border-color: var(--accent-blue); background: var(--accent-blue-dim); }
+
+  /* ── Overview meta ── */
+  .overview-meta {
+    display: flex;
+    gap: 0;
+    margin: 24px 0;
+  }
+
+  .overview-meta-item {
+    flex: 0 0 auto;
+    padding-right: 40px;
+  }
+
+  .overview-meta-item:last-child { padding-right: 0; }
+
+  .overview-meta-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 4px;
+  }
+
+  .overview-meta-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ── Delivery grid ── */
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .delivery-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: border-color 0.15s;
+  }
+
+  .delivery-card:hover { border-color: var(--accent-blue); }
+
+  .delivery-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .delivery-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .delivery-card-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: #3978F1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .delivery-card-desc {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    display: none;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 48px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-blue);
+    background: var(--accent-blue-dim);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    text-align: center;
+  }
+
+  .hero-meta-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  .hero-meta-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+  }
+
+  /* ── Lightbox ── */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 1000;
+    cursor: zoom-out;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .lightbox-overlay.active { display: flex; }
+
+  .lightbox-overlay img {
+    max-width: 95vw;
+    max-height: 90vh;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1100px) {
+    .edge-grid { grid-template-columns: 1fr 1fr; }
+    .settings-grid { grid-template-columns: 1fr; }
+    .delivery-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 800px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .content { padding: 24px; }
+    .edge-grid { grid-template-columns: 1fr; }
+    .mockup-grid { grid-template-columns: 1fr; }
+    .delivery-grid { grid-template-columns: 1fr; }
+    .overview-meta { flex-wrap: wrap; gap: 20px; }
+  }
+  /* ── System State Demos ── */
+  .state-demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  @media (max-width: 900px) { .state-demo-grid { grid-template-columns: 1fr; } }
+
+  .state-demo {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0f1117;
+  }
+
+  .state-demo-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    padding: 12px 16px 8px;
+  }
+
+  .state-frame {
+    background: #fff;
+    margin: 0 12px 12px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .state-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    gap: 10px;
+  }
+
+  .state-toolbar-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .state-toggle {
+    display: flex;
+    gap: 1px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    padding: 2px;
+  }
+
+  .state-toggle-btn {
+    width: 20px; height: 18px;
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .state-toggle-btn.active { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+  .state-filters {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    gap: 10px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .state-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+
+  .state-search.active { border-color: #3b82f6; color: #111827; font-weight: 500; }
+
+  .state-filter-btn { font-size: 11px; color: #9ca3af; }
+
+  .state-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    min-height: 180px;
+  }
+
+  .state-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .state-icon--gray { background: #f3f4f6; }
+  .state-icon--amber { background: #fef3c7; }
+  .state-icon--red { background: #fef2f2; }
+
+  .state-title { font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 4px; }
+  .state-desc { font-size: 12px; color: #6b7280; text-align: center; max-width: 240px; line-height: 1.4; margin-bottom: 14px; }
+
+  .state-cta {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #2563eb; color: #fff; font-size: 12px; font-weight: 600;
+    padding: 6px 12px; border-radius: 6px; border: none; font-family: inherit;
+  }
+
+  .state-link { color: #2563eb; font-size: 12px; font-weight: 500; text-decoration: underline; }
+
+  .state-retry {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #fff; color: #374151; font-size: 12px; font-weight: 600;
+    padding: 6px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-family: inherit;
+  }
+
+  /* Skeleton rows */
+  .state-skeleton-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .state-skeleton-row:last-child { border-bottom: none; }
+
+  .skel-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #e5e7eb; flex-shrink: 0;
+    animation: specShimmer 1.5s infinite ease-in-out;
+  }
+
+  .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+  .skel-line {
+    height: 8px; border-radius: 4px; background: #e5e7eb;
+    animation: specShimmer 1.5s infinite ease-in-out;
+  }
+
+  .skel-meta { display: flex; gap: 6px; align-items: center; }
+
+  .skel-badge {
+    height: 16px; width: 40px; border-radius: 4px; background: #f3f4f6;
+    animation: specShimmer 1.5s infinite ease-in-out;
+  }
+
+  .skel-dot {
+    width: 5px; height: 5px; border-radius: 50%; background: #f3f4f6;
+    animation: specShimmer 1.5s infinite ease-in-out;
+  }
+
+  .skel-time {
+    height: 8px; width: 28px; border-radius: 4px; background: #f3f4f6;
+    animation: specShimmer 1.5s infinite ease-in-out;
+  }
+
+  @keyframes specShimmer {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .state-skeleton-row:nth-child(1) .skel-avatar { animation-delay: 0s; }
+  .state-skeleton-row:nth-child(2) .skel-avatar { animation-delay: 0.12s; }
+  .state-skeleton-row:nth-child(3) .skel-avatar { animation-delay: 0.24s; }
+  .state-skeleton-row:nth-child(4) .skel-avatar { animation-delay: 0.36s; }
+  .state-skeleton-row:nth-child(1) .skel-line { animation-delay: 0.05s; }
+  .state-skeleton-row:nth-child(2) .skel-line { animation-delay: 0.17s; }
+  .state-skeleton-row:nth-child(3) .skel-line { animation-delay: 0.29s; }
+  .state-skeleton-row:nth-child(4) .skel-line { animation-delay: 0.41s; }
+
+  /* Bulk Action Bar */
+  .bulk-demo-wrapper {
+    position: relative;
+    margin-top: 16px;
+  }
+
+  .bulk-demo-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #111827;
+    border-radius: 12px;
+    padding: 8px 10px 8px 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .bulk-demo-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-right: 6px;
+    white-space: nowrap;
+  }
+
+  .bulk-demo-divider {
+    width: 1px; height: 20px; background: #374151; margin: 0 4px;
+  }
+
+  .bulk-demo-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 10px; border-radius: 7px;
+    font-size: 12px; font-weight: 500; color: #d1d5db;
+    background: transparent; border: none; font-family: inherit; white-space: nowrap;
+  }
+
+  .bulk-demo-btn svg { width: 14px; height: 14px; }
+
+  .bulk-demo-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 6px;
+    background: transparent; border: none; color: #6b7280;
+    font-size: 14px; font-family: inherit; margin-left: 2px;
+  }
+
+  .state-note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 10px;
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+      <span class="sidebar-logo-text">Support 2.0</span>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <a href="#overview" class="nav-item nav-item--top active">Overview</a>
+    <a href="#shared-patterns" class="nav-item nav-item--top">Shared Patterns</a>
+    <a href="#full-prototype" class="nav-item nav-item--top">Prototype</a>
+
+    <div class="nav-group-label">Core Workspace Modules</div>
+    <a href="#platform-shell" class="nav-item">
+      <span class="nav-item-num">01</span> Platform Shell
+    </a>
+    <a href="#inbox-list" class="nav-item">
+      <span class="nav-item-num">02</span> Case Queue &amp; Triage
+    </a>
+    <a href="#conversation" class="nav-item">
+      <span class="nav-item-num">03</span> Conversation Workspace
+    </a>
+    <a href="#case-details" class="nav-item">
+      <span class="nav-item-num">04</span> Case Details Panel
+    </a>
+    <a href="#intake-forms" class="nav-item">
+      <span class="nav-item-num">05</span> Intake + Forms
+    </a>
+    <a href="#internal-notes" class="nav-item">
+      <span class="nav-item-num">06</span> Internal Notes
+    </a>
+    <a href="#ai-assistance" class="nav-item">
+      <span class="nav-item-num">07</span> AI + Assistance
+    </a>
+    <a href="#settings" class="nav-item">
+      <span class="nav-item-num">08</span> Support Settings
+    </a>
+    <a href="#team-roles" class="nav-item">
+      <span class="nav-item-num">09</span> Team + Roles
+    </a>
+    <a href="#channels" class="nav-item">
+      <span class="nav-item-num">10</span> Channels
+    </a>
+    <a href="#rules-slas" class="nav-item">
+      <span class="nav-item-num">11</span> Rules &amp; SLAs
+    </a>
+    <a href="#ai-config" class="nav-item">
+      <span class="nav-item-num">12</span> AI Configuration
+    </a>
+    <a href="#notifications" class="nav-item">
+      <span class="nav-item-num">13</span> Notifications
+    </a>
+  </div>
+
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main">
+  <header class="main-header">
+    <span class="main-header-title">Support 2.0 — Design Spec</span>
+    <span class="main-header-meta">v1.0 · Feb 8, 2026</span>
+  </header>
+
+  <div class="content">
+
+
+    <!-- ─── PROJECT OVERVIEW ─── -->
+    <section class="section" id="overview">
+      <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Support 2.0</h2>
+      <p class="section-desc">Jack Henry is redesigning Banno Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
+      <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
+
+      <h3 style="font-size: 22px; font-weight: 700; margin: 48px 0 12px; letter-spacing: -0.02em;">Delivery Approach</h3>
+      <p class="section-desc">Rather than deploying a single large-scale release, Support 2.0 improvements will be delivered incrementally across a series of modular updates. Each delivery chunk builds toward the full Support 2.0 vision, allowing teams to benefit from enhancements as soon as they are ready while maintaining a stable and reliable experience throughout the transition.</p>
+
+      <div class="delivery-grid">
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Conversation Workspace</div>
+            <div class="delivery-card-num">1</div>
+          </div>
+          <div class="delivery-card-desc">Conversation thread, reply composition, attachments, internal notes, AI summaries and suggested responses.</div>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Case Details</div>
+            <div class="delivery-card-num">2</div>
+          </div>
+          <div class="delivery-card-desc">Customer context, case metadata, assignment, status updates, tags, SLA indicators, and agent-facing insights.</div>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Form Submissions</div>
+            <div class="delivery-card-num">3</div>
+          </div>
+          <div class="delivery-card-desc">Structured intake flows, form-driven case creation, submission review, routing logic, and channel-origin context.</div>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Inbox + Case List</div>
+            <div class="delivery-card-num">4</div>
+          </div>
+          <div class="delivery-card-desc">Case queue management, filtering and search, grouping, bulk actions, and multi-view triage workflows.</div>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Support Settings</div>
+            <div class="delivery-card-num">5</div>
+          </div>
+          <div class="delivery-card-desc">Team configuration, roles and permissions, routing rules, SLAs, notification controls, and AI feature management.</div>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <div class="delivery-card-title">Platform Shell</div>
+            <div class="delivery-card-num">6</div>
+          </div>
+          <div class="delivery-card-desc">Top-level application container, navigation framework, routing architecture, and cross-module integration points.</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 22px; font-weight: 700; margin: 48px 0 12px; letter-spacing: -0.02em;">Questions + Feedback</h3>
+      <p class="section-desc">Questions, discussions, and decisions should be captured directly in this spec or raised in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> to ensure shared visibility and alignment.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── SHARED PATTERNS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="shared-patterns">
+    <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
+      <h2 class="section-title">Shared Patterns</h2>
+      <p class="section-desc">The top-level application shell and container architecture. Covers the header, sidebar, navigation, routing, and the structural foundation that all other modules live within.</p>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Loading States</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Skeleton example</p>
+      <ul class="card-list">
+        <li>Use skeletons for primary content regions</li>
+        <li>Avoid full-page spinners except on first-load entry</li>
+        <li>Preserve layout stability during async fetches</li>
+      </ul>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Empty States</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Empty Inbox + CTA example</p>
+      <ul class="card-list">
+        <li>Explain what's missing</li>
+        <li>Offer the next action</li>
+        <li>No dead-end screens</li>
+      </ul>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Error Handling</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Inline error + retry</p>
+      <ul class="card-list">
+        <li>Human-readable message</li>
+        <li>Inline when possible</li>
+        <li>Always provide recovery</li>
+      </ul>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Confirmation Feedback</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Toast + success state</p>
+      <ul class="card-list">
+        <li>Toasts for lightweight actions</li>
+        <li>Modals only for destructive actions</li>
+      </ul>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Permissions + Roles</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Read-only field example</p>
+      <ul class="card-list">
+        <li>Hide or disable restricted actions</li>
+        <li>Show clear "why" messaging</li>
+      </ul>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">AI Behaviors</h3>
+      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Summary + suggestion card</p>
+      <ul class="card-list">
+        <li>AI assists, agent decides</li>
+        <li>Always transparent + dismissible</li>
+        <li>Configurable by FI</li>
+      </ul>
+    </section>
+    <div class="divider"></div>
+
+    <!-- ─── FULL PROTOTYPE ─── -->
+    <section class="section" id="full-prototype">
+      <div class="section-label">Overview</div>
+      <h2 class="section-title">Full Prototype</h2>
+      <p class="section-desc">Interactive prototype showcasing the complete Support 2.0 experience end-to-end.</p>
+      <div class="callout callout--blue">
+        Prototype link and walkthrough to be added.
+      </div>
+    </section>
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── PLATFORM SHELL ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="platform-shell">
+      <div class="section-label">Section 01</div>
+      <h2 class="section-title">Platform Shell</h2>
+      <p class="section-desc">Support 2.0 is delivered in modular chunks, but certain interaction behaviors must remain consistent across the platform.</p>
+      <p class="section-desc">This section captures the shared patterns that apply everywhere. Including system states, permissions, feedback, and AI behaviors. Component documentation lives in the design system; this page defines the workflow rules that Support 2.0 builds on.</p>
+
+      <div class="card">
+        <div class="card-title">Scope</div>
+        <div class="card-desc">The team is working to pin down exact boundaries and dependencies. This chunk will cover the application shell (header, sidebar navigation, routing), container architecture for embedding the support module within the broader Jack Henry platform, and any shared infrastructure that other chunks depend on.</div>
+      </div>
+
+      <div class="callout callout--blue">
+        🏗 <strong>Primarily engineering scope</strong> with limited direct UI impact. Spec will be updated as scope solidifies.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CASE QUEUE + TRIAGE ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="inbox-list">
+      <div class="section-label">Section 02</div>
+      <h2 class="section-title">Case Queue + Triage</h2>
+      <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Supported Views</h3>
+      <p class="section-desc">The case queue can be represented in multiple formats depending on workflow needs.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board View (Kanban)</h4>
+      <p class="section-desc">Best for status-based triage and workflow movement. Cases are grouped by status to support quick prioritization, but Phase 1 does not include drag-and-drop between columns — status changes occur through explicit update actions to ensure clarity and auditability.</p>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Board_view.png" alt="Board View — Kanban" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">List View (Table)</h4>
+      <p class="section-desc">Best for high-volume scanning, sorting, and bulk management. List view supports consistent queue indicators and actions while providing a more compact, sortable representation of active work.</p>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/List_view.png" alt="List View — Table" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Case Preview Information</h3>
+      <p class="section-desc">Before opening a case, agents should have enough context to prioritize work directly from the queue. Case previews include:</p>
+      <ul class="card-list">
+        <li>Customer name + avatar</li>
+        <li>Message preview</li>
+        <li>Status and priority indicators</li>
+        <li>Channel badge</li>
+        <li>Timestamp and urgency cues</li>
+      </ul>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Case_Card_Crops.png" alt="Case Card — Board and List views" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Shared Controls Across Views</h3>
+      <p class="section-desc">These controls remain consistent regardless of queue representation:</p>
+
+      <div class="card">
+        <div class="card-title" style="text-align: center; margin-bottom: 8px;">Search + Filter Bar</div>
+        <div class="card-desc" style="text-align: center; margin-bottom: 16px;">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</div>
+        <div class="mockup-frame">
+          <img src="images/Search_Filter_Bar.png" alt="Search + Filter Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Key Triage Interactions</h3>
+      <p class="section-desc">The primary actions supported within the queue include:</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and Open a Case</h4>
+      <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
+      <p class="section-desc" style="font-size: 14px; color: var(--text-tertiary);">🖼 Queue → Conversation Workspace</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Bulk Actions</h4>
+      <p class="section-desc">Bulk actions are supported in Phase 1 for a focused set of high-value workflows:</p>
+      <ul class="card-list">
+        <li>Assign to rep or team</li>
+        <li>Update case status</li>
+        <li>Apply priority</li>
+      </ul>
+      <p class="section-desc" style="margin-top: 12px;">Additional bulk updates (tags, categories, routing) are intentionally deferred until later releases.</p>
+
+      <div class="bulk-demo-wrapper">
+        <div class="bulk-demo-bar">
+          <div class="bulk-demo-count">3 selected</div>
+          <div class="bulk-demo-divider"></div>
+          <span class="bulk-demo-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Assign
+          </span>
+          <span class="bulk-demo-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Status
+          </span>
+          <span class="bulk-demo-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26z"/></svg>
+            Priority
+          </span>
+          <div class="bulk-demo-divider"></div>
+          <span class="bulk-demo-close">✕</span>
+        </div>
+        <p class="state-note">Floating bar appears at bottom of viewport when 1+ cases are selected. Dismiss with ✕ to deselect all.</p>
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">System States</h3>
+      <p class="section-desc">Queue states must remain consistent across both views.</p>
+
+      <div class="state-demo-grid">
+
+        <!-- Empty Queue -->
+        <div class="state-demo">
+          <div class="state-demo-label">Empty Queue</div>
+          <div style="padding: 0 12px 12px;">
+            <img src="images/Empty_Queue.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+          </div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">No cases assigned to the current view. Icon + "No cases yet" headline + description. No CTA — cases arrive via customer-initiated channels.</div>
+        </div>
+
+        <!-- No Search Results -->
+        <div class="state-demo">
+          <div class="state-demo-label">No Search Results</div>
+          <div style="padding: 0 12px 12px;">
+            <img src="images/No_Search_Results.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+          </div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Reflects active query back to the user. "Clear search" link resets the input. Toolbar and filters remain accessible so agents can adjust without starting over.</div>
+        </div>
+
+        <!-- Loading Skeleton -->
+        <div class="state-demo">
+          <div class="state-demo-label">Loading Skeleton</div>
+          <div class="state-frame">
+            <div class="state-toolbar">
+              <span class="state-toolbar-title">My cases</span>
+              <span style="font-size: 10px; color: #9ca3af;">▾</span>
+              <div class="state-toggle">
+                <div class="state-toggle-btn active"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+                <div class="state-toggle-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+              </div>
+            </div>
+            <div class="state-filters">
+              <div class="state-search"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search</div>
+              <span class="state-filter-btn">Assignee ▾</span>
+              <span class="state-filter-btn">Priority ▾</span>
+            </div>
+            <div>
+              <div class="state-skeleton-row">
+                <div class="skel-avatar"></div>
+                <div class="skel-lines">
+                  <div class="skel-line" style="width: 35%;"></div>
+                  <div class="skel-line" style="width: 80%;"></div>
+                </div>
+                <div class="skel-meta">
+                  <div class="skel-badge"></div>
+                  <div class="skel-dot"></div>
+                  <div class="skel-time"></div>
+                </div>
+              </div>
+              <div class="state-skeleton-row">
+                <div class="skel-avatar"></div>
+                <div class="skel-lines">
+                  <div class="skel-line" style="width: 40%;"></div>
+                  <div class="skel-line" style="width: 70%;"></div>
+                </div>
+                <div class="skel-meta">
+                  <div class="skel-badge"></div>
+                  <div class="skel-dot"></div>
+                  <div class="skel-time"></div>
+                </div>
+              </div>
+              <div class="state-skeleton-row">
+                <div class="skel-avatar"></div>
+                <div class="skel-lines">
+                  <div class="skel-line" style="width: 30%;"></div>
+                  <div class="skel-line" style="width: 85%;"></div>
+                </div>
+                <div class="skel-meta">
+                  <div class="skel-badge"></div>
+                  <div class="skel-dot"></div>
+                  <div class="skel-time"></div>
+                </div>
+              </div>
+              <div class="state-skeleton-row">
+                <div class="skel-avatar"></div>
+                <div class="skel-lines">
+                  <div class="skel-line" style="width: 38%;"></div>
+                  <div class="skel-line" style="width: 65%;"></div>
+                </div>
+                <div class="skel-meta">
+                  <div class="skel-badge"></div>
+                  <div class="skel-dot"></div>
+                  <div class="skel-time"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Generic skeleton — avatar, name, content, and metadata atoms map to both board cards and list rows. Toolbar and filters render immediately. Content area transitions to the selected view once data arrives.</div>
+        </div>
+
+        <!-- Error Fetching Cases -->
+        <div class="state-demo">
+          <div class="state-demo-label">Error Fetching Cases</div>
+          <div style="padding: 0 12px 12px;">
+            <img src="images/Error_Fetching_Cases.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+          </div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">API failure or timeout. "Unable to load cases" with reassuring copy + "Try again" retry button. Don't clear existing data if a background refresh fails — only show on initial load failure.</div>
+        </div>
+
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Designs + References</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2159&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); padding: 8px 0;">
+          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+            <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+            <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+            <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+            <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+          </svg>
+          <span style="font-size: 15px;">Inbox board view</span>
+        </a>
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2504&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); padding: 8px 0;">
+          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+            <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+            <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+            <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+            <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+          </svg>
+          <span style="font-size: 15px;">Inbox list view</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+    <section class="section" id="conversation">
+      <div class="section-label">Section 03</div>
+      <h2 class="section-title">Conversation Workspace</h2>
+      <p class="section-desc">The core conversation experience — where support reps read customer messages, collaborate internally, and compose replies. This workspace defines the message thread, reply composer, attachments, internal notes, and Phase 1 AI-assisted guidance. It is the primary surface for resolving an active support case.</p>
+
+      <!-- Primary Conversation Workspace -->
+      <h3 class="sub-heading">Primary Conversation Workspace</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">This is the main case-handling workspace once a support rep opens a case from the queue.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Full Conversation Screenshot</div>
+        <div class="mockup-frame">
+          <img src="images/Conversation_Full.png" alt="Full Conversation Screenshot" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <ol style="list-style: decimal; padding-left: 20px; margin-top: 16px; font-size: 14px; color: var(--text-secondary); line-height: 1.8;">
+        <li>Conversation header (customer + case context)</li>
+        <li>Message thread</li>
+        <li>Internal vs. customer messages</li>
+        <li>Reply composer</li>
+        <li>Attachments entry point</li>
+        <li>AI suggestions panel entry</li>
+        <li>System events</li>
+      </ol>
+
+      <!-- Message Thread -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Message Thread</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Messages are displayed chronologically, combined customer messages, support rep replies, and system-generated events into a single unified timeline.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Message Thread</div>
+        <div class="mockup-frame">
+          <img src="images/Message_Thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Message Types -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Message Types</h3>
+
+      <div class="mockup-group">
+        <div class="mockup-label">3 Bubble Examples</div>
+        <div class="mockup-frame">
+          <img src="images/Message_Types.png" alt="3 Bubble Examples" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <ul class="card-list" style="margin-top: 16px;">
+        <li><strong>Customer (Inbound):</strong> incoming support requests</li>
+        <li><strong>Representative (Outbound):</strong> responses and updates</li>
+        <li><strong>System Events:</strong> status changes and assignments</li>
+      </ul>
+      <p class="card-desc" style="margin-top: 16px;">Internal-only content is visually distinct and never exposed to the customer.</p>
+
+      <!-- Reply Composer -->
+      <h3 class="sub-heading sub-heading--purple" style="margin-top: 56px;">Reply Composer</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">The reply composer is the primary action point for support reps, supporting fast response workflows without leaving the conversation context.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Composer</div>
+        <div class="mockup-frame">
+          <img src="images/Composer.png" alt="Composer" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">Includes:</p>
+      <ul class="card-list">
+        <li>Text input + send controls</li>
+        <li>Formatting or templates (if enabled)</li>
+        <li>Attachment support</li>
+        <li>AI-assisted suggestions (read-only Phase 1)</li>
+      </ul>
+
+      <!-- Attachments -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Attachments</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Support representatives can send and receive files directly within the conversation thread, with previews and clear handling for supported file types.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Attachment Message Example</div>
+        <div class="mockup-frame">
+          <img src="images/Attachment_Example.png" alt="Attachment Message Example" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">Attachment behaviors include:</p>
+      <ul class="card-list">
+        <li>Inline previews when possible</li>
+        <li>Download links for documents</li>
+        <li>Error states for unsupported files</li>
+      </ul>
+
+      <!-- Internal Notes -->
+      <h3 class="sub-heading sub-heading--orange" style="margin-top: 56px;">Internal Notes</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Support teams can leave private internal notes directly in the conversation workspace. These notes are visible only to authorized staff and are never shared with the customer.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Internal Note Example</div>
+        <div class="mockup-frame">
+          <img src="images/Internal_Note.png" alt="Internal Note Example" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">In Phase 1, collaboration is supported through:</p>
+      <ul class="card-list">
+        <li>Shared visibility into the same conversation thread</li>
+        <li>Private internal notes for context and handoff</li>
+        <li>Clear authorship and time-stamping for accountability</li>
+      </ul>
+      <p class="card-desc" style="margin-top: 16px;">Real-time co-editing or simultaneous drafting is not included in Phase 1. Support rep handoff is supported through notes, assignment changes, and conversation history rather than live multi-rep editing.</p>
+
+      <!-- Conversation Signals -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Conversation Signals</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Lightweight indicators provide awareness during active conversations.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Typing Indicator</div>
+        <div class="mockup-frame">
+          <img src="images/Typing_Indicator.png" alt="Typing Indicator" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Read Receipt / Seen State</div>
+        <div class="mockup-frame">
+          <img src="images/Read_Receipt.png" alt="Read Receipt / Seen State" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">Signal availability may vary by channel. In Phase 1:</p>
+      <ul class="card-list">
+        <li>Typing indicators and read receipts are supported only where the underlying channel provides reliable event data</li>
+        <li>Channels without delivery / read support will omit these indicators rather than showing inconsistent or misleading states</li>
+        <li>Conversation history remains the source of truth across all channels</li>
+      </ul>
+
+      <!-- AI-Assisted Guidance (Phase 1) -->
+      <h3 class="sub-heading sub-heading--green" style="margin-top: 56px;">AI-Assisted Guidance (Phase 1)</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">In Phase 1, the Conversation Workspace integrates AI as a read-only support layer. AI helps agents understand context, surface relevant information, and draft guidance — but does not take action on behalf of the support rep.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">AI Suggestions Panel</div>
+        <div class="mockup-frame">
+          <img src="images/AI_Suggestions.png" alt="AI Suggestions Panel" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">Phase 1 capabilities include:</p>
+      <ul class="card-list">
+        <li>Intent recognition</li>
+        <li>Contextual suggestions</li>
+        <li>Always-updated conversation summaries</li>
+        <li>Retrieved supporting data displayed for the support rep</li>
+      </ul>
+
+      <!-- Planned Enhancements (Phase 2+) -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Planned Enhancements (Phase 2+)</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Write-enabled AI workflows may be introduced in future phases, such as:</p>
+      <ul class="card-list">
+        <li>Drafting and applying suggested replies</li>
+        <li>Executing approved case updates (status, assignment)</li>
+        <li>Triggering workflow actions with explicit support rep confirmation</li>
+      </ul>
+      <p class="card-desc" style="margin-top: 16px;">All write actions will require clear guardrails, transparency, and human approval before execution.</p>
+
+      <div class="callout callout--red" style="margin-top: 24px;">
+        <strong>Phase 1 Scope:</strong> AI operations are read-only. The agent may retrieve and display data, but cannot execute actions or updates on behalf of the support rep. Write-enabled workflows are planned for Phase 2+.
+      </div>
+
+      <!-- System States -->
+      <h3 class="sub-heading" style="margin-top: 56px;">System States</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Conversation-level states must remain consistent across workflows.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Visual Strip</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Loading thread history</div>
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Empty conversation</div>
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Failed send / retry</div>
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Restricted access / read-only</div>
+        </div>
+      </div>
+
+      <!-- Designs + References -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Designs + References</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+        <a href="#" style="display: flex; align-items: center; gap: 10px; color: var(--accent-blue); text-decoration: none; font-size: 14px; font-weight: 500;">
+          <svg width="20" height="20" viewBox="0 0 38 38" fill="none" style="flex-shrink: 0;">
+            <path d="M19 0C8.50659 0 0 8.50659 0 19C0 29.4934 8.50659 38 19 38C29.4934 38 38 29.4934 38 19C38 8.50659 29.4934 0 19 0Z" fill="#1E1E1E"/>
+            <path d="M19 9.5C19 4.25329 23.2533 0 28.5 0H38V19H19V9.5Z" fill="#0ACF83"/>
+            <path d="M0 19C0 13.7533 4.25329 9.5 9.5 9.5H19V28.5H9.5C4.25329 28.5 0 23.7467 0 19Z" fill="#A259FF"/>
+            <path d="M19 9.5V0H28.5C33.7467 0 38 4.25329 38 9.5C38 14.7467 33.7467 19 28.5 19H19V9.5Z" fill="#FF7262"/>
+            <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+            <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+          </svg>
+          Conversation workspace layout
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 10px; color: var(--accent-blue); text-decoration: none; font-size: 14px; font-weight: 500;">
+          <svg width="20" height="20" viewBox="0 0 38 38" fill="none" style="flex-shrink: 0;">
+            <path d="M19 0C8.50659 0 0 8.50659 0 19C0 29.4934 8.50659 38 19 38C29.4934 38 38 29.4934 38 19C38 8.50659 29.4934 0 19 0Z" fill="#1E1E1E"/>
+            <path d="M19 9.5C19 4.25329 23.2533 0 28.5 0H38V19H19V9.5Z" fill="#0ACF83"/>
+            <path d="M0 19C0 13.7533 4.25329 9.5 9.5 9.5H19V28.5H9.5C4.25329 28.5 0 23.7467 0 19Z" fill="#A259FF"/>
+            <path d="M19 9.5V0H28.5C33.7467 0 38 4.25329 38 9.5C38 14.7467 33.7467 19 28.5 19H19V9.5Z" fill="#FF7262"/>
+            <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+            <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+          </svg>
+          Composer + attachments
+        </a>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 2: CASE DETAILS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="case-details">
+      <div class="section-label">Section 05</div>
+      <h2 class="section-title">Case Details Panel</h2>
+      <p class="section-desc">The contextual sidebar that gives reps everything they need to understand and act on a case without leaving the conversation. Includes customer profile, account identifiers, organization details, case assignment, status management, and tagging.</p>
+
+      <div class="card">
+        <div class="card-title">Key Deliverables</div>
+        <ul class="card-list">
+          <li><strong>Customer profile display</strong> — Name, contact info, customer segment (Retail / Business / Unverified)</li>
+          <li><strong>Organization details</strong> — Business name, linked accounts, link to full profile</li>
+          <li><strong>Assignment dropdown</strong> — Reassign case to another agent or queue</li>
+          <li><strong>Status management</strong> — Update case status (New, Needs Response, Awaiting Customer, On Hold, Resolved)</li>
+          <li><strong>Tagging system</strong> — Apply and manage case tags for categorization</li>
+          <li><strong>Agent-fetched data display</strong> — Data retrieved by AI agent (account details, transaction history) displayed here</li>
+        </ul>
+      </div>
+
+      <div class="callout callout--blue">
+        This chunk works in tandem with Chunk 1's AI Suggestions. When a rep clicks a suggestion like "View recent transactions," the agent fetches data via MCP and results display in this panel.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 3: FORM SUBMISSIONS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 3: FORM SUBMISSIONS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="intake-forms">
+      <div class="section-label">Section 06</div>
+      <h2 class="section-title">Intake + Forms</h2>
+      <p class="section-desc">How cases are created and submitted into the system. Includes form intake, case creation workflows, and initial routing logic that determines where new cases land.</p>
+
+      <div class="card">
+        <div class="card-title">Key Deliverables</div>
+        <ul class="card-list">
+          <li><strong>Form-based case creation flow</strong> — Structured intake for common request types</li>
+          <li><strong>Structured data capture</strong> — Pre-defined fields per request category</li>
+          <li><strong>Initial routing and assignment logic</strong> — Rules that determine which queue or agent receives the case</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── INTERNAL NOTES ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── INTERNAL NOTES ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="internal-notes">
+      <div class="section-label">Section 07</div>
+      <h2 class="section-title">Internal Notes</h2>
+      <p class="section-desc">Private messaging between support team members within a case context. Notes are never visible to customers.</p>
+      <div class="callout callout--blue">
+        Dedicated spec for the internal notes experience — composition, display, @mentions, threading, and visibility rules. Content to be added.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── AI + ASSISTANCE ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── AI + ASSISTANCE ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="ai-assistance">
+      <div class="section-label">Section 08</div>
+      <h2 class="section-title">AI + Assistance</h2>
+      <p class="section-desc">The AI-powered features that help reps handle cases more effectively — intent recognition, contextual suggestions, conversation summarization, and the Customer Research Agent integration.</p>
+      <div class="callout callout--blue">
+        Dedicated spec for the AI experience across the workspace — suggestion panel behavior, agent capabilities, data fetching via MCP, and confidence scoring. Content to be added.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 5: SUPPORT SETTINGS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 5: SUPPORT SETTINGS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="settings">
+      <div class="section-label">Section 09</div>
+      <h2 class="section-title">Support Settings</h2>
+      <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
+
+      <div class="card">
+        <div class="card-title">Settings Navigation</div>
+        <div class="card-desc">Horizontal tab bar with six sections:</div>
+        <ul class="card-list">
+          <li><strong>General</strong> — Workspace name, timezone, business hours, holidays</li>
+          <li><strong>Team</strong> — Members, roles (Admin / Agent), queues</li>
+          <li><strong>Channels</strong> — Queue configuration (Chat widget, Forms, Email)</li>
+          <li><strong>Rules</strong> — Routing rules and SLA targets</li>
+          <li><strong>AI</strong> — AI assistant toggles and auto-response templates</li>
+          <li><strong>Notifications</strong> — Agent and customer notification preferences</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─── C5: General ─── -->
+
+    <!-- ─── C5: General ─── -->
+    <section class="section" id="c5-general">
+      <div class="section-label">Settings · Tab 1</div>
+      <h2 class="section-title">General</h2>
+      <p class="section-desc">Basic settings for your support workspace.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — General</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_General.png" alt="Settings — General" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Workspace</div>
+        <ul class="card-list">
+          <li><strong>Workspace name</strong> — Displayed to customers and in emails. Text input field.</li>
+          <li><strong>Timezone</strong> — Used for business hours and timestamps. Dropdown selector.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Business Hours</div>
+        <div class="card-desc">Set when your support team is available. Customers will see these hours when starting a conversation.</div>
+        <ul class="card-list">
+          <li>Toggle per day (Mon–Sun) with start/end time dropdowns</li>
+          <li>Disabled days show "Closed"</li>
+          <li>Default: Mon–Fri enabled, Sat–Sun disabled</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Holidays and Closures</div>
+        <div class="card-desc">"+ Add holiday" button. Configure named holidays with date ranges when the team is unavailable.</div>
+      </div>
+    </section>
+
+    <!-- ─── C5: Team ─── -->
+
+    <!-- ─── C5: Team ─── -->
+    <section class="section" id="team-roles">
+      <div class="section-label">Section 10</div>
+      <h2 class="section-title">Team + Roles</h2>
+      <p class="section-desc">Manage who has access to your support workspace.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — Team</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_Team.png" alt="Settings — Team" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Members</div>
+        <div class="card-desc">List of team members with avatar, name, email, and role badge (Admin / Agent). "+ Invite" button (primary, blue) in top right.</div>
+        <table class="spec-table">
+          <thead><tr><th>Role</th><th>Permissions</th></tr></thead>
+          <tbody>
+            <tr><td>Admin</td><td>Full access to settings, team management, and all cases</td></tr>
+            <tr><td>Agent</td><td>Handle cases, view assigned queues, limited settings access</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Queues</div>
+        <div class="card-desc">Organize cases into team queues for routing and assignment. "+ Create queue" button. Each queue shows name, description, and member count with drill-in chevron.</div>
+        <ul class="card-list">
+          <li><strong>Retail Support</strong> — Consumer banking inquiries (3 members)</li>
+          <li><strong>Business Banking</strong> — Commercial accounts and services (2 members)</li>
+          <li><strong>Lending</strong> — Loan and mortgage inquiries (2 members)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─── C5: Channels ─── -->
+
+    <!-- ─── C5: Channels ─── -->
+    <section class="section" id="channels">
+      <div class="section-label">Section 11</div>
+      <h2 class="section-title">Channels</h2>
+      <p class="section-desc">Organize cases into team queues for routing and assignment.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — Channels</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_Channels.png" alt="Settings — Channels" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Queues</div>
+        <div class="card-desc">Three channel cards displaying type, description, and Active/Inactive status badge:</div>
+        <table class="spec-table">
+          <thead><tr><th>Channel</th><th>Description</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Chat widget</td><td>Embedded chat on your website and mobile app</td><td><span class="status status--done"><span class="status-dot"></span> Active</span></td></tr>
+            <tr><td>Forms</td><td>Contact and support request forms</td><td><span class="status status--done"><span class="status-dot"></span> Active</span></td></tr>
+            <tr><td>Email</td><td>Forward emails to create cases</td><td><span class="status status--not-started"><span class="status-dot"></span> Inactive</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── C5: Rules ─── -->
+
+    <!-- ─── C5: Rules ─── -->
+    <section class="section" id="rules-slas">
+      <div class="section-label">Section 12</div>
+      <h2 class="section-title">Rules &amp; SLAs</h2>
+      <p class="section-desc">Automatically assign cases and set response time targets.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — Rules</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_Rules.png" alt="Settings — Rules" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Routing Rules</div>
+        <div class="card-desc">Automatically assign cases to the right team or agent based on conditions. Each rule has a lightning bolt icon, name, condition, and toggle. "+ Add rule" button.</div>
+        <table class="spec-table">
+          <thead><tr><th>Rule</th><th>Condition</th><th>Enabled</th></tr></thead>
+          <tbody>
+            <tr><td>Route disputes to Retail Support</td><td><code>category = Dispute / Fraud</code></td><td>✓</td></tr>
+            <tr><td>Route business accounts to Business Banking</td><td><code>customer segment = Business</code></td><td>✓</td></tr>
+            <tr><td>Route loan inquiries to Lending</td><td><code>category = Loan Servicing</code></td><td>✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">SLAs</div>
+        <div class="card-desc">Set response time targets and escalation rules. "+ Add SLA" button. Each SLA has a name, first response target, and "Edit" button.</div>
+        <table class="spec-table">
+          <thead><tr><th>Priority</th><th>First Response Target</th></tr></thead>
+          <tbody>
+            <tr><td>Urgent</td><td>Within 1 hour</td></tr>
+            <tr><td>High</td><td>Within 4 hours</td></tr>
+            <tr><td>Medium</td><td>Within 24 hours</td></tr>
+            <tr><td>Low</td><td>Within 48 hours</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── C5: AI ─── -->
+
+    <!-- ─── C5: AI ─── -->
+    <section class="section" id="ai-config">
+      <div class="section-label">Section 13</div>
+      <h2 class="section-title">AI Configuration</h2>
+      <p class="section-desc">Configure how AI helps your team respond to customers.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — AI</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_AI.png" alt="Settings — AI" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AI Assistant</div>
+        <div class="card-desc">Three toggleable AI features:</div>
+        <table class="spec-table">
+          <thead><tr><th>Feature</th><th>Description</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>AI Sidekick</td><td>Show AI-powered suggestions to agents while handling cases</td><td>On</td></tr>
+            <tr><td>Suggested replies</td><td>Generate reply suggestions based on conversation context</td><td>On</td></tr>
+            <tr><td>Auto-categorization</td><td>Automatically assign category and priority based on message content</td><td>On</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Auto-responses</div>
+        <div class="card-desc">Automatic messages sent to customers based on triggers. Each response has a name, preview text, and trigger condition badge.</div>
+        <table class="spec-table">
+          <thead><tr><th>Response</th><th>Trigger</th></tr></thead>
+          <tbody>
+            <tr><td>Out of hours greeting</td><td>Outside business hours</td></tr>
+            <tr><td>Holiday closure</td><td>During holidays</td></tr>
+            <tr><td>Initial acknowledgement</td><td>New case created</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── C5: Notifications ─── -->
+
+    <!-- ─── C5: Notifications ─── -->
+    <section class="section" id="notifications">
+      <div class="section-label">Section 14</div>
+      <h2 class="section-title">Notifications</h2>
+      <p class="section-desc">Control how representatives and customers are notified about case activity.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-label">Settings — Notifications</div>
+        <div class="mockup-frame">
+          <img src="images/Settings_-_Notifications.png" alt="Settings — Notifications" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Agent Notifications</div>
+        <table class="spec-table">
+          <thead><tr><th>Notification</th><th>Trigger</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>New case assigned</td><td>When a case is assigned to you</td><td>On</td></tr>
+            <tr><td>New customer reply</td><td>When a customer responds to your case</td><td>On</td></tr>
+            <tr><td>SLA warning</td><td>When a case is approaching its SLA deadline</td><td>On</td></tr>
+            <tr><td>Mentioned in a case</td><td>When another representative @mentions you</td><td>On</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Customer Notifications</div>
+        <table class="spec-table">
+          <thead><tr><th>Notification</th><th>Trigger</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>Case received</td><td>Confirm when their case is created</td><td>On</td></tr>
+            <tr><td>Agent reply</td><td>When an agent responds to their case</td><td>On</td></tr>
+            <tr><td>Case resolved</td><td>When their case is marked as resolved</td><td>On</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── JIRA EPICS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ─── C1: QUESTIONS & DECISIONS ─── -->
+    <section class="section" id="open-questions">
+      <div class="section-label">Appendix · 15</div>
+      <h2 class="section-title">Open Questions</h2>
+      <p class="section-desc">Unresolved questions that need team input or stakeholder decisions.</p>
+
+      <div class="qa-item qa-item--open">
+        <div class="qa-question">Should filter state persist across sessions?</div>
+        <div class="qa-context">When a user returns to the Cases view, should their last-used filters be restored (via localStorage), or should the view always start fresh with no filters? Persistence is convenient for users who always filter the same way, but could be confusing if they forget filters were active.</div>
+      </div>
+
+      <div class="qa-item qa-item--open">
+        <div class="qa-question">How do we detect a business account for card variants?</div>
+        <div class="qa-context">The case card has three variants (Retail, Business, Unverified). For the Business variant, we need to know how to detect "business account." Options: a flag on the customer record, membership in an organization entity, or presence of a non-null business name field. Need to confirm the data model.</div>
+      </div>
+
+      <div class="qa-item qa-item--open">
+        <div class="qa-question">Card click behavior: navigate or split view?</div>
+        <div class="qa-context">When a user clicks a case card, should it navigate fully to the conversation view (replacing the board), or open a split view where the board remains visible? Full navigation is simpler but loses board context. Split view keeps context but adds complexity.</div>
+      </div>
+
+      <div class="qa-item qa-item--open">
+        <div class="qa-question">Real-time updates from other users?</div>
+        <div class="qa-context">If another rep changes a case's status while I'm viewing the board, should the card move automatically? Adds complexity but prevents stale state. Could show a "refresh" indicator instead.</div>
+      </div>
+
+    </section>
+
+    <!-- ─── DECISION LOG ─── -->
+
+    <div class="divider"></div>
+
+
+    <!-- ─── DECISION LOG ─── -->
+    <section class="section" id="decision-log">
+      <div class="section-label">Appendix · 16</div>
+      <h2 class="section-title">Decision Log</h2>
+      <p class="section-desc">Resolved decisions and their rationale.</p>
+
+      <div class="qa-item qa-item--decided">
+        <div class="qa-question">Default view: Board or List?</div>
+        <div class="qa-context">What should new users see the first time they open Cases?</div>
+        <div class="qa-decision">✓ Decision: Default to Board view. It provides better at-a-glance status visibility, which aligns with the primary goal of triage. Users who prefer list can switch and their preference persists.</div>
+      </div>
+
+      <div class="qa-item qa-item--decided">
+        <div class="qa-question">Status column order</div>
+        <div class="qa-context">What order should the status columns appear in?</div>
+        <div class="qa-decision">✓ Decision: New → Needs Response → Awaiting Customer → On Hold. This reflects the typical case lifecycle and puts "needs action" items toward the left where they're seen first.</div>
+      </div>
+
+      <div class="qa-item qa-item--decided">
+        <div class="qa-question">Include "Resolved" column on board?</div>
+        <div class="qa-context">Should resolved / closed cases appear on the board, or only in the list view with a status filter?</div>
+        <div class="qa-decision">✓ Decision: No Resolved column on the board by default. Resolved cases can be viewed via list view + status filter. The board is for active work; completed cases create clutter.</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CHUNK 2: CASE DETAILS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ─── C1: EDGE CASES & STATES ─── -->
+    <section class="section" id="edge-cases">
+      <div class="section-label">Appendix · 17</div>
+      <h2 class="section-title">Edge Cases</h2>
+      <p class="section-desc">What happens when things aren't perfect — empty, loading, error, and boundary conditions.</p>
+
+      <h3 class="sub-heading">Empty States</h3>
+      <div class="edge-grid">
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">New Case (No Messages)</div>
+          <div class="edge-card-desc">Case created via form, no conversation yet. Show prompt: "Start the conversation…"</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">AI No Suggestions</div>
+          <div class="edge-card-desc">AI can't determine intent or has no suggestions. Show "No suggestions available" in panel.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Composer Disabled</div>
+          <div class="edge-card-desc">Case is closed / resolved. Composer shows "This case is closed. Reopen to reply."</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading sub-heading--orange">Loading States</h3>
+      <div class="edge-grid">
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Loading Messages</div>
+          <div class="edge-card-desc">Initial load of conversation history. Skeleton bubbles.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Loading Older Messages</div>
+          <div class="edge-card-desc">Scrolling up to load history. Spinner at top of thread.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">AI Processing</div>
+          <div class="edge-card-desc">AI analyzing conversation. Shimmer / pulse animation in suggestions panel.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Attachment Uploading</div>
+          <div class="edge-card-desc">File being uploaded. Progress bar on attachment preview.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Message Sending</div>
+          <div class="edge-card-desc">Message submitted, waiting for confirmation. Muted bubble with spinner.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Generating Summary</div>
+          <div class="edge-card-desc">AI generating conversation summary. Skeleton card with pulse.</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading sub-heading--red">Error States</h3>
+      <div class="edge-grid">
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Message Failed</div>
+          <div class="edge-card-desc">Send failed. Red indicator on bubble with "Retry" button.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Attachment Failed</div>
+          <div class="edge-card-desc">Upload failed. Error state on preview with retry option.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Connection Lost</div>
+          <div class="edge-card-desc">WebSocket disconnected. Banner: "Connection lost. Reconnecting…"</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">AI Unavailable</div>
+          <div class="edge-card-desc">AI service down. Panel shows "AI suggestions temporarily unavailable."</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">File Too Large</div>
+          <div class="edge-card-desc">Attachment exceeds 25MB. Toast: "File exceeds maximum size (25MB)."</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Unsupported File Type</div>
+          <div class="edge-card-desc">Invalid file format. Toast: "File type not supported."</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">Boundary Cases</h3>
+      <div class="edge-grid">
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Very Long Message</div>
+          <div class="edge-card-desc">Customer sends wall of text. Bubble expands, no truncation; may have "Read more" for extremely long.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Many Attachments</div>
+          <div class="edge-card-desc">5 attachments in one message. Grid layout: 1×2 rows if 1–5.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Long Conversation (500+ messages)</div>
+          <div class="edge-card-desc">Pagination / virtualization. Load older messages on scroll up.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Rapid Messages</div>
+          <div class="edge-card-desc">Customer sending many messages quickly. Batch / group display, don't overwhelm.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Message with Only Emoji</div>
+          <div class="edge-card-desc">Large emoji display, no bubble background.</div>
+        </div>
+        <div class="edge-card">
+          <span class="edge-card-badge edge-card-badge--design">🖼 Design Needed</span>
+          <div class="edge-card-title">Message with Links</div>
+          <div class="edge-card-desc">Auto-linkify URLs, show preview cards if possible.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── C1: QUESTIONS & DECISIONS ─── -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── JIRA EPICS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="jira-epics">
+      <div class="section-label">Appendix · 19</div>
+      <h2 class="section-title">Jira Epics</h2>
+      <p class="section-desc">Mapping between spec sections and Jira epic tracking for engineering delivery.</p>
+      <div class="callout callout--blue">
+        Epic-to-section mapping, ticket references, and delivery tracking. Content to be added.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── DELIVERY MAPPING ─── -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <div class="divider"></div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── DELIVERY MAPPING ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="delivery-mapping">
+      <div class="section-label">Appendix · 20</div>
+      <h2 class="section-title">Delivery Mapping</h2>
+      <p class="section-desc">How spec sections map to delivery chunks, sequencing, and dependencies.</p>
+      <div class="callout callout--blue">
+        Delivery chunk sequencing, dependency graph, and milestone mapping. Content to be added.
+      </div>
+    </section>
+
+    <!-- ─── Footer ─── -->
+    <div class="site-footer" style="display: none; text-align: center; padding: 48px 0; color: var(--text-tertiary); font-size: 13px;">
+      Support 2.0 · Interaction Design Specification · v1.0<br>
+      Jack Henry &amp; Associates · Feb 8, 2026
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ LIGHTBOX ═══════════ -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // ── Page-based navigation ──
+  const pageOrder = [
+    'overview', 'shared-patterns', 'full-prototype',
+    'platform-shell', 'inbox-list', 'conversation', 'case-details',
+    'intake-forms', 'internal-notes', 'ai-assistance',
+    'settings', 'team-roles', 'channels', 'rules-slas',
+    'ai-config', 'notifications'
+  ];
+
+  const pageNames = {
+    'overview': 'Overview',
+    'shared-patterns': 'Shared Patterns',
+    'full-prototype': 'Prototype',
+    'platform-shell': 'Platform Shell',
+    'inbox-list': 'Case Queue & Triage',
+    'conversation': 'Conversation Workspace',
+    'case-details': 'Case Details Panel',
+    'intake-forms': 'Intake + Forms',
+    'internal-notes': 'Internal Notes',
+    'ai-assistance': 'AI + Assistance',
+    'settings': 'Support Settings',
+    'team-roles': 'Team + Roles',
+    'channels': 'Channels',
+    'rules-slas': 'Rules & SLAs',
+    'ai-config': 'AI Configuration',
+    'notifications': 'Notifications'
+  };
+
+  // Map each page to its section IDs (includes sub-sections)
+  const sectionGroups = {
+    'overview': ['overview'],
+    'shared-patterns': ['shared-patterns'],
+    'full-prototype': ['full-prototype'],
+    'platform-shell': ['platform-shell'],
+    'inbox-list': ['inbox-list'],
+    'conversation': ['conversation'],
+    'case-details': ['case-details'],
+    'intake-forms': ['intake-forms'],
+    'internal-notes': ['internal-notes'],
+    'ai-assistance': ['ai-assistance'],
+    'settings': ['settings', 'c5-general'],
+    'team-roles': ['team-roles'],
+    'channels': ['channels'],
+    'rules-slas': ['rules-slas'],
+    'ai-config': ['ai-config'],
+    'notifications': ['notifications', 'open-questions', 'decision-log', 'edge-cases', 'jira-epics', 'delivery-mapping']
+  };
+
+  const navItems = document.querySelectorAll('.nav-item');
+  const allSections = document.querySelectorAll('.section');
+
+  // Build bottom nav for each page's last section
+  function buildBottomNav(pageId) {
+    const idx = pageOrder.indexOf(pageId);
+    const sectionIds = sectionGroups[pageId] || [pageId];
+    const lastSection = document.getElementById(sectionIds[sectionIds.length - 1]);
+    if (!lastSection) return;
+
+    // Remove existing bottom nav if any
+    const existing = lastSection.querySelector('.section-nav');
+    if (existing) existing.remove();
+
+    const nav = document.createElement('div');
+    nav.className = 'section-nav';
+
+    const prevId = idx > 0 ? pageOrder[idx - 1] : null;
+    const nextId = idx < pageOrder.length - 1 ? pageOrder[idx + 1] : null;
+
+    const prevLink = document.createElement('a');
+    prevLink.className = 'section-nav-link' + (prevId ? '' : ' section-nav-link--hidden');
+    prevLink.innerHTML = '<span class="section-nav-arrow">&larr;</span> ' + (prevId ? pageNames[prevId] : '');
+    if (prevId) {
+      prevLink.href = '#' + prevId;
+      prevLink.addEventListener('click', (e) => { e.preventDefault(); navigateTo(prevId, true); });
+    }
+
+    const nextLink = document.createElement('a');
+    nextLink.className = 'section-nav-link' + (nextId ? '' : ' section-nav-link--hidden');
+    nextLink.innerHTML = (nextId ? pageNames[nextId] : '') + ' <span class="section-nav-arrow">&rarr;</span>';
+    if (nextId) {
+      nextLink.href = '#' + nextId;
+      nextLink.addEventListener('click', (e) => { e.preventDefault(); navigateTo(nextId, true); });
+    }
+
+    nav.appendChild(prevLink);
+    nav.appendChild(nextLink);
+    lastSection.appendChild(nav);
+  }
+
+  function navigateTo(pageId, pushHistory) {
+    if (!sectionGroups[pageId]) return;
+
+    // Hide all sections
+    allSections.forEach(s => s.classList.remove('active'));
+
+    // Show target sections
+    const sectionIds = sectionGroups[pageId];
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    });
+
+    // Update nav active state
+    navItems.forEach(n => {
+      n.classList.remove('active');
+      if (n.getAttribute('href') === '#' + pageId) {
+        n.classList.add('active');
+      }
+    });
+
+    // Build bottom navigation
+    buildBottomNav(pageId);
+
+    // Scroll main to top
+    document.querySelector('.main').scrollTo(0, 0);
+
+    // Update URL hash
+    if (pushHistory) {
+      history.pushState(null, '', '#' + pageId);
+    } else {
+      history.replaceState(null, '', '#' + pageId);
+    }
+  }
+
+  // Nav click handlers
+  navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const hash = item.getAttribute('href');
+      if (hash && hash.startsWith('#')) {
+        navigateTo(hash.slice(1), true);
+      }
+    });
+  });
+
+  // Browser back/forward support
+  window.addEventListener('popstate', () => {
+    const hash = location.hash.slice(1);
+    const pageId = pageOrder.includes(hash) ? hash : 'overview';
+    navigateTo(pageId);
+  });
+
+  // Initial load
+  const initialHash = location.hash.slice(1);
+  navigateTo(pageOrder.includes(initialHash) ? initialHash : 'overview');
+
+  // ── Lightbox ──
+  function openLightbox(img) {
+    const overlay = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
