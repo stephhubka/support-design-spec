@@ -1219,9 +1219,8 @@
 
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
-    <a href="#shared-patterns" class="nav-item nav-item--top">Shared Patterns</a>
-    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Prototype</a>
     <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
+    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Full prototype</a>
 
     <div class="nav-group-label">Workspace</div>
     <a href="#platform-shell" class="nav-item">
@@ -1234,37 +1233,33 @@
       <span class="nav-item-num">03</span> Conversation Workspace
     </a>
     <a href="#case-details" class="nav-item">
-      <span class="nav-item-num">04</span> Case Details Panel
+      <span class="nav-item-num">04</span> Case Details
     </a>
-
-    <div class="nav-group-label">Collaboration + Intake</div>
     <a href="#intake-forms" class="nav-item">
       <span class="nav-item-num">05</span> Intake + Forms
     </a>
     <a href="#internal-notes" class="nav-item">
       <span class="nav-item-num">06</span> Internal Notes
     </a>
-
-    <div class="nav-group-label">AI Capabilities</div>
     <a href="#ai-assistance" class="nav-item">
-      <span class="nav-item-num">07</span> AI + Assistance
-    </a>
-    <a href="#ai-config" class="nav-item">
-      <span class="nav-item-num">08</span> AI Configuration
+      <span class="nav-item-num">07</span> AI Assistance
     </a>
 
-    <div class="nav-group-label">Configuration + Controls</div>
+    <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
-      <span class="nav-item-num">09</span> Support Settings
+      <span class="nav-item-num">08</span> General
     </a>
     <a href="#team-roles" class="nav-item">
-      <span class="nav-item-num">10</span> Teams
+      <span class="nav-item-num">09</span> Teams
     </a>
     <a href="#channels" class="nav-item">
-      <span class="nav-item-num">11</span> Channels
+      <span class="nav-item-num">10</span> Channels
     </a>
     <a href="#rules-slas" class="nav-item">
-      <span class="nav-item-num">12</span> Rules
+      <span class="nav-item-num">11</span> Rules
+    </a>
+    <a href="#ai-config" class="nav-item">
+      <span class="nav-item-num">12</span> AI
     </a>
     <a href="#notifications" class="nav-item">
       <span class="nav-item-num">13</span> Notifications
@@ -1344,58 +1339,6 @@
 
     <div class="divider"></div>
 
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── SHARED PATTERNS ─── -->
-    <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="shared-patterns">
-    <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
-      <h2 class="section-title">Shared Patterns</h2>
-      <p class="section-desc">The top-level application shell and container architecture. Covers the header, sidebar, navigation, routing, and the structural foundation that all other modules live within.</p>
-
-      <div class="divider" style="margin: 32px 0;"></div>
-
-      <h3 class="sub-heading">Loading States</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Use skeletons for primary content regions</li>
-        <li>Avoid full-page spinners except on first-load entry</li>
-        <li>Preserve layout stability during async fetches</li>
-      </ul>
-
-      <h3 class="sub-heading">Empty States</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Explain what's missing</li>
-        <li>Offer the next action</li>
-        <li>No dead-end screens</li>
-      </ul>
-
-      <h3 class="sub-heading">Error Handling</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Human-readable message</li>
-        <li>Inline when possible</li>
-        <li>Always provide recovery</li>
-      </ul>
-
-      <h3 class="sub-heading">Confirmation Feedback</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Toasts for lightweight actions</li>
-        <li>Modals only for destructive actions</li>
-      </ul>
-
-      <h3 class="sub-heading">Permissions + Roles</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Hide or disable restricted actions</li>
-        <li>Show clear "why" messaging</li>
-      </ul>
-
-      <h3 class="sub-heading">AI Behaviors</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>AI assists, agent decides</li>
-        <li>Always transparent + dismissible</li>
-        <li>Configurable by FI</li>
-      </ul>
-    </section>
-    <div class="divider"></div>
-
     <!-- ─── FULL PROTOTYPE ─── -->
     <section class="section" id="full-prototype">
       <div class="section-label">Overview</div>
@@ -1413,7 +1356,7 @@
       <h2 class="section-title">Backlog</h2>
       <p class="section-desc">Upcoming features and improvements for Support 2.0, organized by area. Each item includes a summary of what's being built and the work involved.</p>
 
-      <div class="divider" style="display: block; margin: 32px 0;"></div>
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
       <!-- SLA Prioritization -->
       <h3 class="sub-heading">SLA Prioritization</h3>
@@ -2062,61 +2005,137 @@
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── CHUNK 5: SUPPORT SETTINGS ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="settings">
+    <section class="section" id="settings" style="margin-bottom: 0;">
       <div class="section-label">Section 09</div>
       <h2 class="section-title">Support Settings</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
 
-      <div class="card">
-        <div class="card-title">Settings Navigation</div>
-        <div class="card-desc">Horizontal tab bar with six sections:</div>
-        <ul class="card-list">
-          <li><strong>General</strong> — Workspace name, timezone, business hours, holidays</li>
-          <li><strong>Team</strong> — Members, roles (Admin / Agent), queues</li>
-          <li><strong>Channels</strong> — Queue configuration (Chat widget, Forms, Email)</li>
-          <li><strong>Rules</strong> — Routing rules and SLA targets</li>
-          <li><strong>AI</strong> — AI assistant toggles and auto-response templates</li>
-          <li><strong>Notifications</strong> — Agent and customer notification preferences</li>
-        </ul>
-      </div>
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 0px;">
     </section>
 
-    <!-- ─── C5: General ─── -->
-
-    <!-- ─── C5: General ─── -->
-    <section class="section" id="c5-general">
-      <div class="section-label">Settings · Tab 1</div>
-      <h2 class="section-title">General</h2>
-      <p class="section-desc">Basic settings for your support workspace.</p>
-
+    <section class="section" id="c5-general" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">General</h3>
+      <p class="section-desc">Basic settings for the support workspace.</p>
       <div class="mockup-group">
-        <div class="mockup-label">Settings — General</div>
         <div class="mockup-frame">
-          <img src="images/Settings_-_General.png" alt="Settings — General" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/General_Tab.png" alt="Settings — General Tab" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Workspace</div>
-        <ul class="card-list">
-          <li><strong>Workspace name</strong> — Displayed to customers and in emails. Text input field.</li>
-          <li><strong>Timezone</strong> — Used for business hours and timestamps. Dropdown selector.</li>
-        </ul>
+      <!-- Workspace -->
+      <h3 class="sub-heading">Workspace</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Workspace name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Workspace name</td>
+            <td>Text input</td>
+            <td>Displayed to customers and in emails</td>
+            <td>Required, max 120 characters</td>
+          </tr>
+          <tr>
+            <td>Timezone</td>
+            <td>Dropdown</td>
+            <td>Used for business hours, SLA calculations, and timestamps</td>
+            <td>Required, defaults to institution's primary timezone</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Timezone behavior -->
+      <h3 class="sub-heading">Timezone behavior</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>Changing the timezone triggers a confirmation dialog showing the from / to change and warning that all active SLA deadlines will be recalculated. This cannot be undone.</li>
+        <li>Timestamps displayed to reps adjust to the workspace timezone. Customer-facing timestamps use the customer's local timezone where available.</li>
+        <li>The timezone also governs when "Outside business hours" auto-response triggers fire (see Section 08: AI Configuration).</li>
+      </ul>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Timezone_Dialog.png" alt="Timezone — Confirmation Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Business Hours</div>
-        <div class="card-desc">Set when your support team is available. Customers will see these hours when starting a conversation.</div>
-        <ul class="card-list">
-          <li>Toggle per day (Mon–Sun) with start/end time dropdowns</li>
-          <li>Disabled days show "Closed"</li>
-          <li>Default: Mon–Fri enabled, Sat–Sun disabled</li>
-        </ul>
+      <!-- Business Hours -->
+      <h3 class="sub-heading">Business Hours</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Set when the support team is available. Customers will see these hours when starting a conversation.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Behavior</h4>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>Time drop-downs use 30-minute increments (8:00 AM, 8:30 AM, 9:00 AM, etc.) in 12-hour format.</li>
+        <li>Validation: End time must be after start time. If a user selects an invalid range, the end time dropdown shows an error.</li>
+        <li>Toggling a day off sets it to "Closed" and clears any previously set times. Toggling it back on restores the last used times for that day (or defaults to 8:00 AM – 6:00 PM).</li>
+        <li>Split shifts are not supported in v1. Each day has a single continuous block.</li>
+        <li>Changes take effect immediately on save; no scheduled rollout. Active SLA clocks recalculate based on new hours.</li>
+      </ul>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Hours_Validation.png" alt="Business Hours" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Holidays and Closures</div>
-        <div class="card-desc">"+ Add holiday" button. Configure named holidays with date ranges when the team is unavailable.</div>
+      <!-- Dependencies -->
+      <h3 class="sub-heading">Dependencies</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Business hours are referenced by:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>SLA clock (section 12): pauses outside these hours when "Business hours only" is enabled on a policy.</li>
+        <li>"Outside business hours" auto-responses (section 08): triggers when a customer message arrives outside these hours.</li>
+        <li>Queue displays: agent see a "Currently outside business hours" banner when applicable.</li>
+      </ul>
+
+      <!-- Holidays and closures -->
+      <h3 class="sub-heading">Holidays and closures</h3>
+      <p class="section-desc">Define dates when your regular hours don't apply. Your holiday message will override standard messaging on these dates. New holidays default to: single day, non-recurring.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Holiday_Drawer.png" alt="Holiday Drawer" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <h3 class="sub-heading">Empty State</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">If no holidays are configured:</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Holiday_Empty.png" alt="Holiday — Empty State" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
+
+      <!-- Designs + References -->
+      <h3 class="sub-heading">Designs + References</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-17943&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">General Tab</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3040-2226&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Timezone Dialog</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3040-3423&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Hours Validation</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3050-6123&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Drawer</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3050-5898&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Empty</a>
+        </div>
       </div>
     </section>
 
@@ -2631,37 +2650,34 @@
 <script>
   // ── Page-based navigation ──
   const pageOrder = [
-    'overview', 'shared-patterns', 'backlog',
+    'overview', 'backlog',
     'platform-shell', 'inbox-list', 'conversation', 'case-details',
-    'intake-forms', 'internal-notes',
-    'ai-assistance', 'ai-config',
+    'intake-forms', 'internal-notes', 'ai-assistance',
     'settings', 'team-roles', 'channels', 'rules-slas',
-    'notifications'
+    'ai-config', 'notifications'
   ];
 
   const pageNames = {
     'overview': 'Overview',
-    'shared-patterns': 'Shared Patterns',
     'backlog': 'Backlog',
     'platform-shell': 'Platform Shell',
     'inbox-list': 'Case Queue & Triage',
     'conversation': 'Conversation Workspace',
-    'case-details': 'Case Details Panel',
+    'case-details': 'Case Details',
     'intake-forms': 'Intake + Forms',
     'internal-notes': 'Internal Notes',
-    'ai-assistance': 'AI + Assistance',
-    'settings': 'Support Settings',
+    'ai-assistance': 'AI Assistance',
+    'settings': 'General',
     'team-roles': 'Teams',
     'channels': 'Channels',
     'rules-slas': 'Rules',
-    'ai-config': 'AI Configuration',
+    'ai-config': 'AI',
     'notifications': 'Notifications'
   };
 
   // Map each page to its section IDs (includes sub-sections)
   const sectionGroups = {
     'overview': ['overview'],
-    'shared-patterns': ['shared-patterns'],
     'backlog': ['backlog'],
     'platform-shell': ['platform-shell'],
     'inbox-list': ['inbox-list'],
