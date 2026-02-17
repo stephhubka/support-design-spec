@@ -1219,9 +1219,9 @@
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
     <a href="#shared-patterns" class="nav-item nav-item--top">Shared Patterns</a>
-    <a href="#full-prototype" class="nav-item nav-item--top">Prototype</a>
+    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Prototype</a>
 
-    <div class="nav-group-label">Core Workspace Modules</div>
+    <div class="nav-group-label">Support Rep Workspace</div>
     <a href="#platform-shell" class="nav-item">
       <span class="nav-item-num">01</span> Platform Shell
     </a>
@@ -1234,29 +1234,35 @@
     <a href="#case-details" class="nav-item">
       <span class="nav-item-num">04</span> Case Details Panel
     </a>
+
+    <div class="nav-group-label">Collaboration + Intake</div>
     <a href="#intake-forms" class="nav-item">
       <span class="nav-item-num">05</span> Intake + Forms
     </a>
     <a href="#internal-notes" class="nav-item">
       <span class="nav-item-num">06</span> Internal Notes
     </a>
+
+    <div class="nav-group-label">AI Capabilities</div>
     <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">07</span> AI + Assistance
     </a>
+    <a href="#ai-config" class="nav-item">
+      <span class="nav-item-num">08</span> AI Configuration
+    </a>
+
+    <div class="nav-group-label">Configuration + Controls</div>
     <a href="#settings" class="nav-item">
-      <span class="nav-item-num">08</span> Support Settings
+      <span class="nav-item-num">09</span> Support Settings
     </a>
     <a href="#team-roles" class="nav-item">
-      <span class="nav-item-num">09</span> Team + Roles
+      <span class="nav-item-num">10</span> Team + Roles
     </a>
     <a href="#channels" class="nav-item">
-      <span class="nav-item-num">10</span> Channels
+      <span class="nav-item-num">11</span> Channels
     </a>
     <a href="#rules-slas" class="nav-item">
-      <span class="nav-item-num">11</span> Rules &amp; SLAs
-    </a>
-    <a href="#ai-config" class="nav-item">
-      <span class="nav-item-num">12</span> AI Configuration
+      <span class="nav-item-num">12</span> Rules &amp; SLAs
     </a>
     <a href="#notifications" class="nav-item">
       <span class="nav-item-num">13</span> Notifications
@@ -1269,7 +1275,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support 2.0 — Design Spec</span>
-    <span class="main-header-meta">v1.0 · Feb 8, 2026</span>
+    <span class="main-header-meta">v1.0 · Feb 16, 2026</span>
   </header>
 
   <div class="content">
@@ -1670,7 +1676,7 @@
         </div>
       </div>
 
-      <ol style="list-style: decimal; padding-left: 20px; margin-top: 16px; font-size: 14px; color: var(--text-secondary); line-height: 1.8;">
+      <ul class="card-list" style="margin-top: 16px;">
         <li>Conversation header (customer + case context)</li>
         <li>Message thread</li>
         <li>Internal vs. customer messages</li>
@@ -1678,7 +1684,7 @@
         <li>Attachments entry point</li>
         <li>AI suggestions panel entry</li>
         <li>System events</li>
-      </ol>
+      </ul>
 
       <!-- Message Thread -->
       <h3 class="sub-heading" style="margin-top: 56px;">Message Thread</h3>
@@ -2467,7 +2473,7 @@
     <!-- ─── Footer ─── -->
     <div class="site-footer" style="display: none; text-align: center; padding: 48px 0; color: var(--text-tertiary); font-size: 13px;">
       Support 2.0 · Interaction Design Specification · v1.0<br>
-      Jack Henry &amp; Associates · Feb 8, 2026
+      Jack Henry &amp; Associates · Feb 16, 2026
     </div>
 
   </div>
@@ -2481,17 +2487,17 @@
 <script>
   // ── Page-based navigation ──
   const pageOrder = [
-    'overview', 'shared-patterns', 'full-prototype',
+    'overview', 'shared-patterns',
     'platform-shell', 'inbox-list', 'conversation', 'case-details',
-    'intake-forms', 'internal-notes', 'ai-assistance',
+    'intake-forms', 'internal-notes',
+    'ai-assistance', 'ai-config',
     'settings', 'team-roles', 'channels', 'rules-slas',
-    'ai-config', 'notifications'
+    'notifications'
   ];
 
   const pageNames = {
     'overview': 'Overview',
     'shared-patterns': 'Shared Patterns',
-    'full-prototype': 'Prototype',
     'platform-shell': 'Platform Shell',
     'inbox-list': 'Case Queue & Triage',
     'conversation': 'Conversation Workspace',
@@ -2511,7 +2517,6 @@
   const sectionGroups = {
     'overview': ['overview'],
     'shared-patterns': ['shared-patterns'],
-    'full-prototype': ['full-prototype'],
     'platform-shell': ['platform-shell'],
     'inbox-list': ['inbox-list'],
     'conversation': ['conversation'],
@@ -2606,11 +2611,12 @@
   // Nav click handlers
   navItems.forEach(item => {
     item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const hash = item.getAttribute('href');
-      if (hash && hash.startsWith('#')) {
-        navigateTo(hash.slice(1), true);
+      const href = item.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        navigateTo(href.slice(1), true);
       }
+      // External links (e.g. Prototype) open normally via target="_blank"
     });
   });
 
