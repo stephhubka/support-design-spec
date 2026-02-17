@@ -111,6 +111,7 @@
     letter-spacing: 0.08em;
     color: var(--text-tertiary);
     padding: 12px 12px 6px;
+    margin-top: 16px;
   }
 
   .nav-item {
@@ -434,7 +435,7 @@
   }
 
   .mockup-frame {
-    border-radius: var(--radius-lg);
+    border-radius: 0;
     overflow: hidden;
     border: 1px solid var(--border-default);
     background: var(--bg-surface);
@@ -456,7 +457,7 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  .mockup-grid .mockup-frame { border-radius: var(--radius-md); }
+  .mockup-grid .mockup-frame { border-radius: 0; }
 
   .mockup-caption {
     text-align: center;
@@ -825,7 +826,7 @@
     transition: border-color 0.15s;
   }
 
-  .delivery-card:hover { border-color: var(--accent-blue); }
+
 
   .delivery-card-header {
     display: flex;
@@ -1288,7 +1289,7 @@
       <p class="section-desc">Jack Henry is redesigning Banno Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
       <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
 
-      <h3 style="font-size: 22px; font-weight: 700; margin: 48px 0 12px; letter-spacing: -0.02em;">Delivery Approach</h3>
+      <h3 class="sub-heading">Delivery Approach</h3>
       <p class="section-desc">Rather than deploying a single large-scale release, Support 2.0 improvements will be delivered incrementally across a series of modular updates. Each delivery chunk builds toward the full Support 2.0 vision, allowing teams to benefit from enhancements as soon as they are ready while maintaining a stable and reliable experience throughout the transition.</p>
 
       <div class="delivery-grid">
@@ -1336,7 +1337,7 @@
         </div>
       </div>
 
-      <h3 style="font-size: 22px; font-weight: 700; margin: 48px 0 12px; letter-spacing: -0.02em;">Questions + Feedback</h3>
+      <h3 class="sub-heading">Questions + Feedback</h3>
       <p class="section-desc">Questions, discussions, and decisions should be captured directly in this spec or raised in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> to ensure shared visibility and alignment.</p>
     </section>
 
@@ -1352,47 +1353,41 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Loading States</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Skeleton example</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Loading States</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Use skeletons for primary content regions</li>
         <li>Avoid full-page spinners except on first-load entry</li>
         <li>Preserve layout stability during async fetches</li>
       </ul>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Empty States</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Empty Inbox + CTA example</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Empty States</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Explain what's missing</li>
         <li>Offer the next action</li>
         <li>No dead-end screens</li>
       </ul>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Error Handling</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Inline error + retry</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Error Handling</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Human-readable message</li>
         <li>Inline when possible</li>
         <li>Always provide recovery</li>
       </ul>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Confirmation Feedback</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Toast + success state</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Confirmation Feedback</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Toasts for lightweight actions</li>
         <li>Modals only for destructive actions</li>
       </ul>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">Permissions + Roles</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Read-only field example</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Permissions + Roles</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Hide or disable restricted actions</li>
         <li>Show clear "why" messaging</li>
       </ul>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 32px 0 8px;">AI Behaviors</h3>
-      <p class="section-desc" style="margin-bottom: 4px; font-size: 14px; color: var(--text-tertiary);">🖼 Summary + suggestion card</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">AI Behaviors</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>AI assists, agent decides</li>
         <li>Always transparent + dismissible</li>
         <li>Configurable by FI</li>
@@ -1418,12 +1413,8 @@
       <div class="section-label">Section 01</div>
       <h2 class="section-title">Platform Shell</h2>
       <p class="section-desc">Support 2.0 is delivered in modular chunks, but certain interaction behaviors must remain consistent across the platform.</p>
-      <p class="section-desc">This section captures the shared patterns that apply everywhere. Including system states, permissions, feedback, and AI behaviors. Component documentation lives in the design system; this page defines the workflow rules that Support 2.0 builds on.</p>
 
-      <div class="card">
-        <div class="card-title">Scope</div>
-        <div class="card-desc">The team is working to pin down exact boundaries and dependencies. This chunk will cover the application shell (header, sidebar navigation, routing), container architecture for embedding the support module within the broader Jack Henry platform, and any shared infrastructure that other chunks depend on.</div>
-      </div>
+      <p class="section-desc">This section captures the shared patterns that apply everywhere. Including system states, permissions, feedback, and AI behaviors. Component documentation lives in the design system; this page defines the workflow rules that Support 2.0 builds on.</p>
 
       <div class="callout callout--blue">
         🏗 <strong>Primarily engineering scope</strong> with limited direct UI impact. Spec will be updated as scope solidifies.
@@ -1440,7 +1431,7 @@
       <h2 class="section-title">Case Queue + Triage</h2>
       <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Supported Views</h3>
+      <h3 class="sub-heading">Supported Views</h3>
       <p class="section-desc">The case queue can be represented in multiple formats depending on workflow needs.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board View (Kanban)</h4>
@@ -1459,27 +1450,35 @@
         </div>
       </div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Case Preview Information</h3>
-      <p class="section-desc">Before opening a case, agents should have enough context to prioritize work directly from the queue. Case previews include:</p>
-      <ul class="card-list">
+      <h3 class="sub-heading">Case Preview Information</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Before opening a case, agents should have enough context to prioritize work directly from the queue. Case previews include:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Customer name + avatar</li>
         <li>Message preview</li>
         <li>Status and priority indicators</li>
         <li>Channel badge</li>
         <li>Timestamp and urgency cues</li>
       </ul>
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Case_Card_Crops.png" alt="Case Card — Board and List views" onclick="openLightbox(this)" style="cursor: zoom-in;">
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-title">Case Card - Board</div>
+        <div style="margin-top: 12px; display: inline-block;">
+          <img src="images/Case_Card_Crops.png.png" alt="Case Card — Board" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
         </div>
       </div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Shared Controls Across Views</h3>
+      <div class="card">
+        <div class="card-title">Case Card - List</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/Card Case - List.png" alt="Case Card — List" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h3 class="sub-heading">Shared Controls Across Views</h3>
       <p class="section-desc">These controls remain consistent regardless of queue representation:</p>
 
       <div class="card">
-        <div class="card-title" style="text-align: center; margin-bottom: 8px;">Search + Filter Bar</div>
-        <div class="card-desc" style="text-align: center; margin-bottom: 16px;">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</div>
+        <div class="card-title" style="margin-bottom: 8px;">Search + Filter Bar</div>
+        <div class="card-desc" style="margin-bottom: 16px;">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</div>
         <div class="mockup-frame">
           <img src="images/Search_Filter_Bar.png" alt="Search + Filter Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
@@ -1487,47 +1486,30 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Key Triage Interactions</h3>
+      <h3 class="sub-heading">Key Triage Interactions</h3>
       <p class="section-desc">The primary actions supported within the queue include:</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and Open a Case</h4>
       <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
-      <p class="section-desc" style="font-size: 14px; color: var(--text-tertiary);">🖼 Queue → Conversation Workspace</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Bulk Actions</h4>
-      <p class="section-desc">Bulk actions are supported in Phase 1 for a focused set of high-value workflows:</p>
-      <ul class="card-list">
+      <p class="section-desc" style="margin-bottom: 8px;">Bulk actions are supported in Phase 1 for a focused set of high-value workflows:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Assign to rep or team</li>
         <li>Update case status</li>
         <li>Apply priority</li>
       </ul>
       <p class="section-desc" style="margin-top: 12px;">Additional bulk updates (tags, categories, routing) are intentionally deferred until later releases.</p>
 
-      <div class="bulk-demo-wrapper">
-        <div class="bulk-demo-bar">
-          <div class="bulk-demo-count">3 selected</div>
-          <div class="bulk-demo-divider"></div>
-          <span class="bulk-demo-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-            Assign
-          </span>
-          <span class="bulk-demo-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Status
-          </span>
-          <span class="bulk-demo-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26z"/></svg>
-            Priority
-          </span>
-          <div class="bulk-demo-divider"></div>
-          <span class="bulk-demo-close">✕</span>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Bulk_Actions.png" alt="Bulk Actions Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
-        <p class="state-note">Floating bar appears at bottom of viewport when 1+ cases are selected. Dismiss with ✕ to deselect all.</p>
       </div>
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">System States</h3>
+      <h3 class="sub-heading">System States</h3>
       <p class="section-desc">Queue states must remain consistent across both views.</p>
 
       <div class="state-demo-grid">
@@ -1536,7 +1518,7 @@
         <div class="state-demo">
           <div class="state-demo-label">Empty Queue</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/Empty_Queue.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/Empty_Queue_Cropped.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">No cases assigned to the current view. Icon + "No cases yet" headline + description. No CTA — cases arrive via customer-initiated channels.</div>
         </div>
@@ -1545,7 +1527,7 @@
         <div class="state-demo">
           <div class="state-demo-label">No Search Results</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/No_Search_Results.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/No_Search_Results_Cropped.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Reflects active query back to the user. "Clear search" link resets the input. Toolbar and filters remain accessible so agents can adjust without starting over.</div>
         </div>
@@ -1625,7 +1607,7 @@
         <div class="state-demo">
           <div class="state-demo-label">Error Fetching Cases</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/Error_Fetching_Cases.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/Error_Fetching_Cropped.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">API failure or timeout. "Unable to load cases" with reassuring copy + "Try again" retry button. Don't clear existing data if a background refresh fails — only show on initial load failure.</div>
         </div>
@@ -1634,10 +1616,10 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 12px;">Designs + References</h3>
+      <h3 class="sub-heading">Designs + References</h3>
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2159&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); padding: 8px 0;">
-          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2159&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
             <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
@@ -1646,8 +1628,8 @@
           </svg>
           <span style="font-size: 15px;">Inbox board view</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2504&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); padding: 8px 0;">
-          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-v2-%E2%80%94-Design-Spec?node-id=3019-2504&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+          <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
             <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
@@ -1845,7 +1827,7 @@
       <!-- Designs + References -->
       <h3 class="sub-heading" style="margin-top: 56px;">Designs + References</h3>
       <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-        <a href="#" style="display: flex; align-items: center; gap: 10px; color: var(--accent-blue); text-decoration: none; font-size: 14px; font-weight: 500;">
+        <a href="#" style="display: flex; align-items: center; gap: 10px; color: #3978F1; text-decoration: underline; font-size: 14px; font-weight: 500;">
           <svg width="20" height="20" viewBox="0 0 38 38" fill="none" style="flex-shrink: 0;">
             <path d="M19 0C8.50659 0 0 8.50659 0 19C0 29.4934 8.50659 38 19 38C29.4934 38 38 29.4934 38 19C38 8.50659 29.4934 0 19 0Z" fill="#1E1E1E"/>
             <path d="M19 9.5C19 4.25329 23.2533 0 28.5 0H38V19H19V9.5Z" fill="#0ACF83"/>
@@ -1856,7 +1838,7 @@
           </svg>
           Conversation workspace layout
         </a>
-        <a href="#" style="display: flex; align-items: center; gap: 10px; color: var(--accent-blue); text-decoration: none; font-size: 14px; font-weight: 500;">
+        <a href="#" style="display: flex; align-items: center; gap: 10px; color: #3978F1; text-decoration: underline; font-size: 14px; font-weight: 500;">
           <svg width="20" height="20" viewBox="0 0 38 38" fill="none" style="flex-shrink: 0;">
             <path d="M19 0C8.50659 0 0 8.50659 0 19C0 29.4934 8.50659 38 19 38C29.4934 38 38 29.4934 38 19C38 8.50659 29.4934 0 19 0Z" fill="#1E1E1E"/>
             <path d="M19 9.5C19 4.25329 23.2533 0 28.5 0H38V19H19V9.5Z" fill="#0ACF83"/>
