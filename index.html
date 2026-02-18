@@ -826,8 +826,6 @@
     transition: border-color 0.15s;
   }
 
-
-
   .delivery-card-header {
     display: flex;
     align-items: flex-start;
@@ -1223,46 +1221,43 @@
     <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Full prototype</a>
 
     <div class="nav-group-label">Workspace</div>
-    <a href="#platform-shell" class="nav-item">
-      <span class="nav-item-num">01</span> Platform Shell
-    </a>
     <a href="#inbox-list" class="nav-item">
-      <span class="nav-item-num">02</span> Case Queue &amp; Triage
+      <span class="nav-item-num">01</span> Case queue &amp; triage
     </a>
     <a href="#conversation" class="nav-item">
-      <span class="nav-item-num">03</span> Conversation Workspace
+      <span class="nav-item-num">02</span> Conversation workspace
     </a>
     <a href="#case-details" class="nav-item">
-      <span class="nav-item-num">04</span> Case Details
+      <span class="nav-item-num">03</span> Case details
     </a>
     <a href="#intake-forms" class="nav-item">
-      <span class="nav-item-num">05</span> Intake + Forms
+      <span class="nav-item-num">04</span> Intake + forms
     </a>
     <a href="#internal-notes" class="nav-item">
-      <span class="nav-item-num">06</span> Internal Notes
+      <span class="nav-item-num">05</span> Internal notes
     </a>
     <a href="#ai-assistance" class="nav-item">
-      <span class="nav-item-num">07</span> AI Assistance
+      <span class="nav-item-num">06</span> AI assistance
     </a>
 
     <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
-      <span class="nav-item-num">08</span> General
+      <span class="nav-item-num">07</span> General
     </a>
     <a href="#team-roles" class="nav-item">
-      <span class="nav-item-num">09</span> Teams
+      <span class="nav-item-num">08</span> Teams
     </a>
     <a href="#channels" class="nav-item">
-      <span class="nav-item-num">10</span> Channels
+      <span class="nav-item-num">09</span> Channels
     </a>
     <a href="#rules-slas" class="nav-item">
-      <span class="nav-item-num">11</span> Rules
+      <span class="nav-item-num">10</span> Rules
     </a>
     <a href="#ai-config" class="nav-item">
-      <span class="nav-item-num">12</span> AI
+      <span class="nav-item-num">11</span> AI
     </a>
     <a href="#notifications" class="nav-item">
-      <span class="nav-item-num">13</span> Notifications
+      <span class="nav-item-num">12</span> Notifications
     </a>
   </div>
 
@@ -1272,7 +1267,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support 2.0 — Design Spec</span>
-    <span class="main-header-meta">v1.0 · Feb 16, 2026</span>
+    <span class="main-header-meta">v1.0 · Feb 17, 2026</span>
   </header>
 
   <div class="content">
@@ -1285,81 +1280,22 @@
       <p class="section-desc">Jack Henry is redesigning Banno Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
       <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
 
-      <h3 class="sub-heading">Delivery Approach</h3>
-      <p class="section-desc">Rather than deploying a single large-scale release, Support 2.0 improvements will be delivered incrementally across a series of modular updates. Each delivery chunk builds toward the full Support 2.0 vision, allowing teams to benefit from enhancements as soon as they are ready while maintaining a stable and reliable experience throughout the transition.</p>
-
-      <div class="delivery-grid">
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Conversation Workspace</div>
-            <div class="delivery-card-num">1</div>
-          </div>
-          <div class="delivery-card-desc">Conversation thread, reply composition, attachments, internal notes, AI summaries and suggested responses.</div>
-        </div>
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Case Details</div>
-            <div class="delivery-card-num">2</div>
-          </div>
-          <div class="delivery-card-desc">Customer context, case metadata, assignment, status updates, tags, SLA indicators, and agent-facing insights.</div>
-        </div>
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Form Submissions</div>
-            <div class="delivery-card-num">3</div>
-          </div>
-          <div class="delivery-card-desc">Structured intake flows, form-driven case creation, submission review, routing logic, and channel-origin context.</div>
-        </div>
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Inbox + Case List</div>
-            <div class="delivery-card-num">4</div>
-          </div>
-          <div class="delivery-card-desc">Case queue management, filtering and search, grouping, bulk actions, and multi-view triage workflows.</div>
-        </div>
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Support Settings</div>
-            <div class="delivery-card-num">5</div>
-          </div>
-          <div class="delivery-card-desc">Team configuration, roles and permissions, routing rules, SLAs, notification controls, and AI feature management.</div>
-        </div>
-        <div class="delivery-card">
-          <div class="delivery-card-header">
-            <div class="delivery-card-title">Platform Shell</div>
-            <div class="delivery-card-num">6</div>
-          </div>
-          <div class="delivery-card-desc">Top-level application container, navigation framework, routing architecture, and cross-module integration points.</div>
-        </div>
-      </div>
-
-      <h3 class="sub-heading">Questions + Feedback</h3>
+      <h3 class="sub-heading">Questions + feedback</h3>
       <p class="section-desc">Questions, discussions, and decisions should be captured directly in this spec or raised in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> to ensure shared visibility and alignment.</p>
     </section>
 
     <div class="divider"></div>
 
-    <!-- ─── FULL PROTOTYPE ─── -->
-    <section class="section" id="full-prototype">
-      <div class="section-label">Overview</div>
-      <h2 class="section-title">Full Prototype</h2>
-      <p class="section-desc">Interactive prototype showcasing the complete Support 2.0 experience end-to-end.</p>
-      <div class="callout callout--blue">
-        Prototype link and walkthrough to be added.
-      </div>
-    </section>
-    <div class="divider"></div>
-
     <!-- ─── BACKLOG ─── -->
     <section class="section" id="backlog">
-      <div class="section-label">Overview</div>
-      <h2 class="section-title">Backlog</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Backlog</h2>
       <p class="section-desc">Upcoming features and improvements for Support 2.0, organized by area. Each item includes a summary of what's being built and the work involved.</p>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
       <!-- SLA Prioritization -->
-      <h3 class="sub-heading">SLA Prioritization</h3>
+      <h3 class="sub-heading">SLA prioritization</h3>
       <p class="section-desc">Surface SLA urgency directly in the queue so support reps can triage by deadline without opening individual cases. Breached and approaching states are indicated through visual markers; full SLA detail lives in the Case Details panel.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger types</h4>
@@ -1413,34 +1349,17 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── PLATFORM SHELL ─── -->
-    <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="platform-shell">
-      <div class="section-label">Section 01</div>
-      <h2 class="section-title">Platform Shell</h2>
-      <p class="section-desc">Support 2.0 is delivered in modular chunks, but certain interaction behaviors must remain consistent across the platform.</p>
-
-      <p class="section-desc">This section captures the shared patterns that apply everywhere. Including system states, permissions, feedback, and AI behaviors. Component documentation lives in the design system; this page defines the workflow rules that Support 2.0 builds on.</p>
-
-      <div class="callout callout--blue">
-        🏗 <strong>Primarily engineering scope</strong> with limited direct UI impact. Spec will be updated as scope solidifies.
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- ══════════════════════════════════════════ -->
     <!-- ─── CASE QUEUE + TRIAGE ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="inbox-list">
-      <div class="section-label">Section 02</div>
-      <h2 class="section-title">Case Queue + Triage</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 02</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case queue & triage</h2>
       <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
 
-      <h3 class="sub-heading">Supported Views</h3>
+      <h3 class="sub-heading">Supported views</h3>
       <p class="section-desc">The case queue can be represented in multiple formats depending on workflow needs.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board View (Kanban)</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view</h4>
       <p class="section-desc">Best for status-based triage and workflow movement. Cases are grouped by status to support quick prioritization, but Phase 1 does not include drag-and-drop between columns — status changes occur through explicit update actions to ensure clarity and auditability.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
@@ -1448,7 +1367,7 @@
         </div>
       </div>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">List View (Table)</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">List view</h4>
       <p class="section-desc">Best for high-volume scanning, sorting, and bulk management. List view supports consistent queue indicators and actions while providing a more compact, sortable representation of active work.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
@@ -1456,7 +1375,7 @@
         </div>
       </div>
 
-      <h3 class="sub-heading">Case Preview Information</h3>
+      <h3 class="sub-heading">Case preview information</h3>
       <p class="section-desc" style="margin-bottom: 8px;">Before opening a case, agents should have enough context to prioritize work directly from the queue. Case previews include:</p>
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Customer name + avatar</li>
@@ -1466,24 +1385,24 @@
         <li>Timestamp and urgency cues</li>
       </ul>
       <div class="card" style="margin-top: 24px;">
-        <div class="card-title">Case Card - Board</div>
+        <div class="card-title">Case card (board)</div>
         <div style="margin-top: 12px; display: inline-block;">
           <img src="images/Case_Card_Crops.png.png" alt="Case Card — Board" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Case Card - List</div>
+        <div class="card-title">Case card (list)</div>
         <div class="mockup-frame" style="margin-top: 12px;">
           <img src="images/Card Case - List.png" alt="Case Card — List" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <h3 class="sub-heading">Shared Controls Across Views</h3>
+      <h3 class="sub-heading">Shared controls across views</h3>
       <p class="section-desc">These controls remain consistent regardless of queue representation:</p>
 
       <div class="card">
-        <div class="card-title" style="margin-bottom: 8px;">Search + Filter Bar</div>
+        <div class="card-title" style="margin-bottom: 8px;">Search + filter bar</div>
         <div class="card-desc" style="margin-bottom: 16px;">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</div>
         <div class="mockup-frame">
           <img src="images/Search_Filter_Bar.png" alt="Search + Filter Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
@@ -1492,13 +1411,13 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 class="sub-heading">Key Triage Interactions</h3>
+      <h3 class="sub-heading">Key triage interactions</h3>
       <p class="section-desc">The primary actions supported within the queue include:</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and Open a Case</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and open a case</h4>
       <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Bulk Actions</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Bulk actions</h4>
       <p class="section-desc" style="margin-bottom: 8px;">Bulk actions are supported in Phase 1 for a focused set of high-value workflows:</p>
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Assign to rep or team</li>
@@ -1515,14 +1434,14 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 class="sub-heading">System States</h3>
+      <h3 class="sub-heading">System states</h3>
       <p class="section-desc">Queue states must remain consistent across both views.</p>
 
       <div class="state-demo-grid">
 
         <!-- Empty Queue -->
         <div class="state-demo">
-          <div class="state-demo-label">Empty Queue</div>
+          <div class="state-demo-label">Empty queue</div>
           <div style="padding: 0 12px 12px;">
             <img src="images/Empty_Queue_Cropped.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
@@ -1531,7 +1450,7 @@
 
         <!-- No Search Results -->
         <div class="state-demo">
-          <div class="state-demo-label">No Search Results</div>
+          <div class="state-demo-label">No search results</div>
           <div style="padding: 0 12px 12px;">
             <img src="images/No_Search_Results_Cropped.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
@@ -1540,7 +1459,7 @@
 
         <!-- Loading Skeleton -->
         <div class="state-demo">
-          <div class="state-demo-label">Loading Skeleton</div>
+          <div class="state-demo-label">Loading skeleton</div>
           <div class="state-frame">
             <div class="state-toolbar">
               <span class="state-toolbar-title">My cases</span>
@@ -1611,7 +1530,7 @@
 
         <!-- Error Fetching Cases -->
         <div class="state-demo">
-          <div class="state-demo-label">Error Fetching Cases</div>
+          <div class="state-demo-label">Error fetching cases</div>
           <div style="padding: 0 12px 12px;">
             <img src="images/Error_Fetching_Cropped.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
@@ -1622,7 +1541,7 @@
 
       <div class="divider" style="margin: 32px 0;"></div>
 
-      <h3 class="sub-heading">Designs + References</h3>
+      <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2159&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1632,7 +1551,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Board View</span>
+          <span style="font-size: 15px;">Board view</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2504&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1642,7 +1561,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">List View</span>
+          <span style="font-size: 15px;">List view</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-10545&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1652,7 +1571,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">List View Bulk Actions</span>
+          <span style="font-size: 15px;">List view bulk actions</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-13981&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1662,7 +1581,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Empty Queue</span>
+          <span style="font-size: 15px;">Empty queue</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-14561&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1672,7 +1591,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">No Search Results</span>
+          <span style="font-size: 15px;">No search results</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-15021&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -1682,23 +1601,23 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Error Fetching Cases</span>
+          <span style="font-size: 15px;">Error fetching cases</span>
         </a>
       </div>
     </section>
 
     <div class="divider"></div>
     <section class="section" id="conversation">
-      <div class="section-label">Section 03</div>
-      <h2 class="section-title">Conversation Workspace</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 03</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation workspace</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages, collaborate internally, and compose replies. This workspace defines the message thread, reply composer, attachments, internal notes, and Phase 1 AI-assisted guidance. It is the primary surface for resolving an active support case.</p>
 
       <!-- Primary Conversation Workspace -->
-      <h3 class="sub-heading">Primary Conversation Workspace</h3>
+      <h3 class="sub-heading">Primary conversation workspace</h3>
       <p class="card-desc" style="margin-bottom: 16px;">This is the main case-handling workspace once a support rep opens a case from the queue.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Full Conversation Screenshot</div>
+        <div class="mockup-label">Full conversation screenshot</div>
         <div class="mockup-frame">
           <img src="images/Conversation_Full.png" alt="Full Conversation Screenshot" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
@@ -1715,35 +1634,35 @@
       </ul>
 
       <!-- Message Thread -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Message Thread</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">Message thread</h3>
       <p class="card-desc" style="margin-bottom: 16px;">Messages are displayed chronologically, combined customer messages, support rep replies, and system-generated events into a single unified timeline.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Message Thread</div>
+        <div class="mockup-label">Message thread</div>
         <div class="mockup-frame">
           <img src="images/Message_Thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <!-- Message Types -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Message Types</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">Message types</h3>
 
       <div class="mockup-group">
-        <div class="mockup-label">3 Bubble Examples</div>
+        <div class="mockup-label">3 bubble examples</div>
         <div class="mockup-frame">
           <img src="images/Message_Types.png" alt="3 Bubble Examples" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <ul class="card-list" style="margin-top: 16px;">
-        <li><strong>Customer (Inbound):</strong> incoming support requests</li>
-        <li><strong>Representative (Outbound):</strong> responses and updates</li>
-        <li><strong>System Events:</strong> status changes and assignments</li>
+        <li><strong>Customer (inbound):</strong> incoming support requests</li>
+        <li><strong>Representative (outbound):</strong> responses and updates</li>
+        <li><strong>System events:</strong> status changes and assignments</li>
       </ul>
       <p class="card-desc" style="margin-top: 16px;">Internal-only content is visually distinct and never exposed to the customer.</p>
 
       <!-- Reply Composer -->
-      <h3 class="sub-heading sub-heading--purple" style="margin-top: 56px;">Reply Composer</h3>
+      <h3 class="sub-heading sub-heading--purple" style="margin-top: 56px;">Reply composer</h3>
       <p class="card-desc" style="margin-bottom: 16px;">The reply composer is the primary action point for support reps, supporting fast response workflows without leaving the conversation context.</p>
 
       <div class="mockup-group">
@@ -1766,9 +1685,9 @@
       <p class="card-desc" style="margin-bottom: 16px;">Support representatives can send and receive files directly within the conversation thread, with previews and clear handling for supported file types.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Attachment Message Example</div>
+        <div class="mockup-label">Attachment message example</div>
         <div class="mockup-frame">
-          <img src="images/Attachment_Example.png" alt="Attachment Message Example" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Attachment_Example.png" alt="Attachment message example" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -1780,13 +1699,13 @@
       </ul>
 
       <!-- Internal Notes -->
-      <h3 class="sub-heading sub-heading--orange" style="margin-top: 56px;">Internal Notes</h3>
+      <h3 class="sub-heading sub-heading--orange" style="margin-top: 56px;">Internal notes</h3>
       <p class="card-desc" style="margin-bottom: 16px;">Support teams can leave private internal notes directly in the conversation workspace. These notes are visible only to authorized staff and are never shared with the customer.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Internal Note Example</div>
+        <div class="mockup-label">Internal note example</div>
         <div class="mockup-frame">
-          <img src="images/Internal_Note.png" alt="Internal Note Example" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Internal_Note.png" alt="Internal note example" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -1799,18 +1718,18 @@
       <p class="card-desc" style="margin-top: 16px;">Real-time co-editing or simultaneous drafting is not included in Phase 1. Support rep handoff is supported through notes, assignment changes, and conversation history rather than live multi-rep editing.</p>
 
       <!-- Conversation Signals -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Conversation Signals</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">Conversation signals</h3>
       <p class="card-desc" style="margin-bottom: 16px;">Lightweight indicators provide awareness during active conversations.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Typing Indicator</div>
+        <div class="mockup-label">Typing indicator</div>
         <div class="mockup-frame">
           <img src="images/Typing_Indicator.png" alt="Typing Indicator" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <div class="mockup-group">
-        <div class="mockup-label">Read Receipt / Seen State</div>
+        <div class="mockup-label">Read receipt / seen state</div>
         <div class="mockup-frame">
           <img src="images/Read_Receipt.png" alt="Read Receipt / Seen State" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
@@ -1824,11 +1743,11 @@
       </ul>
 
       <!-- AI-Assisted Guidance (Phase 1) -->
-      <h3 class="sub-heading sub-heading--green" style="margin-top: 56px;">AI-Assisted Guidance (Phase 1)</h3>
+      <h3 class="sub-heading sub-heading--green" style="margin-top: 56px;">AI-assisted guidance (Phase 1)</h3>
       <p class="card-desc" style="margin-bottom: 16px;">In Phase 1, the Conversation Workspace integrates AI as a read-only support layer. AI helps agents understand context, surface relevant information, and draft guidance — but does not take action on behalf of the support rep.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">AI Suggestions Panel</div>
+        <div class="mockup-label">AI suggestions panel</div>
         <div class="mockup-frame">
           <img src="images/AI_Suggestions.png" alt="AI Suggestions Panel" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
@@ -1843,7 +1762,7 @@
       </ul>
 
       <!-- Planned Enhancements (Phase 2+) -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Planned Enhancements (Phase 2+)</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">Planned enhancements (Phase 2+)</h3>
       <p class="card-desc" style="margin-bottom: 16px;">Write-enabled AI workflows may be introduced in future phases, such as:</p>
       <ul class="card-list">
         <li>Drafting and applying suggested replies</li>
@@ -1857,11 +1776,11 @@
       </div>
 
       <!-- System States -->
-      <h3 class="sub-heading" style="margin-top: 56px;">System States</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">System states</h3>
       <p class="card-desc" style="margin-bottom: 16px;">Conversation-level states must remain consistent across workflows.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Visual Strip</div>
+        <div class="mockup-label">Visual strip</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Loading thread history</div>
           <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; text-align: center; font-size: 13.5px; color: var(--text-secondary);">Empty conversation</div>
@@ -1871,7 +1790,7 @@
       </div>
 
       <!-- Designs + References -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Designs + References</h3>
+      <h3 class="sub-heading" style="margin-top: 56px;">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
         <a href="#" style="display: flex; align-items: center; gap: 10px; color: #3978F1; text-decoration: underline; font-size: 14px; font-weight: 500;">
           <svg width="20" height="20" viewBox="0 0 38 38" fill="none" style="flex-shrink: 0;">
@@ -1898,17 +1817,16 @@
       </div>
     </section>
 
-
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CHUNK 2: CASE DETAILS ─── -->
+    <!-- ─── CASE DETAILS ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="case-details">
-      <div class="section-label">Section 05</div>
-      <h2 class="section-title">Case Details Panel</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 04</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case details</h2>
       <p class="section-desc">The contextual sidebar that gives reps everything they need to understand and act on a case without leaving the conversation. Includes customer profile, account identifiers, organization details, case assignment, status management, and tagging.</p>
 
       <div class="card">
-        <div class="card-title">Key Deliverables</div>
+        <div class="card-title">Key deliverables</div>
         <ul class="card-list">
           <li><strong>Customer profile display</strong> — Name, contact info, customer segment (Retail / Business / Unverified)</li>
           <li><strong>Organization details</strong> — Business name, linked accounts, link to full profile</li>
@@ -1927,22 +1845,15 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CHUNK 3: FORM SUBMISSIONS ─── -->
-    <!-- ══════════════════════════════════════════ -->
-
-    <div class="divider"></div>
-
-
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CHUNK 3: FORM SUBMISSIONS ─── -->
+    <!-- ─── INTAKE + FORMS ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="intake-forms">
-      <div class="section-label">Section 06</div>
-      <h2 class="section-title">Intake + Forms</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 05</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Intake + forms</h2>
       <p class="section-desc">How cases are created and submitted into the system. Includes form intake, case creation workflows, and initial routing logic that determines where new cases land.</p>
 
       <div class="card">
-        <div class="card-title">Key Deliverables</div>
+        <div class="card-title">Key deliverables</div>
         <ul class="card-list">
           <li><strong>Form-based case creation flow</strong> — Structured intake for common request types</li>
           <li><strong>Structured data capture</strong> — Pre-defined fields per request category</li>
@@ -1956,16 +1867,9 @@
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── INTERNAL NOTES ─── -->
     <!-- ══════════════════════════════════════════ -->
-
-    <div class="divider"></div>
-
-
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── INTERNAL NOTES ─── -->
-    <!-- ══════════════════════════════════════════ -->
     <section class="section" id="internal-notes">
-      <div class="section-label">Section 07</div>
-      <h2 class="section-title">Internal Notes</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 06</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Internal notes</h2>
       <p class="section-desc">Private messaging between support team members within a case context. Notes are never visible to customers.</p>
       <div class="callout callout--blue">
         Dedicated spec for the internal notes experience — composition, display, @mentions, threading, and visibility rules. Content to be added.
@@ -1975,18 +1879,11 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── AI + ASSISTANCE ─── -->
-    <!-- ══════════════════════════════════════════ -->
-
-    <div class="divider"></div>
-
-
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── AI + ASSISTANCE ─── -->
+    <!-- ─── AI ASSISTANCE ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="ai-assistance">
-      <div class="section-label">Section 08</div>
-      <h2 class="section-title">AI + Assistance</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI assistance</h2>
       <p class="section-desc">The AI-powered features that help reps handle cases more effectively — intent recognition, contextual suggestions, conversation summarization, and the Customer Research Agent integration.</p>
       <div class="callout callout--blue">
         Dedicated spec for the AI experience across the workspace — suggestion panel behavior, agent capabilities, data fetching via MCP, and confidence scoring. Content to be added.
@@ -1996,18 +1893,11 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CHUNK 5: SUPPORT SETTINGS ─── -->
-    <!-- ══════════════════════════════════════════ -->
-
-    <div class="divider"></div>
-
-
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CHUNK 5: SUPPORT SETTINGS ─── -->
+    <!-- ─── SETTINGS ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="settings" style="margin-bottom: 0;">
-      <div class="section-label">Section 09</div>
-      <h2 class="section-title">Support Settings</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 08</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">General</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 0px;">
@@ -2064,7 +1954,7 @@
       </div>
 
       <!-- Business Hours -->
-      <h3 class="sub-heading">Business Hours</h3>
+      <h3 class="sub-heading">Business hours</h3>
       <p class="section-desc" style="margin-bottom: 8px;">Set when the support team is available. Customers will see these hours when starting a conversation.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Behavior</h4>
@@ -2102,7 +1992,7 @@
       </div>
 
       <!-- Empty State -->
-      <h3 class="sub-heading">Empty State</h3>
+      <h3 class="sub-heading">Empty state</h3>
       <p class="section-desc" style="margin-bottom: 8px;">If no holidays are configured:</p>
 
       <div class="mockup-group">
@@ -2113,8 +2003,8 @@
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
-      <!-- Designs + References -->
-      <h3 class="sub-heading">Designs + References</h3>
+      <!-- Designs + references -->
+      <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
@@ -2139,12 +2029,10 @@
       </div>
     </section>
 
-    <!-- ─── C5: Team ─── -->
-
-    <!-- ─── C5: Team ─── -->
+    <!-- ─── Team ─── -->
     <section class="section" id="team-roles">
-      <div class="section-label">Section 10</div>
-      <h2 class="section-title">Teams</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Teams</h2>
       <p class="section-desc">Manage who has access to your support workspace.</p>
 
       <div class="mockup-group">
@@ -2178,11 +2066,9 @@
     </section>
 
     <!-- ─── C5: Channels ─── -->
-
-    <!-- ─── C5: Channels ─── -->
     <section class="section" id="channels">
-      <div class="section-label">Section 11</div>
-      <h2 class="section-title">Channels</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Channels</h2>
       <p class="section-desc">Organize cases into team queues for routing and assignment.</p>
 
       <div class="mockup-group">
@@ -2206,16 +2092,16 @@
       </div>
     </section>
 
-    <!-- ─── C5: Rules ─── -->
+    <!-- ─── Rules ─── -->
     <section class="section" id="rules-slas">
-      <div class="section-label">Section 11</div>
-      <h2 class="section-title">Rules</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Rules</h2>
       <p class="section-desc">Automatically assign cases and set response time targets.</p>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
       <!-- Routing Rules Behavior -->
-      <h3 class="sub-heading">Routing Rules Behavior</h3>
+      <h3 class="sub-heading">Routing rules behavior</h3>
       <p class="section-desc">This section covers behavior that isn't visible in the designs.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Rule Evaluation</h4>
@@ -2231,7 +2117,7 @@
         </div>
       </div>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Toggle Behavior</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Toggle behavior</h4>
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Disabling a rule skips it during evaluation — the case proceeds to the next rule in the list.</li>
         <li>Disabling does <strong>not</strong> unassign cases already routed by that rule.</li>
@@ -2289,7 +2175,7 @@
       </ul>
 
       <!-- Add rule / Edit Drawer -->
-      <h3 class="sub-heading">Add rule / Edit Drawer</h3>
+      <h3 class="sub-heading">Add rule / edit drawer</h3>
       <div class="mockup-group">
         <div class="mockup-frame">
           <img src="images/Rules_Edit_Drawer.png" alt="Rules — Edit Drawer" onclick="openLightbox(this)" style="cursor: zoom-in;">
@@ -2297,7 +2183,7 @@
       </div>
 
       <!-- Empty State -->
-      <h3 class="sub-heading">Empty State</h3>
+      <h3 class="sub-heading">Empty state</h3>
       <div class="mockup-group">
         <div class="mockup-frame">
           <img src="images/Rules_Empty_State.png" alt="Rules — Empty State" onclick="openLightbox(this)" style="cursor: zoom-in;">
@@ -2307,7 +2193,7 @@
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
       <!-- SLAs Behavior -->
-      <h3 class="sub-heading">SLAs Behavior</h3>
+      <h3 class="sub-heading">SLAs behavior</h3>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Default SLA policies</h4>
       <p class="section-desc" style="margin-bottom: 12px;">The four default policies cannot be deleted, only edited. They map to priority levels:</p>
@@ -2381,13 +2267,13 @@
       </div>
 
       <!-- Empty State (SLA) -->
-      <h3 class="sub-heading">Empty State</h3>
+      <h3 class="sub-heading">Empty state</h3>
       <p class="section-desc">Not applicable. The four default policies are always present.</p>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
-      <!-- Designs + References -->
-      <h3 class="sub-heading">Designs + References</h3>
+      <!-- Designs + references -->
+      <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-18763&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2397,7 +2283,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Evaluation Order</span>
+          <span style="font-size: 15px;">Evaluation order</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-20872&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2407,7 +2293,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Disabled State</span>
+          <span style="font-size: 15px;">Disabled state</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-21088&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2417,7 +2303,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Edit Drawer</span>
+          <span style="font-size: 15px;">Edit drawer</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-24937&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2427,7 +2313,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Empty State</span>
+          <span style="font-size: 15px;">Empty state</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-25481&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2437,7 +2323,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">SLA Edit Drawer</span>
+          <span style="font-size: 15px;">SLA edit drawer</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-26383&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2447,17 +2333,15 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Custom SLA Drawer</span>
+          <span style="font-size: 15px;">Custom SLA drawer</span>
         </a>
       </div>
     </section>
 
-    <!-- ─── C5: AI ─── -->
-
-    <!-- ─── C5: AI ─── -->
+    <!-- ─── AI ─── -->
     <section class="section" id="ai-config">
-      <div class="section-label">Section 08</div>
-      <h2 class="section-title">AI Configuration</h2>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 12</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI</h2>
       <p class="section-desc">Configure how AI helps teams respond to customers. The Settings → AI tab contains two sections: AI Assistant (real-time agent tools) and auto-responses (trigger-based customer messages).</p>
 
       <div class="mockup-group">
@@ -2546,8 +2430,8 @@
         <li><strong>Drag-to-reorder:</strong> keyboard support (arrow keys, Enter / Space) with live region announcements</li>
       </ul>
 
-      <!-- Designs + References -->
-      <h3 class="sub-heading">Designs + References</h3>
+      <!-- Designs + references -->
+      <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-9394&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2557,7 +2441,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Settings AI Tab</span>
+          <span style="font-size: 15px;">Settings AI tab</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-9894&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2567,7 +2451,7 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Edit Drawer</span>
+          <span style="font-size: 15px;">Edit drawer</span>
         </a>
         <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-10091&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -2583,55 +2467,133 @@
     </section>
 
     <!-- ─── C5: Notifications ─── -->
-
-    <!-- ─── C5: Notifications ─── -->
     <section class="section" id="notifications">
-      <div class="section-label">Section 14</div>
-      <h2 class="section-title">Notifications</h2>
-      <p class="section-desc">Control how representatives and customers are notified about case activity.</p>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 13</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Notifications</h2>
+      <p class="section-desc">Control how representatives and customers are notified about case activity. Three sections separate what representatives receive, what customers receive, and how notifications are delivered.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Settings — Notifications</div>
         <div class="mockup-frame">
           <img src="images/Settings_-_Notifications.png" alt="Settings — Notifications" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Agent Notifications</div>
-        <table class="spec-table">
-          <thead><tr><th>Notification</th><th>Trigger</th><th>Default</th></tr></thead>
-          <tbody>
-            <tr><td>New case assigned</td><td>When a case is assigned to you</td><td>On</td></tr>
-            <tr><td>New customer reply</td><td>When a customer responds to your case</td><td>On</td></tr>
-            <tr><td>SLA warning</td><td>When a case is approaching its SLA deadline</td><td>On</td></tr>
-            <tr><td>Mentioned in a case</td><td>When another representative @mentions you</td><td>On</td></tr>
-          </tbody>
-        </table>
+      <!-- Representative notifications -->
+      <h3 class="sub-heading">Representative notifications</h3>
+      <p class="section-desc" style="margin-bottom: 12px;">Org-wide defaults that individual representatives can override in their profile settings. A muted note beneath the section description communicates this.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Inline description</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New case assigned</td>
+            <td>—</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>New customer reply</td>
+            <td>—</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>SLA warning</td>
+            <td>When a case is approaching its SLA deadline</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>Mentioned in a case</td>
+            <td>When another representative @mentions you</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Customer notifications -->
+      <h3 class="sub-heading">Customer notifications</h3>
+      <p class="section-desc" style="margin-bottom: 12px;">Automatic updates sent to customers about their cases. These delivery via the channel the customer used to contact support. The admin controls what gets sent, not how.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Case received</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>Representative reply</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>Case resolved</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
+
+      <!-- Delivery channels -->
+      <h3 class="sub-heading">Delivery channels</h3>
+      <p class="section-desc" style="margin-bottom: 12px;">Controls how all notifications are delivered to representatives. These are global — they apply across every notification type. Sections 1 and 2 control what gets sent; this section controls how.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Inline description</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>In-app notifications</td>
+            <td>—</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">On</span></td>
+          </tr>
+          <tr>
+            <td>Email notifications</td>
+            <td>—</td>
+            <td><span style="background: #374151; color: #9ca3af; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Off</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- States -->
+      <h3 class="sub-heading">States</h3>
+      <p class="section-desc">Toggles save immediately — no save button. A toast confirmation auto-dismisses after 3 seconds.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Toast_Confirmation.png" alt="Toast confirmation" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Customer Notifications</div>
-        <table class="spec-table">
-          <thead><tr><th>Notification</th><th>Trigger</th><th>Default</th></tr></thead>
-          <tbody>
-            <tr><td>Case received</td><td>Confirm when their case is created</td><td>On</td></tr>
-            <tr><td>Agent reply</td><td>When an agent responds to their case</td><td>On</td></tr>
-            <tr><td>Case resolved</td><td>When their case is marked as resolved</td><td>On</td></tr>
-          </tbody>
-        </table>
+      <!-- Designs + references -->
+      <h3 class="sub-heading">Designs + references</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Notifications</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Toast confirmation</a>
+        </div>
       </div>
     </section>
 
     <div class="divider"></div>
-
-    <!-- ══════════════════════════════════════════ -->
-    <!-- ─── JIRA EPICS ─── -->
-    <!-- ══════════════════════════════════════════ -->
-
-    <div class="divider"></div>
-
-
 
     <!-- ─── Footer ─── -->
     <div class="site-footer" style="display: none; text-align: center; padding: 48px 0; color: var(--text-tertiary); font-size: 13px;">
