@@ -1277,11 +1277,11 @@
     <section class="section" id="overview">
       <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Support 2.0</h2>
-      <p class="section-desc">Jack Henry is redesigning Banno Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
+      <p class="section-desc">Jack Henry is redesigning Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
       <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
 
-      <h3 class="sub-heading">Questions + feedback</h3>
-      <p class="section-desc">Questions, discussions, and decisions should be captured directly in this spec or raised in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> to ensure shared visibility and alignment.</p>
+      <h3 class="sub-heading">How to contribute</h3>
+      <p class="section-desc">Please share any questions, feedback, or discussion points in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> or captured directly in this spec.</p>
     </section>
 
     <div class="divider"></div>
@@ -1345,8 +1345,11 @@
           </tr>
         </tbody>
       </table>
-    </section>
+      <!-- Team & Roles -->
+      <h3 class="sub-heading">Team & roles</h3>
+      <p class="section-desc">Inline role dropdown, remove member confirmation, bulk invite, search / filter members, pagination.</p>
     <div class="divider"></div>
+    </section>
 
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── CASE QUEUE + TRIAGE ─── -->
@@ -1398,13 +1401,12 @@
         </div>
       </div>
 
-      <h3 class="sub-heading">Shared controls across views</h3>
-      <p class="section-desc">These controls remain consistent regardless of queue representation:</p>
+      <h3 class="sub-heading">Search + filter bar</h3>
+      <p class="section-desc">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</p>
 
       <div class="card">
-        <div class="card-title" style="margin-bottom: 8px;">Search + filter bar</div>
-        <div class="card-desc" style="margin-bottom: 16px;">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</div>
-        <div class="mockup-frame">
+        <div class="card-title">Search + filter bar</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
           <img src="images/Search_Filter_Bar.png" alt="Search + Filter Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
@@ -1885,9 +1887,51 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI assistance</h2>
       <p class="section-desc">The AI-powered features that help reps handle cases more effectively — intent recognition, contextual suggestions, conversation summarization, and the Customer Research Agent integration.</p>
-      <div class="callout callout--blue">
-        Dedicated spec for the AI experience across the workspace — suggestion panel behavior, agent capabilities, data fetching via MCP, and confidence scoring. Content to be added.
+
+      <!-- AI Assistant Popovers -->
+      <h3 class="sub-heading">AI assistant popovers</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Each AI feature includes a popover card that explains what it does, how it works, and any guardrails in place. These cards are accessible from the AI assistant area in the conversation workspace.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/AI_Sidekick.png" alt="AI Sidekick Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/Suggested_Replies.png" alt="Suggested Replies Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/Auto_categorization.png" alt="Auto-categorization Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
       </div>
+
+      <!-- Popover descriptions -->
+      <h3 class="sub-heading">Feature details</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Guardrail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI sidekick</strong></td>
+            <td>An AI assistant that works alongside your representatives in real time. It surfaces relevant account details, summarizes conversation history, and recommends next steps — so reps spend less time searching and more time helping.</td>
+            <td>Visible only to representatives, never to customers.</td>
+          </tr>
+          <tr>
+            <td><strong>Suggested replies</strong></td>
+            <td>AI drafts reply options based on the conversation context and your knowledge base. Representatives can use a suggestion as-is, edit it, or dismiss it. Drafts appear inline in the reply composer.</td>
+            <td>Suggestions are never sent automatically. A representative always reviews before sending.</td>
+          </tr>
+          <tr>
+            <td><strong>Auto-categorization</strong></td>
+            <td>Incoming cases are automatically tagged with a category — like Account inquiry, Dispute / Fraud, or Loan Servicing — based on the customer's message. This powers routing rules and helps your team prioritize.</td>
+            <td>Representatives can always change the category if the AI gets it wrong.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <div class="divider"></div>
@@ -2008,93 +2052,266 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-17943&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">General Tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3833&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">General Tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3040-2226&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Timezone Dialog</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3960&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Timezone Dialog</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3040-3423&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Hours Validation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3986&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Hours Validation</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3050-6123&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4070&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Drawer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3050-5898&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Empty</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4055&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Empty</a>
         </div>
       </div>
     </section>
 
-    <!-- ─── Team ─── -->
+    <!-- ─── Teams ─── -->
     <section class="section" id="team-roles">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 08</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Teams</h2>
-      <p class="section-desc">Manage who has access to your support workspace.</p>
+      <p class="section-desc">Manage who has access to the support workspace. Two sections: Team lists people and their roles, Queues organizes how cases are routed to them.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Settings — Team</div>
         <div class="mockup-frame">
-          <img src="images/Settings_-_Team.png" alt="Settings — Team" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Teams_Tab.png" alt="Settings — Teams Tab" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Members</div>
-        <div class="card-desc">List of team members with avatar, name, email, and role badge (Admin / Agent). "+ Invite" button (primary, blue) in top right.</div>
-        <table class="spec-table">
-          <thead><tr><th>Role</th><th>Permissions</th></tr></thead>
-          <tbody>
-            <tr><td>Admin</td><td>Full access to settings, team management, and all cases</td></tr>
-            <tr><td>Agent</td><td>Handle cases, view assigned queues, limited settings access</td></tr>
-          </tbody>
-        </table>
+      <!-- Roles -->
+      <h3 class="sub-heading">Roles</h3>
+      <p class="section-desc" style="margin-bottom: 12px;">V1 ships with two roles. Badges use shorthand labels.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Badge level</th>
+            <th>Permissions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Administrator</td>
+            <td><span style="background: #3978F1; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Admin</span></td>
+            <td>Full access to settings, team management, and all cases</td>
+          </tr>
+          <tr>
+            <td>Representative</td>
+            <td><span style="background: #374151; color: #d1d5db; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Rep</span></td>
+            <td>Handle cases, view assigned queues, limited settings access</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Invite flow -->
+      <h3 class="sub-heading">Invite flow</h3>
+      <p class="section-desc">"Invite teammate" opens a modal with email input and role selector. Submitting sends an email invitation. Pending invites appear in the team list with a Pending badge replacing the role badge.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Invite_Dialog.png" alt="Invite Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Queues</div>
-        <div class="card-desc">Organize cases into team queues for routing and assignment. "+ Create queue" button. Each queue shows name, description, and member count with drill-in chevron.</div>
-        <ul class="card-list">
-          <li><strong>Retail Support</strong> — Consumer banking inquiries (3 members)</li>
-          <li><strong>Business Banking</strong> — Commercial accounts and services (2 members)</li>
-          <li><strong>Lending</strong> — Loan and mortgage inquiries (2 members)</li>
-        </ul>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Pending_Invite.png" alt="Pending Invite" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Queues -->
+      <h3 class="sub-heading">Queues</h3>
+      <p class="section-desc">Queues are groups that cases can be routed to. Each queue has assigned representatives. The list view shows summary rows; clicking drills into a detail view.</p>
+
+      <!-- Queues detail view -->
+      <h3 class="sub-heading">Queues detail view</h3>
+      <p class="section-desc">Clicking a queue row navigates to a detail view. The detail view shows:</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Queue_Detail_View.png" alt="Queue Detail View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- States -->
+      <h3 class="sub-heading">States</h3>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Empty — No team members</h4>
+      <p class="section-desc">When only the admin exists (initial setup). The team list shows the single admin row. No empty state pattern needed since there's always at least one person.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Empty — No queues</h4>
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Empty_No_Queue.png" alt="Empty — No Queues" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Member overflow</h4>
+      <p class="section-desc">No pagination in V1. If the team exceeds ~20 people, rows simply scroll within the page.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Remove / Role Change</h4>
+      <p class="section-desc">V1 scope is view-only for the member list. Role changes and remove happen via a member detail view or kebab menu.</p>
+
+      <!-- Designs + References -->
+      <h3 class="sub-heading">Designs + References</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4905&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Teams tab</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3075-2598&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Invite dialog</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3076-4392&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Pending invite</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3077-4606&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Queue detail view</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6048&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty no queue</a>
+        </div>
       </div>
     </section>
 
-    <!-- ─── C5: Channels ─── -->
+    <!-- ─── Channels ─── -->
     <section class="section" id="channels">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Channels</h2>
-      <p class="section-desc">Organize cases into team queues for routing and assignment.</p>
+      <p class="section-desc">Configure how customers reach your support team. Each channel is an inbound pathway that creates cases in the shared inbox. Admins activate, deactivate, and configure each channel individually.</p>
 
       <div class="mockup-group">
-        <div class="mockup-label">Settings — Channels</div>
         <div class="mockup-frame">
-          <img src="images/Settings_-_Channels.png" alt="Settings — Channels" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Channels_Tab.png" alt="Settings — Channels" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Queues</div>
-        <div class="card-desc">Three channel cards displaying type, description, and Active/Inactive status badge:</div>
-        <table class="spec-table">
-          <thead><tr><th>Channel</th><th>Description</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>Chat widget</td><td>Embedded chat on your website and mobile app</td><td><span class="status status--done"><span class="status-dot"></span> Active</span></td></tr>
-            <tr><td>Forms</td><td>Contact and support request forms</td><td><span class="status status--done"><span class="status-dot"></span> Active</span></td></tr>
-            <tr><td>Email</td><td>Forward emails to create cases</td><td><span class="status status--not-started"><span class="status-dot"></span> Inactive</span></td></tr>
-          </tbody>
-        </table>
+      <!-- Inbound channels -->
+      <h3 class="sub-heading">Inbound channels</h3>
+      <p class="section-desc">The three channels are fixed — they're platform capabilities, not user-created entities. This distinguishes channels from queues or rules which are user-managed.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Channel data</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Description</th>
+            <th>Default status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chat</td>
+            <td>Embedded chat on your website and mobile app</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Active</span></td>
+          </tr>
+          <tr>
+            <td>Forms</td>
+            <td>Contact and support request forms</td>
+            <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Active</span></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>Forward emails to create cases</td>
+            <td><span style="background: #374151; color: #9ca3af; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Inactive</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc" style="margin-top: 12px;">Email defaults to Inactive because it requires forwarding configuration before it can receive cases. Chat and Forms are active out of the box.</p>
+
+      <!-- Channel detail -->
+      <h3 class="sub-heading">Channel detail</h3>
+      <p class="section-desc">Clicking a channel row navigates to its detail configuration. Each channel has unique settings, but they share a common structure: a "Back to Channels" breadcrumb, channel name / icon header, and the two-column settings and live configuration fields.</p>
+
+      <!-- Chat -->
+      <h3 class="sub-heading">Chat</h3>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Chat_Details.png" alt="Chat — Detail View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Forms -->
+      <h3 class="sub-heading">Forms</h3>
+      <p class="section-desc">Configuration for contact and support request forms.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Forms_Details.png" alt="Forms — Detail View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <h3 class="sub-heading">Email</h3>
+      <p class="section-desc">Configuration for email-to-case forwarding. This is the only channel that defaults to Inactive because it requires explicit setup.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Email_Details.png" alt="Email — Detail View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- States -->
+      <h3 class="sub-heading">States</h3>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">All channels inactive</h4>
+      <p class="section-desc">All three rows show "Inactive" badges. No special warning or blocking UI — the admin may be mid-setup. The Channels tab itself doesn't gate other settings.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Activating email</h4>
+      <p class="section-desc">Email has a prerequisite: the forwarding address must be configured before the status toggle can be switched to Active.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Deactivation confirmation</h4>
+      <p class="section-desc">Deactivating a channel that is currently receiving traffic triggers a confirmation dialog.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Deactivate_Channel_Dialog.png" alt="Deactivate Channel Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Designs + References -->
+      <h3 class="sub-heading">Designs + References</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6459&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Channel tab</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6878&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Channel details</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-7798&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Form details</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8362&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Email details</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8810&t=M6J8urTpOFROI7My-1œ" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Deactivate channel dialog</a>
+        </div>
       </div>
     </section>
 
     <!-- ─── Rules ─── -->
     <section class="section" id="rules-slas">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Rules</h2>
       <p class="section-desc">Automatically assign cases and set response time targets.</p>
 
@@ -2275,7 +2492,7 @@
       <!-- Designs + references -->
       <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-18763&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-5448&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2285,7 +2502,7 @@
           </svg>
           <span style="font-size: 15px;">Evaluation order</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-20872&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9178&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2295,7 +2512,7 @@
           </svg>
           <span style="font-size: 15px;">Disabled state</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-21088&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9368&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2305,7 +2522,7 @@
           </svg>
           <span style="font-size: 15px;">Edit drawer</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-24937&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9890&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2315,7 +2532,7 @@
           </svg>
           <span style="font-size: 15px;">Empty state</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-25481&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9947&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2325,7 +2542,7 @@
           </svg>
           <span style="font-size: 15px;">SLA edit drawer</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-26383&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-10863&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2340,7 +2557,7 @@
 
     <!-- ─── AI ─── -->
     <section class="section" id="ai-config">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 12</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI</h2>
       <p class="section-desc">Configure how AI helps teams respond to customers. The Settings → AI tab contains two sections: AI Assistant (real-time agent tools) and auto-responses (trigger-based customer messages).</p>
 
@@ -2433,7 +2650,7 @@
       <!-- Designs + references -->
       <h3 class="sub-heading">Designs + references</h3>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-9394&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7772&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2443,7 +2660,7 @@
           </svg>
           <span style="font-size: 15px;">Settings AI tab</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-9894&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7888&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2453,7 +2670,7 @@
           </svg>
           <span style="font-size: 15px;">Edit drawer</span>
         </a>
-        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3032-10091&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7834&t=M6J8urTpOFROI7My-1" target="_blank" style="display: flex; align-items: center; gap: 12px; color: #3978F1; text-decoration: underline; padding: 8px 0;">
           <svg width="20" height="20" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
             <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
             <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
@@ -2461,14 +2678,14 @@
             <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
             <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
           </svg>
-          <span style="font-size: 15px;">Empty State</span>
+          <span style="font-size: 15px;">Empty state</span>
         </a>
       </div>
     </section>
 
-    <!-- ─── C5: Notifications ─── -->
+    <!-- ─── Notifications ─── -->
     <section class="section" id="notifications">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 13</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 12</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Notifications</h2>
       <p class="section-desc">Control how representatives and customers are notified about case activity. Three sections separate what representatives receive, what customers receive, and how notifications are delivered.</p>
 
@@ -2571,7 +2788,7 @@
 
       <!-- States -->
       <h3 class="sub-heading">States</h3>
-      <p class="section-desc">Toggles save immediately — no save button. A toast confirmation auto-dismisses after 3 seconds.</p>
+      <p class="section-desc">Switches save immediately — no save button. A toast confirmation auto-dismisses after 3 seconds.</p>
 
       <div class="mockup-group">
         <div class="mockup-frame">
@@ -2584,11 +2801,11 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Notifications</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-6521&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Notifications tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Toast confirmation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3057-7353&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Toast confirmation</a>
         </div>
       </div>
     </section>
