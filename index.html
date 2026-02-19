@@ -1887,51 +1887,9 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI assistance</h2>
       <p class="section-desc">The AI-powered features that help reps handle cases more effectively — intent recognition, contextual suggestions, conversation summarization, and the Customer Research Agent integration.</p>
-
-      <!-- AI Assistant Popovers -->
-      <h3 class="sub-heading">AI assistant popovers</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Each AI feature includes a popover card that explains what it does, how it works, and any guardrails in place. These cards are accessible from the AI assistant area in the conversation workspace.</p>
-
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
-        <div class="mockup-frame" style="margin: 0;">
-          <img src="images/AI_Sidekick.png" alt="AI Sidekick Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-        <div class="mockup-frame" style="margin: 0;">
-          <img src="images/Suggested_Replies.png" alt="Suggested Replies Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-        <div class="mockup-frame" style="margin: 0;">
-          <img src="images/Auto_categorization.png" alt="Auto-categorization Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
+      <div class="callout callout--blue">
+        Dedicated spec for the AI experience across the workspace — suggestion panel behavior, agent capabilities, data fetching via MCP, and confidence scoring. Content to be added.
       </div>
-
-      <!-- Popover descriptions -->
-      <h3 class="sub-heading">Feature details</h3>
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Description</th>
-            <th>Guardrail</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>AI sidekick</strong></td>
-            <td>An AI assistant that works alongside your representatives in real time. It surfaces relevant account details, summarizes conversation history, and recommends next steps — so reps spend less time searching and more time helping.</td>
-            <td>Visible only to representatives, never to customers.</td>
-          </tr>
-          <tr>
-            <td><strong>Suggested replies</strong></td>
-            <td>AI drafts reply options based on the conversation context and your knowledge base. Representatives can use a suggestion as-is, edit it, or dismiss it. Drafts appear inline in the reply composer.</td>
-            <td>Suggestions are never sent automatically. A representative always reviews before sending.</td>
-          </tr>
-          <tr>
-            <td><strong>Auto-categorization</strong></td>
-            <td>Incoming cases are automatically tagged with a category — like Account inquiry, Dispute / Fraud, or Loan Servicing — based on the customer's message. This powers routing rules and helps your team prioritize.</td>
-            <td>Representatives can always change the category if the AI gets it wrong.</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
     <div class="divider"></div>
@@ -2566,6 +2524,53 @@
           <img src="images/Settings_AI_Tab.png" alt="Settings — AI Tab" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
+
+      <!-- AI Assistant Popovers -->
+      <h3 class="sub-heading">AI assistant popovers</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Each AI feature includes a popover card that explains what it does, how it works, and any guardrails in place. These cards are accessible from the AI assistant area in the conversation workspace.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/AI_Sidekick.png" alt="AI Sidekick Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/Suggested_Replies.png" alt="Suggested Replies Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div class="mockup-frame" style="margin: 0;">
+          <img src="images/Auto_categorization.png" alt="Auto-categorization Popover" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <!-- Feature details -->
+      <h3 class="sub-heading">Feature details</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Guardrail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI sidekick</strong></td>
+            <td>An AI assistant that works alongside your representatives in real time. It surfaces relevant account details, summarizes conversation history, and recommends next steps — so reps spend less time searching and more time helping.</td>
+            <td>Visible only to representatives, never to customers.</td>
+          </tr>
+          <tr>
+            <td><strong>Suggested replies</strong></td>
+            <td>AI drafts reply options based on the conversation context and your knowledge base. Representatives can use a suggestion as-is, edit it, or dismiss it. Drafts appear inline in the reply composer.</td>
+            <td>Suggestions are never sent automatically. A representative always reviews before sending.</td>
+          </tr>
+          <tr>
+            <td><strong>Auto-categorization</strong></td>
+            <td>Incoming cases are automatically tagged with a category — like Account inquiry, Dispute / Fraud, or Loan Servicing — based on the customer's message. This powers routing rules and helps your team prioritize.</td>
+            <td>Representatives can always change the category if the AI gets it wrong.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
       <!-- AI Assistant - Behavior -->
       <h3 class="sub-heading">AI Assistant - Behavior</h3>
