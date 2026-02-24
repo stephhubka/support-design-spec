@@ -157,6 +157,7 @@
   .nav-chip--not-started { background: var(--bg-surface-hover); color: var(--text-tertiary); }
   .nav-chip--active { background: var(--accent-orange-dim); color: var(--accent-orange); }
   .nav-chip--ready { background: var(--accent-green-dim); color: var(--accent-green); }
+  .nav-chip--updates { background: var(--accent-purple-dim); color: var(--accent-purple); }
 
   .sidebar-footer {
     padding: 16px 24px;
@@ -446,6 +447,10 @@
   .mockup-frame img {
     width: 100%;
     display: block;
+  }
+
+  .card .mockup-frame {
+    border: none;
   }
 
   .mockup-grid {
@@ -1219,13 +1224,12 @@
 
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
-    <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
-    <a href="#token-mapping" class="nav-item nav-item--top">Token mapping <span class="nav-chip nav-chip--active">Active</span></a>
-    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Prototype <span class="nav-chip nav-chip--active">Active</span></a>
+    <a href="#backlog" class="nav-item nav-item--top">Backlog <span class="nav-chip nav-chip--updates">Updates</span></a>
+    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Prototype <span class="nav-chip nav-chip--not-started">Not started</span></a>
 
     <div class="nav-group-label">Workspace</div>
-    <a href="#inbox-list" class="nav-item">
-      <span class="nav-item-num">01</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
+    <a href="#case-queue" class="nav-item">
+      <span class="nav-item-num">01</span> Case queue <span class="nav-chip nav-chip--updates">Updates</span>
     </a>
     <a href="#conversation" class="nav-item">
       <span class="nav-item-num">03</span> Workspace <span class="nav-chip nav-chip--active">Active</span>
@@ -1395,6 +1399,40 @@
           </tr>
         </tbody>
       </table>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
+
+      <!-- Priority Management -->
+      <h3 class="sub-heading">Priority management</h3>
+      <p class="section-desc">Surface case priority as a triage tool within the queue — including the ability to manually set, filter, and sort by priority level, and visual indicators for priority state in both board and list views.</p>
+      <p class="section-desc">Deferred to a future release. In Phase 1, the priority field exists on case records and is writable via bulk actions and the Case Details panel, but is not exposed as a queue-level sort or filter control. Default queue ordering uses case age within actionable statuses (New, Needs Response) as a proxy for urgency — see <em>idle duration sort</em> behavior.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Priority column in list view + badge in board view</td>
+            <td>Design</td>
+          </tr>
+          <tr>
+            <td>Sort by priority (primary) + age (secondary)</td>
+            <td>Front-End</td>
+          </tr>
+          <tr>
+            <td>Priority filter in filter bar</td>
+            <td>Design + Front-End</td>
+          </tr>
+          <tr>
+            <td>Priority-based queue grouping</td>
+            <td>Design + Front-End + Back-End</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- ══════════════════════════════════════════ -->
@@ -1403,47 +1441,165 @@
     <section class="section" id="token-mapping">
       <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Token mapping</h2>
-      <p class="section-desc">Design token inventory mapping Support 2.0 UI components to the Jack Henry design system. This page documents color, typography, spacing, and elevation tokens used across the application and their corresponding system-level values.</p>
+      <p class="section-desc">Documents the relationship between Support's active CSS variables and their design system token equivalents. Confidence levels reflect the strength of each match — high confidence mappings are direct replacements, while medium and low confidence require validation before migration.</p>
     </section>
 
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CASE QUEUE + TRIAGE ─── -->
+    <!-- ─── CASE QUEUE ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="inbox-list">
+    <section class="section" id="case-queue">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 02</div>
-      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case queue & triage</h2>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case queue</h2>
       <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
 
       <h3 class="sub-heading">Supported views</h3>
-      <p class="section-desc">The case queue can be represented in multiple formats depending on workflow needs.</p>
+      <p class="section-desc">The board and list views are not universally available. View availability depends on the selected case scope:</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Case scope</th>
+            <th>Board view</th>
+            <th>List view</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>My cases</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">Available</span></td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">Available</span></td>
+            <td>Board</td>
+          </tr>
+          <tr>
+            <td>All cases</td>
+            <td>Hidden</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">Only option</span></td>
+            <td>List</td>
+          </tr>
+          <tr>
+            <td>Unassigned</td>
+            <td>Hidden</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">Only option</span></td>
+            <td>List</td>
+          </tr>
+          <tr>
+            <td>Group queues</td>
+            <td>Hidden</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">Only option</span></td>
+            <td>List</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc">When a rep switches from "My cases" to "All cases" or "Unassigned," the queue automatically transitions to list view. The board / list toggle is hidden in these scopes — there is no option to switch back to board. Returning to "My cases" restores the last used view preference.</p>
+
+      <p class="section-desc"><em><strong>Rationale:</strong></em> Board view is optimized for personal workflow management where a rep tracks their own cases through stages. All and Unassigned scopes are high-volume triage views where list-based scanning, sorting, and bulk actions are more effective than spatial arrangement.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view</h4>
-      <p class="section-desc">Best for status-based triage and workflow movement. Cases are grouped by status to support quick prioritization, but Phase 1 does not include drag-and-drop between columns — status changes occur through explicit update actions to ensure clarity and auditability.</p>
+      <p class="section-desc">Board view supports drag-and-drop between status columns to update case status. Dropping a card into a new column immediately updates the case status and logs a system event in the conversation thread for auditability. If the target status pauses the SLA clock (Awaiting Customer, On Hold), a confirmation toast appears before the change commits.</p>
+      <p class="section-desc">Drag-and-drop applies to single cards only in Phase 1. When multiple cards are selected via bulk selection, drag-and-drop is disabled — bulk status changes use the bulk action bar instead. This avoids ambiguity around partial failures (e.g., 3 of 8 cards fail to update) and keeps the bulk workflow consistent between board and list views.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/Board_view.png" alt="Board View — Kanban" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Board_View.png" alt="Board View — Kanban" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">List view</h4>
-      <p class="section-desc">Best for high-volume scanning, sorting, and bulk management. List view supports consistent queue indicators and actions while providing a more compact, sortable representation of active work.</p>
+      <p class="section-desc">List view presents cases as sortable rows optimized for high-volume scanning and triage. It is the default and only available view for All cases, Unassigned, and Queue scopes.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
           <img src="images/List_view.png" alt="List View — Table" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <h3 class="sub-heading">Case preview information</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Before opening a case, agents should have enough context to prioritize work directly from the queue. Case previews include:</p>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Customer name + avatar</li>
-        <li>Message preview</li>
-        <li>Status and priority indicators</li>
-        <li>Channel badge</li>
-        <li>Timestamp and urgency cues</li>
-      </ul>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Column order</h4>
+      <p class="section-desc">Customer → Preview → Status → Assignee (conditional) → Channel → Updated</p>
+      <p class="section-desc"><strong>Sortable columns:</strong> clicking a column header toggles ascending/descending sort. A secondary sort by case age (oldest first) is always applied as a tiebreaker. The active sort column displays an arrow indicator.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Conditional assignee column</h4>
+      <p class="section-desc">The Assignee column is shown or hidden based on case scope. It only appears when cases could belong to different people — otherwise it's redundant and wastes horizontal space that's better used for the Preview column.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Scope</th>
+            <th>Show assignee?</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>My cases</td>
+            <td>Hide</td>
+            <td>Every row is assigned to you — redundant</td>
+          </tr>
+          <tr>
+            <td>All cases</td>
+            <td>Show</td>
+            <td>Cases belong to different reps</td>
+          </tr>
+          <tr>
+            <td>Unassigned</td>
+            <td>Hide</td>
+            <td>Every row is unassigned — redundant</td>
+          </tr>
+          <tr>
+            <td>Queue</td>
+            <td>Show</td>
+            <td>Multiple reps may be assigned within a queue</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc">When Assignee is hidden, the Preview column expands to fill the available space.</p>
+      <p class="section-desc">Status changes in list view are performed inline via a status dropdown on each row, or through the bulk action bar when multiple rows are selected. Each status change logs a system event. The same SLA confirmation toast applies when moving a case to a clock-pausing status (Awaiting Customer, On Hold).</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/All_Cases.png" alt="All Cases — List View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h3 class="sub-heading">Case cards</h3>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Age indicator</h4>
+      <p class="section-desc">A colored dot beside the timestamp on each case card reflects how long the case has been in an actionable state (New or Needs Response). This provides a lightweight urgency signal without requiring a full priority system.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Dot color</th>
+            <th>Meaning</th>
+            <th>Threshold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-blue);"></span></td>
+            <td>Fresh</td>
+            <td>Less than 4 hours in current state</td>
+          </tr>
+          <tr>
+            <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-orange);"></span></td>
+            <td>Aging</td>
+            <td>4-12 hours in current status</td>
+          </tr>
+          <tr>
+            <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-red);"></span></td>
+            <td>Urgent</td>
+            <td>12+ hours in current status</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc">The clock pauses when a case moves to Awaiting Customer or On Hold — a case sitting in Awaiting Customer for 3 days does not turn red. Only time spent in actionable states counts toward the threshold.</p>
+      <p class="section-desc">This indicator uses the same idle duration logic proposed for default queue sort order, so the backend work is shared.</p>
+      <p class="section-desc">Applies to: Both board view cards and list view rows. The dot appears in the same position on both.</p>
+      <p class="section-desc"><strong>Future-proofing:</strong> If an explicit priority system is introduced in a later release, these dots can be repurposed to represent priority levels without changing the visual pattern — reps are already trained to read "red dot = needs attention."</p>
+
       <div class="card" style="margin-top: 24px;">
         <div class="card-title">Case card (board)</div>
         <div style="margin-top: 12px; display: inline-block;">
@@ -1451,20 +1607,200 @@
         </div>
       </div>
 
+      <h3 class="sub-heading">Search + filter bar</h3>
+      <p class="section-desc">The filter bar provides persistent filter controls. Visible filters differ between board and list views based on contextual relevance.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Updated filter bar</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">The filter bar includes the following persistent filter controls:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li><strong>Assignee:</strong> Filter by assigned representative</li>
+        <li><strong>Status:</strong> Filter by case status</li>
+        <li><strong>Channel:</strong> Filter by inbound channel (Chat, Forms, Email)</li>
+        <li><strong>More filters:</strong> Expands to reveal additional filtering options (see below)</li>
+      </ul>
+
+      <p class="section-desc">Channel uses a single-select dropdown matching the three configured channels from Settings → Channels. If a channel is deactivated in settings, it still appears in the filter (cases may exist from when it was active) but displays an "Inactive" badge beside the label.</p>
+
       <div class="card">
-        <div class="card-title">Case card (list)</div>
+        <div class="card-title">Filters for board view</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Card Case - List.png" alt="Case Card — List" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/Filter_Board_View.png" alt="Filters for Board View" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
-      <h3 class="sub-heading">Search + filter bar</h3>
-      <p class="section-desc">Search is available across the queue to help agents locate cases by customer or conversation context. Support reps can switch between board and list views while preserving the same underlying case set and applied filters.</p>
+      <div class="card">
+        <div class="card-title">Filters for list view</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/Filter_List_View.png" alt="Filters for List View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">More filters</h4>
+      <p class="section-desc">Clicking "More filters" reveals an expanded filter panel with additional filtering options:</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Filter</th>
+            <th>Type</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Date range</td>
+            <td>Date picker (from / to)</td>
+            <td>Filters by case created date. Support presents: Today, Last 7 days, Last 30 days, Custom range</td>
+          </tr>
+          <tr>
+            <td>Tags</td>
+            <td>Multi-select dropdown</td>
+            <td>Populated from workspace tag taxonomy. Type-ahead search supported</td>
+          </tr>
+          <tr>
+            <td>Category</td>
+            <td>Single-select dropdown</td>
+            <td>Populated from workspace categories (same values used by auto-categorization)</td>
+          </tr>
+          <tr>
+            <td>Customer segment</td>
+            <td>Single-select dropdown</td>
+            <td>Retail, Business, Unverified</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc">Active filters display as dismissible chips below the filter bar. A "Clear all filters" action appears when any filter is active.</p>
+      <p class="section-desc">Filters are additive (AND logic) — applying Channel = Email + Tag = "Wire transfer" returns only email cases tagged with "Wire transfer."</p>
+      <p class="section-desc">Filter selections persist within a session but reset on logout or browser refresh. They do not persist across scope changes (switching from "My cases" to "All cases" clears applied filters).</p>
 
       <div class="card">
-        <div class="card-title">Search + filter bar</div>
-        <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Search_Filter_Bar.png" alt="Search + Filter Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        <div class="card-title">More filters dropdown</div>
+        <div style="margin-top: 12px; display: inline-block;">
+          <img src="images/More_Filters_Dropdown.png" alt="More Filters Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 20px;">
+        <div class="card">
+          <div class="card-title">Date range dropdown</div>
+          <div style="margin-top: 12px; display: inline-block;">
+            <img src="images/Date_Range_Dropdown.png" alt="Date Range Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Tags dropdown</div>
+          <div style="margin-top: 12px; display: inline-block;">
+            <img src="images/Tags_Dropdown.png" alt="Tags Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Customer segment dropdown</div>
+          <div style="margin-top: 12px; display: inline-block;">
+            <img src="images/Customer_Segment_Dropdown.png" alt="Customer Segment Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 class="sub-heading">Status mapping</h3>
+      <p class="section-desc">Support 2.0 introduces a refined status model. The following table maps current (v1) statuses to their 2.0 equivalents:</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Current</th>
+            <th>Support 2.0</th>
+            <th>Change type</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-blue-dim); color: var(--accent-blue); border: 1px solid rgba(75,124,243,0.25);">NEW</span></td>
+            <td>Carry-over</td>
+            <td>No change. Case has been created but not yet viewed or acted on.</td>
+          </tr>
+          <tr>
+            <td>Open</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-red-dim); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.25);">NEEDS RESPONSE</span></td>
+            <td>Rename</td>
+            <td>Clarifies that the ball is with the support rep. Signals action required.</td>
+          </tr>
+          <tr>
+            <td>Pending</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-orange-dim); color: var(--accent-orange); border: 1px solid rgba(245,158,11,0.25);">AWAITING CUSTOMER</span></td>
+            <td>Rename</td>
+            <td>Clarifies who the case is waiting on.</td>
+          </tr>
+          <tr>
+            <td>No equivalent</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface-hover); color: var(--text-secondary); border: 1px solid var(--border-default);">ON HOLD</span></td>
+            <td>New status</td>
+            <td>For internal blocks. Waiting on third party, pending escalation, or requires internal investigation. Distinct from Awaiting customer to preserve reporting accuracy.</td>
+          </tr>
+          <tr>
+            <td>Closed</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(52,211,153,0.25);">RESOLVED</span></td>
+            <td>Rename</td>
+            <td>Aligns with industry convention. Case is complete.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Why "On hold" is a new status</h4>
+      <p class="section-desc">Without On Hold, reps would use Awaiting Customer for internal blocks (escalation, third-party dependencies, internal investigation), which:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>Misrepresents who the case is actually waiting on</li>
+        <li>Corrupts "time waiting on customer" metrics</li>
+        <li>Makes it impossible to distinguish internal delays from customer response gaps in reporting</li>
+      </ul>
+      <p class="section-desc">On Hold pauses the SLA clock (same as Awaiting customer) but categorizes the wait differently for reporting and queue filtering.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view column mapping</h4>
+      <p class="section-desc">Board columns map 1:1 to statuses. The board displays five columns: New → Needs Response → Awaiting Customer → On Hold → Resolved.</p>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 class="sub-heading">Case scope dropdown</h3>
+      <p class="section-desc">The case scope dropdown (currently labeled "My cases") controls which set of cases the queue displays. Updated options:</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Scope</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>My cases</td>
+            <td>Cases assigned to the current rep. Default view.</td>
+          </tr>
+          <tr>
+            <td>All cases</td>
+            <td>All cases in the workspace regardless of assignment.</td>
+          </tr>
+          <tr>
+            <td>Unassigned</td>
+            <td>Cases not assigned to any rep or queue.</td>
+          </tr>
+          <tr>
+            <td>[Queue name]</td>
+            <td>Cases assigned to a specific queue. One entry per queue configured in Settings → Teams → Queues.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc">Queue entries appear below a divider, grouped under a "Queues" label. If no queues are configured, this group is hidden.</p>
+      <p class="section-desc">All non-"My cases" scopes default to list view only (see view availability table above).</p>
+
+      <div class="card">
+        <div class="card-title">Case scope dropdown</div>
+        <div style="margin-top: 12px; display: inline-block;">
+          <img src="images/Case_Scope_Dropdown.png" alt="Case Scope Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
         </div>
       </div>
 
@@ -1476,25 +1812,47 @@
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and open a case</h4>
       <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Bulk actions</h4>
-      <p class="section-desc" style="margin-bottom: 8px;">Bulk actions are supported in Phase 1 for a focused set of high-value workflows:</p>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Assign to rep or team</li>
-        <li>Update case status</li>
-        <li>Apply priority</li>
-      </ul>
-      <p class="section-desc" style="margin-top: 12px;">Additional bulk updates (tags, categories, routing) are intentionally deferred until later releases.</p>
+      <h3 class="sub-heading">Bulk actions</h3>
+      <p class="section-desc">Bulk action bar order (left to right): [count] selected · Assign · Status · Reply all · Priority · ✕</p>
+      <p class="section-desc">Order follows frequency of use — Assign and Status are the most common triage actions, Reply all is less frequent but higher stakes, Priority is lowest frequency (writable on case records in Phase 1 but not yet a queue-level control).</p>
 
-      <div class="mockup-group">
-        <div class="mockup-frame">
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Reply all</h4>
+      <p class="section-desc">Reply all should use a reply-arrow or send icon — not the star icon used by Priority. It needs to be visually distinct at a glance since the two actions have very different consequences.</p>
+      <ol style="list-style: decimal; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>Rep clicks "Reply all" in the bulk-action bar</li>
+        <li>An inline text area expands directly above the bulk action bar (not a modal or a new page)</li>
+        <li>Plain text only — no rich formatting, since messages may go across mixed channels (chat, email, forms)</li>
+        <li>A send button shows the count: "Send to [n] cases"</li>
+        <li>Clicking send triggers a confirmation dialog</li>
+        <li>On success, a toast confirms: <em>"Reply sent to [n] cases"</em></li>
+      </ol>
+      <p class="section-desc">The confirmation step is critical — unlike Assign and Status changes (which are internal and reversible), a bulk reply is customer-facing and irreversible. Each case's conversation thread receives the message independently — customers see it as a direct reply, not a broadcast. System events log "Bulk reply sent" on each affected case for auditability.</p>
+
+      <div class="card">
+        <div class="card-title">Bulk actions bar</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
           <img src="images/Bulk_Actions.png" alt="Bulk Actions Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Reply all</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/Reply_All.png" alt="Reply All Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Confirmation dialog</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/Bulk_Confirmation_Dialog.png" alt="Bulk Confirmation Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <div class="divider" style="margin: 32px 0;"></div>
 
       <h3 class="sub-heading">System states</h3>
-      <p class="section-desc">Queue states must remain consistent across both views.</p>
+      <p class="section-desc">All four system states need their filter bars updated to reflect the current filter set. The existing filter bars show Priority, which has been deferred. Replace with the updated filters per view:</p>
 
       <div class="state-demo-grid">
 
@@ -1504,7 +1862,7 @@
           <div style="padding: 0 12px 12px;">
             <img src="images/Empty_Queue_Cropped.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
-          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">No cases assigned to the current view. Icon + "No cases yet" headline + description. No CTA — cases arrive via customer-initiated channels.</div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Scope-aware empty state. Headline and description change based on active scope (My cases: "No cases assigned to you," All cases: "No cases yet," Unassigned: "No unassigned cases," Queue: "No cases in [Queue name]"). No CTA — cases arrive via customer-initiated channels. Filter bar reflects active view (board or list filters).</div>
         </div>
 
         <!-- No Search Results -->
@@ -1513,78 +1871,81 @@
           <div style="padding: 0 12px 12px;">
             <img src="images/No_Search_Results_Cropped.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
-          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Reflects active query back to the user. "Clear search" link resets the input. Toolbar and filters remain accessible so agents can adjust without starting over.</div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Reflects active query back to the user. "Clear search" link resets the input. Toolbar and filters remain accessible so agents can adjust without starting over. Filter bar shows updated controls: Assignee, Status (list only), Channel, Category, More filters.</div>
         </div>
 
         <!-- Loading Skeleton -->
         <div class="state-demo">
           <div class="state-demo-label">Loading skeleton</div>
-          <div class="state-frame">
-            <div class="state-toolbar">
-              <span class="state-toolbar-title">My cases</span>
-              <span style="font-size: 10px; color: #9ca3af;">▾</span>
-              <div class="state-toggle">
-                <div class="state-toggle-btn active"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
-                <div class="state-toggle-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
-              </div>
-            </div>
-            <div class="state-filters">
-              <div class="state-search"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search</div>
-              <span class="state-filter-btn">Assignee ▾</span>
-              <span class="state-filter-btn">Priority ▾</span>
-            </div>
-            <div>
-              <div class="state-skeleton-row">
-                <div class="skel-avatar"></div>
-                <div class="skel-lines">
-                  <div class="skel-line" style="width: 35%;"></div>
-                  <div class="skel-line" style="width: 80%;"></div>
-                </div>
-                <div class="skel-meta">
-                  <div class="skel-badge"></div>
-                  <div class="skel-dot"></div>
-                  <div class="skel-time"></div>
+          <div style="padding: 0 12px 12px;">
+            <div class="state-frame">
+              <div class="state-toolbar">
+                <span class="state-toolbar-title">My cases</span>
+                <span style="font-size: 10px; color: #9ca3af;">▾</span>
+                <div class="state-toggle">
+                  <div class="state-toggle-btn active"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+                  <div class="state-toggle-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
                 </div>
               </div>
-              <div class="state-skeleton-row">
-                <div class="skel-avatar"></div>
-                <div class="skel-lines">
-                  <div class="skel-line" style="width: 40%;"></div>
-                  <div class="skel-line" style="width: 70%;"></div>
-                </div>
-                <div class="skel-meta">
-                  <div class="skel-badge"></div>
-                  <div class="skel-dot"></div>
-                  <div class="skel-time"></div>
-                </div>
+              <div class="state-filters">
+                <div class="state-search"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search</div>
+                <span class="state-filter-btn">Assignee ▾</span>
+                <span class="state-filter-btn">Channel ▾</span>
+                <span class="state-filter-btn">Category ▾</span>
               </div>
-              <div class="state-skeleton-row">
-                <div class="skel-avatar"></div>
-                <div class="skel-lines">
-                  <div class="skel-line" style="width: 30%;"></div>
-                  <div class="skel-line" style="width: 85%;"></div>
+              <div>
+                <div class="state-skeleton-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-lines">
+                    <div class="skel-line" style="width: 35%;"></div>
+                    <div class="skel-line" style="width: 80%;"></div>
+                  </div>
+                  <div class="skel-meta">
+                    <div class="skel-badge"></div>
+                    <div class="skel-dot"></div>
+                    <div class="skel-time"></div>
+                  </div>
                 </div>
-                <div class="skel-meta">
-                  <div class="skel-badge"></div>
-                  <div class="skel-dot"></div>
-                  <div class="skel-time"></div>
+                <div class="state-skeleton-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-lines">
+                    <div class="skel-line" style="width: 40%;"></div>
+                    <div class="skel-line" style="width: 70%;"></div>
+                  </div>
+                  <div class="skel-meta">
+                    <div class="skel-badge"></div>
+                    <div class="skel-dot"></div>
+                    <div class="skel-time"></div>
+                  </div>
                 </div>
-              </div>
-              <div class="state-skeleton-row">
-                <div class="skel-avatar"></div>
-                <div class="skel-lines">
-                  <div class="skel-line" style="width: 38%;"></div>
-                  <div class="skel-line" style="width: 65%;"></div>
+                <div class="state-skeleton-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-lines">
+                    <div class="skel-line" style="width: 30%;"></div>
+                    <div class="skel-line" style="width: 85%;"></div>
+                  </div>
+                  <div class="skel-meta">
+                    <div class="skel-badge"></div>
+                    <div class="skel-dot"></div>
+                    <div class="skel-time"></div>
+                  </div>
                 </div>
-                <div class="skel-meta">
-                  <div class="skel-badge"></div>
-                  <div class="skel-dot"></div>
-                  <div class="skel-time"></div>
+                <div class="state-skeleton-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-lines">
+                    <div class="skel-line" style="width: 38%;"></div>
+                    <div class="skel-line" style="width: 65%;"></div>
+                  </div>
+                  <div class="skel-meta">
+                    <div class="skel-badge"></div>
+                    <div class="skel-dot"></div>
+                    <div class="skel-time"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Generic skeleton — avatar, name, content, and metadata atoms map to both board cards and list rows. Toolbar and filters render immediately. Content area transitions to the selected view once data arrives.</div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Scope-aware skeleton — column count matches the active view. My cases and Unassigned show 5 columns (no Assignee); All cases and Queue show 6 columns (with Assignee). Board view uses card-shaped placeholders. Toolbar and filters render immediately. Content area transitions to the selected view once data arrives.</div>
         </div>
 
         <!-- Error Fetching Cases -->
@@ -1593,7 +1954,7 @@
           <div style="padding: 0 12px 12px;">
             <img src="images/Error_Fetching_Cropped.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
-          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">API failure or timeout. "Unable to load cases" with reassuring copy + "Try again" retry button. Don't clear existing data if a background refresh fails — only show on initial load failure.</div>
+          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">API failure or timeout. "Unable to load cases" with reassuring copy + "Try again" retry button. Don't clear existing data if a background refresh fails — only show on initial load failure. Filter bar shows updated controls: Assignee, Status (list only), Channel, Category, More filters.</div>
         </div>
 
       </div>
@@ -1604,27 +1965,35 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2159&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Board view</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2159&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Board view</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2504&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">List view</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2504&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">List view</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-10545&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">List view bulk actions</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-19034&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">All cases</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-13981&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty queue</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-21439&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Reply all</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-14561&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">No search results</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-21392&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Bulk confirmation dialog</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-15021&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Error fetching cases</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-13981&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty queue</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-14561&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">No search results</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-15021&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Error fetching cases</a>
         </div>
       </div>
     </section>
@@ -2748,7 +3117,7 @@
   // ── Page-based navigation ──
   const pageOrder = [
     'overview', 'backlog', 'token-mapping',
-    'platform-shell', 'inbox-list', 'conversation', 'case-details',
+    'case-queue', 'conversation', 'case-details',
     'intake-forms', 'internal-notes', 'ai-assistance',
     'settings', 'team-roles', 'channels', 'rules-slas',
     'ai-config', 'notifications'
@@ -2758,8 +3127,7 @@
     'overview': 'Overview',
     'backlog': 'Backlog',
     'token-mapping': 'Token Mapping',
-    'platform-shell': 'Platform Shell',
-    'inbox-list': 'Case Queue',
+    'case-queue': 'Case Queue',
     'conversation': 'Workspace',
     'case-details': 'Case Details',
     'intake-forms': 'Intake + Forms',
@@ -2778,8 +3146,7 @@
     'overview': ['overview'],
     'backlog': ['backlog'],
     'token-mapping': ['token-mapping'],
-    'platform-shell': ['platform-shell'],
-    'inbox-list': ['inbox-list'],
+    'case-queue': ['case-queue'],
     'conversation': ['conversation'],
     'case-details': ['case-details'],
     'intake-forms': ['intake-forms'],
