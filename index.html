@@ -1243,28 +1243,24 @@
     <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">05</span> Phase 1: Research Agent <span class="nav-chip nav-chip--active">Active</span>
     </a>
-    <a href="#ai-assistance" class="nav-item">
-      <span class="nav-item-num">06</span> Phase 2+: AI Assistance <span class="nav-chip nav-chip--active">Not started</span>
-    </a>
-
     <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
-      <span class="nav-item-num">07</span> General <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">06</span> General <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#team-roles" class="nav-item">
-      <span class="nav-item-num">08</span> Teams <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">07</span> Teams <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#channels" class="nav-item">
-      <span class="nav-item-num">09</span> Channels <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">08</span> Channels <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#rules-slas" class="nav-item">
-      <span class="nav-item-num">10</span> Rules <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">09</span> Rules <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#ai-config" class="nav-item">
-      <span class="nav-item-num">11</span> AI <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">10</span> AI <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#notifications" class="nav-item">
-      <span class="nav-item-num">12</span> Notifications <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">11</span> Notifications <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
   </div>
 
@@ -2260,14 +2256,136 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── AI ASSISTANCE ─── -->
+    <!-- ─── PHASE 1: RESEARCH AGENT ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="ai-assistance">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 05</div>
-      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI assistance</h2>
-      <p class="section-desc">The AI-powered features that help reps handle cases more effectively — intent recognition, contextual suggestions, conversation summarization, and the Customer Research Agent integration.</p>
-      <div class="callout callout--blue">
-        Dedicated spec for the AI experience across the workspace — suggestion panel behavior, agent capabilities, data fetching via MCP, and confidence scoring. Content to be added.
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Phase 1: Research Agent</h2>
+      <p class="section-desc">The Customer Research Agent surfaces customer, account, and transaction context automatically when a rep opens a case — giving reps the information they need without manual lookup. Phase 2 will expand this section to cover intent recognition, contextual suggestions, and conversation summarization.</p>
+
+      <!-- Research Panel -->
+      <h3 class="sub-heading">Research panel</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">The Research panel lives in the right rail of the conversation workspace as a second tab alongside Profile. It auto-fetches customer data via MCP when a rep opens a case — no manual trigger required. All operations are read-only. The agent inherits the signed-in rep's permissions and cannot access data the rep could not access directly.</p>
+      <p class="card-desc" style="margin-bottom: 16px;">A persistent disclosure label appears at the top of the research tab at all times: <em>AI Research · Read only · Your permissions apply</em></p>
+
+      <div class="mockup-grid">
+        <div>
+          <div class="mockup-label">Loaded State</div>
+          <div class="mockup-frame">
+            <img src="images/Loaded State.png" alt="Research Panel — Loaded State" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+        <div>
+          <div class="mockup-label">Loading State</div>
+          <div class="mockup-frame">
+            <img src="images/Loading State.png" alt="Research Panel — Loading State" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Fetch Behavior -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Data fetch behavior</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">All three MCP tools (Customer, Accounts, Transactions) fire in parallel when a case is opened. Cards render independently as each tool resolves — the panel does not wait for the slowest call before displaying results. A card that resolves early displays its data immediately while others continue loading.</p>
+      <p class="card-desc" style="margin-bottom: 16px;">If a single tool fails, the affected card shows an inline error with a retry action. The remaining cards are unaffected. If all three tools fail, the panel collapses to a single full panel error state with one retry CTA.</p>
+
+      <div class="mockup-grid mockup-grid-3">
+        <div>
+          <div class="mockup-label">Partial Fail</div>
+          <div class="mockup-frame">
+            <img src="images/Partial Fail.png" alt="Research Panel — Partial Fail" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+        <div>
+          <div class="mockup-label">Full Error</div>
+          <div class="mockup-frame">
+            <img src="images/Full error.png" alt="Research Panel — Full Error" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+        <div>
+          <div class="mockup-label">No Data</div>
+          <div class="mockup-frame">
+            <img src="images/No data.png" alt="Research Panel — No Data" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Cards -->
+      <h3 class="sub-heading sub-heading--purple">Cards</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">The panel contains three cards: Customer, Accounts, and Transactions. All cards are expanded by default on initial load. Reps can collapse any card by clicking the card header — the chevron rotates to indicate state. Collapse preference persists for the session.</p>
+
+      <!-- Customer Card -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Customer card</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Displays: Full name, CIF, member since, email, enrollment status, Zelle enrollment status. All fields are read-only. Fields with no value display as a dash (—), not an empty field.</p>
+
+      <!-- Accounts Card -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Accounts card</h3>
+      <ul class="card-list" style="margin-bottom: 16px;">
+        <li><strong>Single account:</strong> displays inline with no expand needed.</li>
+        <li><strong>Multiple accounts:</strong> the card header shows a summary pill ("3 Accounts · 1 Flagged"). Expanding reveals individual account rows. Each row shows account type and masked number, balance, last activity date, and a status badge.</li>
+        <li><strong>Status badges:</strong> Active (green), Frozen (blue), Closed (gray). Flagged accounts (Frozen, Closed) sort to the top of the list regardless of account age.</li>
+      </ul>
+
+      <!-- Transactions Card -->
+      <h3 class="sub-heading" style="margin-top: 56px;">Transactions card</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">Displays the 10 most recent transactions by default, newest first. Filter chips (All / Failed / Pending) allow reps to narrow the list — single select, All is default. Each row shows a directional icon, description, date, status badge if non-cleared, and amount. A "View all transactions →" link at the card footer navigates to the full transaction history outside the panel.</p>
+      <p class="card-desc" style="margin-bottom: 16px;">Failed and Pending transactions are visually distinguished via icon color treatment. These states are the highest-signal rows for common support intents (failed Zelle payments, pending transfers).</p>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Tab Behavior -->
+      <h3 class="sub-heading">Tab behavior</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">The right panel uses a two-tab system: Research and Details. Research is the first tab and is selected by default when a rep opens a case. On subsequent views of the same case within a session, the last selected tab is restored.</p>
+      <p class="card-desc" style="margin-bottom: 16px;">A blue dot indicator on the Research tab label indicates data has been successfully fetched. The dot persists even when Details is the active tab. The customer name subtitle below the avatar updates to reflect the active tab — "Research" or "Details."</p>
+      <p class="card-desc" style="margin-bottom: 16px;">The Details tab replaces the previous Profile tab. It contains case metadata and controls (assignment, status, tags), customer identifiers (Username, CIF, NT), and the Banno People deep link. The Banno People link is an external link to the customer's full profile in another product and is not tab navigation — it is visually distinct with an external link icon. The Details tab will require updates to reflect new field mapping from the platform design system. Those changes will be specced separately and are out of scope for Phase 1.</p>
+
+      <div class="mockup-grid">
+        <div>
+          <div class="mockup-label">Research Tab</div>
+          <div class="mockup-frame">
+            <img src="images/Loaded State.png" alt="Tab — Research Active" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+        <div>
+          <div class="mockup-label">Details Tab</div>
+          <div class="mockup-frame">
+            <img src="images/Research Panel — Loaded State.png" alt="Tab — Details Active" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          </div>
+        </div>
+      </div>
+
+      <p class="card-desc" style="margin-top: 16px;">The Details tab replaces the previous Profile tab. Field mapping updates are out of scope for Phase 1.</p>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Designs + References -->
+      <h3 class="sub-heading">Designs + references</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-22400&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Loaded State</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23800&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Loading State</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23599&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Partial Fail</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23459&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Full Error</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23244&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">No Data</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-24287&t=mFvZmub27dqyN8Mf-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Details Tab</a>
+        </div>
       </div>
     </section>
 
@@ -2277,7 +2395,7 @@
     <!-- ─── SETTINGS ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="settings" style="margin-bottom: 0;">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 06</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">General</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
 
@@ -2325,7 +2443,7 @@
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Changing the timezone triggers a confirmation dialog showing the from / to change and warning that all active SLA deadlines will be recalculated. This cannot be undone.</li>
         <li>Timestamps displayed to reps adjust to the workspace timezone. Customer-facing timestamps use the customer's local timezone where available.</li>
-        <li>The timezone also governs when "Outside business hours" auto-response triggers fire (see Section 08: AI Configuration).</li>
+        <li>The timezone also governs when "Outside business hours" auto-response triggers fire (see Section 07: AI Configuration).</li>
       </ul>
 
       <div class="mockup-group">
@@ -2412,7 +2530,7 @@
 
     <!-- ─── Teams ─── -->
     <section class="section" id="team-roles">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 08</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Teams</h2>
       <p class="section-desc">Manage who has access to the support workspace. Two sections: Team lists people and their roles, Queues organizes how cases are routed to them.</p>
 
@@ -2525,7 +2643,7 @@
 
     <!-- ─── Channels ─── -->
     <section class="section" id="channels">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 08</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Channels</h2>
       <p class="section-desc">Configure how customers reach your support team. Each channel is an inbound pathway that creates cases in the shared inbox. Admins activate, deactivate, and configure each channel individually.</p>
 
@@ -2648,7 +2766,7 @@
 
     <!-- ─── Rules ─── -->
     <section class="section" id="rules-slas">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Rules</h2>
       <p class="section-desc">Automatically assign cases and set response time targets.</p>
 
@@ -2858,7 +2976,7 @@
 
     <!-- ─── AI ─── -->
     <section class="section" id="ai-config">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI</h2>
       <p class="section-desc">Configure how AI helps teams respond to customers. The Settings → AI tab contains two sections: AI Assistant (real-time agent tools) and auto-responses (trigger-based customer messages).</p>
 
@@ -2975,7 +3093,7 @@
 
     <!-- ─── Notifications ─── -->
     <section class="section" id="notifications">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 12</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Notifications</h2>
       <p class="section-desc">Control how representatives and customers are notified about case activity. Three sections separate what representatives receive, what customers receive, and how notifications are delivered.</p>
 
