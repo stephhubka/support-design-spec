@@ -1241,7 +1241,7 @@
       <span class="nav-item-num">04</span> Internal notes <span class="nav-chip nav-chip--active">Active</span>
     </a>
     <a href="#ai-assistance" class="nav-item">
-      <span class="nav-item-num">05</span> Phase 1: Research Agent <span class="nav-chip nav-chip--updates">Updates</span>
+      <span class="nav-item-num">05</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
     </a>
     <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
@@ -2256,53 +2256,185 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── PHASE 1: RESEARCH AGENT ─── -->
+    <!-- ─── RESEARCH AGENT (Phase 1) ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="ai-assistance">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 05</div>
-      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Phase 1: Research Agent</h2>
-      <p class="section-desc">The Customer Research Agent surfaces customer, account, and transaction context automatically when a rep opens a case — giving reps the information they need without manual lookup. Phase 2 will expand this section to cover intent recognition, contextual suggestions, and conversation summarization.</p>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Research Agent (Phase 1)</h2>
+      <p class="section-desc">The Customer Research Agent surfaces a plain-language summary of the customer's current situation, followed by structured account and transaction context — automatically when a rep opens a case. Phase 2 will expand this section to cover intent recognition, contextual suggestions, and conversation summarization.</p>
 
       <!-- Research Panel -->
       <h3 class="sub-heading">Research panel</h3>
-      <p class="card-desc" style="margin-bottom: 16px;">The Research panel lives in the right rail of the conversation workspace as a second tab alongside Profile. It auto-fetches customer data via MCP when a rep opens a case — no manual trigger required. All operations are read-only. The agent inherits the signed-in rep's permissions and cannot access data the rep could not access directly.</p>
-      <p class="card-desc" style="margin-bottom: 16px;">A persistent disclosure label appears at the top of the research tab at all times: <em>AI Research · Read only · Your permissions apply</em></p>
+      <p class="card-desc" style="margin-bottom: 16px;">The Research panel lives in the right rail of the conversation workspace as the first tab alongside Details. It auto-fetches customer data via MCP when a rep opens a case — no manual trigger required. All operations are read-only. The agent inherits the signed-in rep's permissions and cannot access data the rep could not access directly.</p>
+      <p class="card-desc" style="margin-bottom: 16px;">This disclosure label appears at the top of the Research tab at all times. It does not change based on synthesis state.</em></p>
 
       <div class="mockup-grid">
         <div class="card">
-          <div class="card-title">Loaded State</div>
+          <div class="card-title">Loaded state</div>
           <div style="margin-top: 12px;">
             <img src="images/Loaded State.png" alt="Research Panel — Loaded State" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
           </div>
         </div>
         <div class="card">
-          <div class="card-title">Loading State</div>
+          <div class="card-title">Loading state</div>
           <div style="margin-top: 12px;">
             <img src="images/Loading State.png" alt="Research Panel — Loading State" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
           </div>
         </div>
       </div>
 
-      <!-- Data Fetch Behavior -->
-      <h3 class="sub-heading" style="margin-top: 56px;">Data fetch behavior</h3>
+      <!-- AI synthesis layer -->
+      <h3 class="sub-heading" style="margin-top: 56px;">AI synthesis layer</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">A secondary AI prompt synthesizes MCP card data into a short, plain-language strip that sits above the three data cards. This synthesis runs after all three tool calls resolve (or after those that resolve within the timeout window). It gives the rep a fast situational snapshot before they drill into individual cards.</p>
+
+      <!-- Synthesis render rules -->
+      <h4 class="sub-heading" style="margin-top: 40px; font-size: 16px;">Synthesis render rules</h4>
+      <p class="card-desc" style="margin-bottom: 16px;">The strip renders only when synthesis state is Done. If synthesis fails or times out, the strip is hidden — the data cards are still visible and usable. The strip is non-interactive read-only text.</p>
+
+      <!-- Synthesis states -->
+      <h4 class="sub-heading" style="margin-top: 40px; font-size: 16px;">Synthesis states</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Condition</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Loading</td>
+            <td>Synthesis data is being gathered, visible below the AI disclosure label</td>
+            <td>Synthesis strip shows a loading skeleton</td>
+          </tr>
+          <tr>
+            <td>Done</td>
+            <td>All tool calls resolved successfully. Full synthesis text is ready</td>
+            <td>Synthesis text is visible below the AI disclosure label at all times</td>
+          </tr>
+          <tr>
+            <td>Error</td>
+            <td>Synthesis fails due to timeout, model unavailability, or data-fetch failure</td>
+            <td>AI synthesis unavailable. Strip is hidden entirely. Data cards are unaffected</td>
+          </tr>
+          <tr>
+            <td>On re-fetch</td>
+            <td>Rep re-clicks the Research tab and ≥1 min has passed since last load</td>
+            <td>Synthesis re-fetches. Strip returns to Loading state</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mockup-grid">
+        <div class="card">
+          <div class="card-title">Synthesis = Loading</div>
+          <div style="margin-top: 12px;">
+            <img src="images/Synthesis - Loading.png" alt="Synthesis — Loading State" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Synthesis = Write</div>
+          <div style="margin-top: 12px;">
+            <img src="images/Synthesis Write.png" alt="Synthesis — Write State" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
+          </div>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Synthesis strip → Anatomy -->
+      <h3 class="sub-heading">Synthesis strip → Anatomy</h3>
+      <h4 class="sub-heading" style="margin-top: 40px; font-size: 16px;">Content guidelines</h4>
+      <ol style="list-style: decimal; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 16px 0;">
+        <li>One to two sentences. Maximum 280 characters.</li>
+        <li>Fact-based — no editorializing, hedging, or speculation.</li>
+        <li>Always reference the customer by first name.</li>
+        <li>Lead with the most actionable insight (failed transaction, frozen account, etc.). This prioritization is handled by the prompt, not by the rep.</li>
+        <li>If no actionable insight exists, fall back to a neutral summary: account types, tenure, recent activity pattern.</li>
+      </ol>
+      <p class="card-desc" style="margin-bottom: 16px;"><strong>SYNTHESIS = DONE → VISIBLE</strong></p>
+      <p class="card-desc" style="margin-bottom: 16px;">When synthesis is in the Done state, the strip contents should include: a one- to two-sentence plain-language summary generated from MCP card data, the customer's first name, and the highest-priority actionable insight (e.g., a recent failed transaction). The strip is read-only. No interactive elements. The disclosure label remains fixed above it.</p>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Synthesis feedback -->
+      <h3 class="sub-heading">Synthesis feedback</h3>
+      <p class="card-desc" style="margin-bottom: 16px;">The synthesis strip includes a lightweight feedback mechanism so reps can signal whether the AI summary was helpful. Feedback is logged for model evaluation and is not visible to the customer.</p>
+
+      <h4 class="sub-heading" style="margin-top: 40px; font-size: 16px;">Feedback compound component</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Trigger</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Default (no selection)</td>
+            <td>Rep hasn't interacted</td>
+            <td>Two icon buttons (thumbs up / down) visible inline after the synthesis text</td>
+          </tr>
+          <tr>
+            <td>Positive</td>
+            <td>Rep taps 👍</td>
+            <td>Thumbs up fills. No form appears. Feedback is logged silently. Tapping again deselects.</td>
+          </tr>
+          <tr>
+            <td>Negative</td>
+            <td>Rep taps 👎</td>
+            <td>Thumbs down fills. An inline text field appears below the synthesis strip for an optional reason. "Submit" logs feedback + reason.</td>
+          </tr>
+          <tr>
+            <td>Submitted</td>
+            <td>Rep submits negative feedback form</td>
+            <td>Form collapses. "Thanks for your feedback" confirmation appears briefly, then the form area collapses permanently for this session.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Trusted zones -->
+      <h4 class="sub-heading" style="margin-top: 40px; font-size: 16px;">Trusted zones</h4>
+      <p class="card-desc" style="margin-bottom: 16px;">Synthesis content may reference data that maps back to a specific card row — for example, a recent failed Zelle transaction. Trusted zones link synthesis mentions to the corresponding data card rows, creating a visual connection between the summary and the underlying data.</p>
+
+      <div class="mockup-grid">
+        <div class="card">
+          <div class="card-title">Trusts selected Evidence</div>
+          <div style="margin-top: 12px;">
+            <img src="images/Trusts Selected Evidence.png" alt="Trusted Zones — Selected Evidence" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Core Evidence</div>
+          <div style="margin-top: 12px;">
+            <img src="images/Core Evidence.png" alt="Trusted Zones — Core Evidence" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
+          </div>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 48px 0;">
+
+      <!-- Data fetch behavior -->
+      <h3 class="sub-heading">Data fetch behavior</h3>
       <p class="card-desc" style="margin-bottom: 16px;">All three MCP tools (Customer, Accounts, Transactions) fire in parallel when a case is opened. Cards render independently as each tool resolves — the panel does not wait for the slowest call before displaying results. A card that resolves early displays its data immediately while others continue loading.</p>
       <p class="card-desc" style="margin-bottom: 16px;">If a single tool fails, the affected card shows an inline error with a retry action. The remaining cards are unaffected. If all three tools fail, the panel collapses to a single full panel error state with one retry CTA.</p>
 
       <div class="mockup-grid mockup-grid-3">
         <div class="card">
-          <div class="card-title">Partial Fail</div>
+          <div class="card-title">Partial fail</div>
           <div style="margin-top: 12px;">
             <img src="images/Partial Fail.png" alt="Research Panel — Partial Fail" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
           </div>
         </div>
         <div class="card">
-          <div class="card-title">Full Error</div>
+          <div class="card-title">Full error</div>
           <div style="margin-top: 12px;">
             <img src="images/Full error.png" alt="Research Panel — Full Error" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
           </div>
         </div>
         <div class="card">
-          <div class="card-title">No Data</div>
+          <div class="card-title">No data</div>
           <div style="margin-top: 12px;">
             <img src="images/No data.png" alt="Research Panel — No Data" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
           </div>
