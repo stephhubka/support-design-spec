@@ -1231,17 +1231,17 @@
     <a href="#case-queue" class="nav-item">
       <span class="nav-item-num">01</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
-    <a href="#conversation" class="nav-item">
+    <!-- <a href="#conversation" class="nav-item">
       <span class="nav-item-num">02</span> Workspace <span class="nav-chip nav-chip--active">Active</span>
-    </a>
-    <a href="#intake-forms" class="nav-item">
+    </a> -->
+    <!-- <a href="#intake-forms" class="nav-item">
       <span class="nav-item-num">03</span> Intake + forms <span class="nav-chip nav-chip--active">Active</span>
-    </a>
-    <a href="#internal-notes" class="nav-item">
+    </a> -->
+    <!-- <a href="#internal-notes" class="nav-item">
       <span class="nav-item-num">04</span> Internal notes <span class="nav-chip nav-chip--active">Active</span>
-    </a>
+    </a> -->
     <a href="#ai-assistance" class="nav-item">
-      <span class="nav-item-num">05</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
+      <span class="nav-item-num">02</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
     </a>
     <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
@@ -1997,6 +1997,8 @@
       </div>
     </section>
 
+    <!-- Workspace, Intake + forms, Internal notes hidden — not actively working on these -->
+    <div style="display:none;">
     <div class="divider"></div>
     <section class="section" id="conversation">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 02</div>
@@ -2252,6 +2254,8 @@
         Dedicated spec for the internal notes experience — composition, display, @mentions, threading, and visibility rules. Content to be added.
       </div>
     </section>
+    </div>
+    <!-- end Workspace, Intake + forms, Internal notes -->
 
     <div class="divider"></div>
 
@@ -2259,7 +2263,7 @@
     <!-- ─── RESEARCH AGENT (Phase 1) ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="ai-assistance">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 05</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 02</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Research Agent (Phase 1)</h2>
       <p class="section-desc">The Customer Research Agent surfaces a plain-language summary of the customer's current situation, followed by structured account and transaction context — automatically when a rep opens a case. Phase 2 will expand this section to cover intent recognition, contextual suggestions, and conversation summarization.</p>
 
@@ -2502,7 +2506,7 @@
     <!-- ─── SETTINGS ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="settings" style="margin-bottom: 0;">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 06</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 03</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">General</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
 
