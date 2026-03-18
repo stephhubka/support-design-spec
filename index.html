@@ -1264,7 +1264,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support 2.0 — Design Spec</span>
-    <span class="main-header-meta">v1.0 · Feb 24, 2026</span>
+    <span class="main-header-meta">Last updated Mar 18, 2026</span>
   </header>
 
   <div class="content">
@@ -2079,6 +2079,12 @@
       <h3 class="sub-heading">Message types</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Three distinct message types appear in the thread. Each has a consistent visual treatment so reps can quickly identify origin and audience.</p>
 
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Message_Types.png" alt="Message bubble types" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
       <!-- Message bubble types -->
       <h3 class="sub-heading">Message bubble types</h3>
       <table class="spec-table">
@@ -2092,12 +2098,12 @@
         <tbody>
           <tr>
             <td>Customer (Inbound)</td>
-            <td>🟣 Image</td>
+            <td>Image</td>
             <td>N / A — authored by the customer</td>
           </tr>
           <tr>
             <td>Rep (Outbound)</td>
-            <td>🟢 Image</td>
+            <td>Image</td>
             <td>Yes</td>
           </tr>
           <tr>
@@ -2260,6 +2266,18 @@
       <h3 class="sub-heading">Noun cards</h3>
       <p class="section-desc">Noun cards are structured data objects auto-inserted into the message thread to share specific account, transaction, or banking data with the customer in a scannable, actionable format. They render as distinct cards — separate from plain message bubbles — so customers can easily identify, approve, or act on structured information.</p>
 
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Noun_Card_Example.png" alt="Noun card in conversation thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Noun_Card_Picker.png" alt="Noun card slash command picker" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
       <!-- Use command trigger -->
       <h3 class="sub-heading">Slash command trigger</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Typing <code>/</code> in the composer opens the noun-card menu. The menu is searchable; typing after <code>/</code> filters the list. Selecting a noun type prompts the agent to attach the relevant data (e.g., account, transaction, amount, recipient). The selected noun is staged as a card in the compose section.</p>
@@ -2298,6 +2316,12 @@
       <p class="section-desc">Support team members can leave private notes directly within the conversation workspace. Notes are permanently visible to authorized staff and are never delivered to the customer under any circumstances — not via email, push, SMS, or any channel.</p>
 
       <p class="section-desc" style="margin-top: 16px;">Internal notes use the same composer toggled into Note mode (see Reply composer &gt; Mode toggle). The yellow background + "Note" badge provides a persistent visual reminder that the content is internal-only.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/Internal_Note.png" alt="Internal note in conversation thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
 
       <!-- Display in thread -->
       <h3 class="sub-heading">Display in thread</h3>
