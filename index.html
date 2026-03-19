@@ -1429,17 +1429,6 @@
     </section>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── TOKEN MAPPING ─── -->
-    <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="token-mapping">
-      <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
-      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Token mapping</h2>
-      <p class="section-desc">Documents the relationship between Support's active CSS variables and their design system token equivalents. Confidence levels reflect the strength of each match — high confidence mappings are direct replacements, while medium and low confidence require validation before migration.</p>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- ══════════════════════════════════════════ -->
     <!-- ─── CASE QUEUE (hidden) ─── -->
     <!-- ══════════════════════════════════════════ -->
     <div style="display:none">
@@ -2021,35 +2010,175 @@
     <section class="section" id="conversation-window">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 01</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
-      <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes.</p>
+      <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 0px;">
+    </section>
+
+    <!-- 🚨 Engineering dependencies -->
+    <section class="section" id="conv-eng-dependencies" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">🚨 Engineering dependencies</h3>
+      <p class="section-desc">The following items represent significant architectural changes or new dependencies relative to the current v1 implementation.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Dependency</th>
+            <th>What it means</th>
+            <th>Impact</th>
+            <th>Spec section</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Composer migration — text area → rich text editor</td>
+            <td>The current composer is built on a plain textarea with custom behavior. All formatting tiers, slash command improvements, and future AI writing tools require migrating to a contenteditable-based editor. <strong>Recommended library: <a href="https://tiptap.dev" target="_blank" style="color: #3978F1; text-decoration: underline;">Tiptap</a></strong> (React, extensible, well-maintained). All existing custom behaviors — mode toggle, slash command trigger, send shortcuts, character limits — must be re-implemented or validated post-migration.</td>
+            <td>High</td>
+            <td>Reply composer</td>
+          </tr>
+          <tr>
+            <td>Icon library — Google Material Icons</td>
+            <td>All UI icons in the conversation window should use Google Material Icons as the target library rather than custom icons. This affects the toolbar, message type indicators, noun card headers, call card states, system event labels, and any other iconography in this surface. Existing custom icons should be audited against Material equivalents before build begins.</td>
+            <td>Medium</td>
+            <td>All surfaces</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- Message thread -->
     <section class="section" id="conv-message-thread" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Message thread</h3>
-      <p class="section-desc">The thread renders in a single chronological timeline combining customer messages, rep replies, noun cards, internal notes, and system-generated events. The thread is the source of truth for the full history of a case.</p>
+      <p class="section-desc">Messages are displayed in a single chronological timeline combining customer messages, rep replies, noun cards, internal notes, and system-generated events. The thread is the source of truth for the full history of a case.</p>
 
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/Message_Thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/message-thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <!-- Scroll behavior -->
       <h3 class="sub-heading">Scroll behavior</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">The thread auto-scrolls to the most recent message when a case is opened. If the rep has manually scrolled upward to review history, auto-scroll is paused. A "New message ↓" chip appears at the bottom of the visible area when a new message arrives while the rep has scrolled up. Tapping it re-anchors to the latest message and dismisses the chip.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">The thread auto-scrolls to the most recent message when a case is opened. If the rep has manually scrolled upward to review history, auto-scroll is paused. A "New message ↓" chip appears at the bottom of the visible area when a new message arrives while the rep is scrolled up — tapping it resumes auto-scroll and dismisses the chip.</p>
 
-      <!-- Timestamp and grouping -->
-      <h3 class="sub-heading">Timestamp and grouping</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Messages include a relative timestamp (e.g., "2 min ago") that transitions to an absolute time (e.g., "10:42 AM") after 24 hours. Hovering any message reveals the full absolute timestamp as a tooltip. Same-sender messages within 5 minutes bundle:</p>
+      <!-- Timestamps and date grouping -->
+      <h3 class="sub-heading">Timestamps and date grouping</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Three distinct date contexts appear in the thread, each with its own format rules. All timestamps use the workspace timezone configured in Settings → General.</p>
+
+      <!-- Date separator pill -->
+      <h3 class="sub-heading">Date separator pill</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Injected between the last message of one calendar day and the first of the next. Uses plain language for recent dates, falling back to explicit dates for older history.</p>
 
       <table class="spec-table">
         <thead>
           <tr>
             <th>Condition</th>
-            <th>Display</th>
+            <th>Format</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Current calendar day</td>
+            <td>Today</td>
+            <td>Today</td>
+          </tr>
+          <tr>
+            <td>Previous calendar day</td>
+            <td>Yesterday</td>
+            <td>Yesterday</td>
+          </tr>
+          <tr>
+            <td>This calendar year</td>
+            <td>Weekday, Month Day</td>
+            <td>Monday, March 11</td>
+          </tr>
+          <tr>
+            <td>Prior calendar year</td>
+            <td>MM/DD/YYYY</td>
+            <td>3/11/2025</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Message timestamp -->
+      <h3 class="sub-heading">Message timestamp</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Shown beneath each message bubble. Relative format for recent messages — transitions to absolute time after 24 hours. The 24-hour threshold is measured from the message's sent time, not from midnight, so a message sent at 11 PM remains relative until 11 PM the following day.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Condition</th>
+            <th>Format</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Under 1 minute old</td>
+            <td>Just now</td>
+            <td>Just now</td>
+          </tr>
+          <tr>
+            <td>1 minute — 24 hours old</td>
+            <td>Relative time</td>
+            <td>2 min ago · 1 hr ago · 23 hr ago</td>
+          </tr>
+          <tr>
+            <td>Over 24 hours old</td>
+            <td>Absolute time</td>
+            <td>10:42 AM</td>
+          </tr>
+          <tr>
+            <td>Tooltip on hover — with current year</td>
+            <td>Weekday, Month Day · Time</td>
+            <td>Monday, March 11 · 10:42 AM</td>
+          </tr>
+          <tr>
+            <td>Tooltip on hover — prior year</td>
+            <td>MM/DD/YYYY</td>
+            <td>3/11/2025</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Device metadata timestamp -->
+      <h3 class="sub-heading">Device metadata timestamp</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">The iOS ⓘ · 9:14 AM line shown under customer messages uses the same absolute time format as the message timestamp — no separate format needed. The two values will always match.</p>
+
+      <!-- Device tooltip behavior -->
+      <h3 class="sub-heading">Device tooltip behavior</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">The ⓘ icon next to the device label is an interactive element. Hovering it (desktop) or tapping it (mobile) reveals a tooltip with the full device detail for that specific message. The tooltip dismisses on mouse-out or tap-away.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Trigger</th>
+            <th>Tooltip contents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standard</td>
+            <td>Hover / tap</td>
+            <td>Device name and model · OS version · App version · IP address</td>
+          </tr>
+          <tr>
+            <td>Blocked</td>
+            <td>Hover / tap</td>
+            <td>Device name and model · OS version · App version · IP address · Divider · Warning: "This device is flagged. IP matches a known blocked address."</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc" style="margin-top: 16px;">The device label itself (e.g., iOS, macOS, Android) reflects the platform of the device used to send that specific message — not the customer's primary device. A customer who starts on mobile and continues on desktop will show different device labels per message. See Engineering dependencies → Device metadata data availability.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Grouping rule</th>
+            <th>Behavior</th>
           </tr>
         </thead>
         <tbody>
@@ -2058,32 +2187,23 @@
             <td>Messages are visually grouped — avatar and name shown only on the first; subsequent messages omit them</td>
           </tr>
           <tr>
-            <td>Different sender, or &gt; 5 min</td>
+            <td>Different sender or &gt; 5 min gap</td>
             <td>Full sender attribution shown (avatar, name, timestamp)</td>
           </tr>
           <tr>
             <td>New calendar day</td>
-            <td>A centered date separator label is injected between the last message of the prior day and the first of the new day</td>
+            <td>A date separator pill is injected between the last message of the prior day and the first of the new day</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Thread load behavior -->
       <h3 class="sub-heading">Thread load behavior</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>The thread initially loads the most recent messages when a case is opened. Older history loads incrementally as the rep scrolls towards the top. A loading skeleton is shown during the initial fetch.</li>
-        <li>If the case has no messages yet (e.g., created via form intake), the empty conversation state is shown instead.</li>
-      </ul>
+      <p class="section-desc" style="margin-bottom: 8px;">The most recent 50 messages load on case open. Older history loads incrementally as the rep scrolls toward the top. A loading skeleton is shown during the initial fetch. If the case has no messages yet (e.g., created via form intake), the empty conversation state is shown.</p>
 
       <!-- Message types -->
       <h3 class="sub-heading">Message types</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Three distinct message types appear in the thread. Each has a consistent visual treatment so reps can quickly identify origin and audience.</p>
-
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Message_Types.png" alt="Message bubble types" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+      <p class="section-desc" style="margin-bottom: 16px;">Four distinct message types appear in the thread. Each has a consistent visual treatment so reps can identify origin and audience at a glance.</p>
 
       <!-- Message bubble types -->
       <h3 class="sub-heading">Message bubble types</h3>
@@ -2091,35 +2211,40 @@
         <thead>
           <tr>
             <th>Type</th>
-            <th>Visual</th>
-            <th>Visible to customer</th>
+            <th>Alignment</th>
+            <th>Visible to customer?</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Customer (Inbound)</td>
-            <td>Image</td>
-            <td>N / A — authored by the customer</td>
+            <td>Customer (inbound)</td>
+            <td>Left-aligned</td>
+            <td>N / A - authored by the customer</td>
           </tr>
           <tr>
-            <td>Rep (Outbound)</td>
-            <td>Image</td>
+            <td>Rep (outbound)</td>
+            <td>Right-aligned</td>
             <td>Yes</td>
           </tr>
           <tr>
             <td>System event</td>
-            <td>Text</td>
+            <td>Centered</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Date separator</td>
+            <td>Centered</td>
             <td>Yes</td>
           </tr>
           <tr>
             <td>Internal note</td>
-            <td>Text</td>
+            <td>Full-width, inset</td>
             <td>No</td>
           </tr>
         </tbody>
       </table>
 
-      <p class="section-desc" style="margin-top: 16px;">Note: Internal notes use a tint + icon treatment rather than a right-aligned bubble to prevent reps from mistaking them as outbound messages. The tint uses an "internal" label and an explicit "not visible" signal. This distinction is load-bearing; it exists to prevent accidental leaks.</p>
+      <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> Internal notes use a full-width inset treatment rather than a right-aligned bubble to prevent reps from misreading them as outbound messages. The lock icon and "Internal" label add an explicit second signal. This distinction is load-bearing — a note accidentally sent to a customer is a serious trust failure.</p>
     </section>
 
     <!-- Reply composer -->
@@ -2140,77 +2265,233 @@
       <p class="section-desc" style="margin-bottom: 8px;">A tab-style toggle above the composer switches between Reply and Note modes. When Note mode is active, the composer background shifts to a yellow tint and the send button label changes from "Send" to "Add Note" — both signals reinforce that the content will not be delivered to the customer. The tabs provide quick access to message and note history in the timeline.</p>
 
       <!-- Keyboard shortcut -->
-      <p class="section-desc" style="margin-bottom: 16px;"><strong>Keyboard shortcut:</strong> CTRL / CMD + Shift + N toggles between modes without reaching for the mouse.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Keyboard shortcut:</strong> Ctrl/⌘ + Shift + N toggles between modes without reaching for the mouse.</p>
 
-      <!-- Toolbar -->
-      <h3 class="sub-heading">Toolbar</h3>
+      <!-- Toolbar controls -->
+      <h3 class="sub-heading">Toolbar controls</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Six tools are grouped left-to-right by intent: Insert (objects that become part of the message) → Assist (help composing) → Escalate (shifts the channel). A visual divider separates each group.</p>
+
+      <!-- Icon library -->
+      <h3 class="sub-heading">Icon library</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">All toolbar icons — and all icons across the conversation window surface — should use Google Material Icons. Existing custom icons should be audited against Material equivalents before build. Where a direct Material equivalent doesn't exist, flag to design before substituting. See Engineering dependencies at the top of this section.</p>
+
       <table class="spec-table">
         <thead>
           <tr>
             <th>Control</th>
+            <th>Group</th>
             <th>Behavior</th>
             <th>Availability</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Emoji picker</td>
-            <td>Opens an emoji picker menu</td>
+            <td>Emoji</td>
+            <td>Insert</td>
+            <td>Opens an emoji picker popover</td>
             <td>Reply + Note</td>
           </tr>
           <tr>
             <td>Attachment</td>
-            <td>Opens the file picker — see Attachments</td>
+            <td>Insert</td>
+            <td>Opens the file picker</td>
+            <td>Reply only</td>
+          </tr>
+          <tr>
+            <td>Noun / form</td>
+            <td>Insert</td>
+            <td>Opens the noun insert menu — also triggered by typing / in the field.</td>
+            <td>Reply only</td>
+          </tr>
+          <tr>
+            <td>Saved replies</td>
+            <td>Assist</td>
+            <td>Opens a searchable list of pre-written responses. Selecting one populates the composer field.</td>
+            <td>Reply only</td>
+          </tr>
+          <tr>
+            <td>Writing assistant</td>
+            <td>Assist</td>
+            <td>Opens AI writing tools — rephrase, shorten, adjust tone. Operates on text already in the composer.</td>
             <td>Reply only</td>
           </tr>
           <tr>
             <td>Video call</td>
-            <td>Sends a video call invitation into chat — opens the message thread</td>
+            <td>Assist</td>
+            <td>Sends a video call invite link into the message thread.</td>
             <td>Reply only</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Rich text formatting -->
+      <h3 class="sub-heading">Rich text formatting</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Rich text formatting is scoped in three tiers. Tier 1 is included in Phase 1. Tiers 2 and 3 are deferred.</p>
+
+      <h3 class="sub-heading">🚨 Engineering dependency — text area migration required</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Engineering dependency — textarea migration required: The current composer is built on a plain textarea with custom behavior. A textarea cannot support inline rich text formatting of any tier — bold, italic, and link require a contenteditable-based rich text editor (Tiptap, Lexical, or ProseMirror). Tier 1 is not a configuration change; it requires migrating the composer input away from the current textarea implementation. This should be scoped as its own engineering workstream before any formatting tier is committed to a release. All existing custom behaviors (mode toggle, slash command trigger, send shortcuts, character limits) will need to be re-implemented or validated against the new editor.</p>
+
+      <h3 class="sub-heading">Tier 1 — target scope once migration is complete</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Bold, italic, and link via keyboard shortcut only. No toolbar buttons required at this tier — shortcuts alone are sufficient to ship and validate whether reps use formatting in practice. Tier 1 is the minimum viable ask following a successful textarea migration.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Shortcut</th>
+            <th>Availability</th>
+            <th>Tier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bold</td>
+            <td>⌘B</td>
+            <td>Reply + Note</td>
+            <td>Tier 1 · Phase 1</td>
+          </tr>
+          <tr>
+            <td>Italic</td>
+            <td>⌘I</td>
+            <td>Reply + Note</td>
+            <td>Tier 1 · Phase 1</td>
+          </tr>
+          <tr>
+            <td>Link</td>
+            <td>⌘K</td>
+            <td>Reply only</td>
+            <td>Tier 1 · Phase 1</td>
+          </tr>
+          <tr>
+            <td>Strikethrough</td>
+            <td>—</td>
+            <td>Reply + Note</td>
+            <td>Tier 2 · Deferred</td>
+          </tr>
+          <tr>
+            <td>Toolbar buttons (B / I / Link)</td>
+            <td>—</td>
+            <td>Reply + Note</td>
+            <td>Tier 2 · Deferred</td>
+          </tr>
+          <tr>
+            <td>Lists, code blocks, inline images</td>
+            <td>—</td>
+            <td>Reply only</td>
+            <td>Tier 3 · Phase 2+</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Rendering dependency -->
+      <h3 class="sub-heading">🚨 Rendering dependency</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget, email client) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
+
+      <!-- Toolbar tooltips -->
+      <h3 class="sub-heading">Toolbar tooltips</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Every toolbar control shows a tooltip on hover. Tooltips appear after a 400ms delay and dismiss immediately on mouse-out. Controls with a keyboard shortcut surface it in the tooltip. The send split button does not show a tooltip — its labels are always visible.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Tooltip label</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Emoji</td>
+            <td>Emoji</td>
+          </tr>
+          <tr>
+            <td>Attachment</td>
+            <td>Attach a file</td>
+          </tr>
+          <tr>
+            <td>Noun / form</td>
+            <td>Insert data</td>
+          </tr>
+          <tr>
+            <td>Saved replies</td>
+            <td>Saved replies</td>
+          </tr>
+          <tr>
+            <td>Writing assistant</td>
+            <td>AI writing tools</td>
+          </tr>
+          <tr>
+            <td>Video call</td>
+            <td>Send video call invite</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Send behavior -->
       <h3 class="sub-heading">Send behavior</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">The composer uses a split button. Send dispatches the message and keeps the case open; the right chevron expands to reveal Send + Resolve, which dispatches the message and transitions the case to Resolved in a single action. Send + Resolve is the recommended path and is surfaced as a persistent option to reduce clicks.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">The composer uses a split button. The left side dispatches the message; the right chevron opens a small dropdown with send variants. In Phase 1, only one variant is available.</p>
 
-      <!-- Editing and deletion -->
-      <h3 class="sub-heading">Editing and deletion</h3>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Notes are not editable after submission in Phase 1. A rep may delete a note they authored if a permitted to cancel or correct a submitted one. Admins have delete-all access chronologically with all other thread items.</li>
-        <li>Real-time co-editing is not included in Phase 1. That path is supported through in-thread mentions or markdown linkage, assignment changes, and conversation history.</li>
-      </ul>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Behavior</th>
+            <th>Phase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Send</td>
+            <td>Dispatches the message. Case stays open. Composer clears and focus returns to the input.</td>
+            <td>Phase 1</td>
+          </tr>
+          <tr>
+            <td>Send + Resolve</td>
+            <td>Dispatches the message and transitions the case to Resolved in a single action. The most common end-of-conversation pattern — avoids a separate status update step. Shown in the chevron dropdown.</td>
+            <td>Phase 1</td>
+          </tr>
+          <tr>
+            <td>Send + Assign</td>
+            <td>Reserved. Would dispatch and open an assignment picker in a single action — for rep handoff at case close.</td>
+            <td>Phase 2+</td>
+          </tr>
+          <tr>
+            <td>Scheduled send</td>
+            <td>Reserved. Would dispatch at a specified time — most relevant for email channel.</td>
+            <td>Phase 2+</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> The chevron dropdown is intentionally minimal in Phase 1 — one option. The split button component should be built to accommodate additional rows without a structural change so Phase 2 variants can be added without a redesign.</p>
+
     </section>
 
     <!-- Attachments -->
     <section class="section" id="conv-attachments" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Attachments</h3>
-      <p class="section-desc">Support reps can send and receive files directly in the conversation thread. Inline previews are shown for the supported image types. Documents and other file types render as a file card with a name, size, and download action.</p>
+      <p class="section-desc">Support reps can send and receive files directly in the conversation thread. Inline previews are shown for supported image types; all other file types render as a downloadable card.</p>
 
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/Attachment_Example.png" alt="Attachment message example" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/composer-attachments.png" alt="Attachment message example" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <!-- Sending attachment -->
       <h3 class="sub-heading">Sending attachment</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Attachments are staged in the composer before sending. Multiple files can be staged in a single message. Each staged file shows a thumbnail (if an image/document), file name (truncated), with a remove action. Sending delivers all queued attachment files at once in the envelope as a group.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">Attachments are staged in the composer before sending. Multiple files can be staged in a single message. Each staged file shows a thumbnail (images) or file icon (documents) with a dismiss control. Sending delivers staged content inline in the thread alongside any text.</p>
 
       <!-- Receiving attachments -->
       <h3 class="sub-heading">Receiving attachments</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Customers' and reps' previously-sent attachments render inline in the message bubble at their natural position in the thread. Images render as inline previews (max display width). Clicking opens a lightbox. Documents and other file types render as a file card with a name, size, and download action.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">Customer-sent attachments render inline in the message bubble at their natural position in the thread. Images render as inline previews (max display width: 360px); clicking opens a lightbox. Documents and other file types render as a file card with name, size, and a download action.</p>
 
-      <!-- Supported types -->
-      <h3 class="sub-heading">Supported types</h3>
       <table class="spec-table">
         <thead>
           <tr>
             <th>Category</th>
             <th>Types</th>
             <th>Max size</th>
-            <th>Render</th>
+            <th>Rendering</th>
           </tr>
         </thead>
         <tbody>
@@ -2218,7 +2499,7 @@
             <td>Image</td>
             <td>JPG, PNG, GIF, WebP, HEIC</td>
             <td>10 MB</td>
-            <td>Inline preview + lightbox</td>
+            <td>Inline preview with lightbox</td>
           </tr>
           <tr>
             <td>Document</td>
@@ -2247,15 +2528,15 @@
         <tbody>
           <tr>
             <td>File too large</td>
-            <td>Inline error on the staged file thumbnail. "This exceeds [limit]." The file is not staged.</td>
+            <td>Inline error on the staged file thumbnail: "File exceeds [limit]." File is not staged.</td>
           </tr>
           <tr>
             <td>Upload failure</td>
             <td>Staged file shows a retry action. Message is not sent until all staged files resolve.</td>
           </tr>
           <tr>
-            <td>Unsupported type</td>
-            <td>Toast renders a standard file card. "[Filename] — the type isn't supported." Download is not available, message is delivered without it.</td>
+            <td>Unsupported type (received)</td>
+            <td>Thread renders a blocked file card: "[filename] — file type not supported." Download is not available.</td>
           </tr>
         </tbody>
       </table>
@@ -2264,90 +2545,192 @@
     <!-- Noun cards -->
     <section class="section" id="conv-noun-cards" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Noun cards</h3>
-      <p class="section-desc">Noun cards are structured data objects auto-inserted into the message thread to share specific account, transaction, or banking data with the customer in a scannable, actionable format. They render as distinct cards — separate from plain message bubbles — so customers can easily identify, approve, or act on structured information.</p>
-
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Noun_Card_Example.png" alt="Noun card in conversation thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
-
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Noun_Card_Picker.png" alt="Noun card slash command picker" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
-
-      <!-- Use command trigger -->
-      <h3 class="sub-heading">Slash command trigger</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Typing <code>/</code> in the composer opens the noun-card menu. The menu is searchable; typing after <code>/</code> filters the list. Selecting a noun type prompts the agent to attach the relevant data (e.g., account, transaction, amount, recipient). The selected noun is staged as a card in the compose section.</p>
+      <p class="section-desc">Noun cards are structured contextual data requests that reps send to customers directly in the conversation thread. Rather than sharing a single pinned record, each noun card surfaces a relevant data list — the customer's accounts, their recent transactions, a form to complete. Cards pass through three presentation states as the interaction progresses: Composer → Sent → Fulfilled.</p>
 
       <!-- Supported noun types -->
       <h3 class="sub-heading">Supported noun types</h3>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li>Accounts list</li>
+        <li>ACH batch list</li>
+        <li>Form</li>
+        <li>Payments list</li>
+        <li>Rapid transfers list</li>
+        <li>Transaction list</li>
+        <li>Wires list</li>
+      </ul>
+
+      <!-- Presentation states -->
+      <h3 class="sub-heading">Presentation states</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Every noun card passes through three states. The card's visual treatment and available actions change at each stage.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Composer</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Card is staged in the composer, not yet sent</p>
+          <div style="margin: 0;">
+            <img src="images/noun-composer.png" alt="Noun card — Composer state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Sent</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Card has been delivered to the customer — awaiting their response</p>
+          <div style="margin: 0;">
+            <img src="images/noun-sent.png" alt="Noun card — Sent state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Fulfilled</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Customer has acted on the card — viewed, selected, or submitted</p>
+          <div style="margin: 0;">
+            <img src="images/noun-fulfilled.png" alt="Noun card — Fulfilled state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Resent request behavior -->
+      <h3 class="sub-heading">Resent request behavior</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">If the customer has not responded and the rep resends, a new sent card appears in the thread. The original card is not updated — it remains visible as a historical record with a "Cancelled" state. This preserves the thread timeline and avoids confusion about which request is current.</p>
+
+      <!-- Cancel behavior -->
+      <h3 class="sub-heading">Cancel behavior</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Cancelling a sent card marks it as cancelled inline in the thread — the card does not disappear. The customer's copy of the card is also marked cancelled if they have not yet opened it. If they have already viewed it, the cancel is rep-side only and a note is added to the card: "This request has been cancelled by your support rep."</p>
+
+      <!-- Customer-shared noun cards -->
+      <h3 class="sub-heading">Customer-shared noun cards</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Customers can share individual records directly into the conversation from their banking app — without the rep requesting them. The customer taps a "Share to support" action on a specific record (a transaction, a payment card, a payee) and it appears in the thread as a structured card. This is the inverse of the rep-sent list flow: the customer is providing context, not responding to a request.</p>
+      <p class="section-desc" style="margin-top: 8px;">Customer-shared cards are <strong>read-only in the thread</strong>. No rep actions are available — no resend, no cancel. The rep reads the card as context and responds in the composer as normal.</p>
+    </section>
+
+    <!-- Internal notes -->
+    <section class="section" id="conv-internal-notes" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">Internal notes</h3>
+      <p class="section-desc">Support team members can leave private notes directly within the conversation workspace. Notes are permanently visible to authorized staff and are never delivered to the customer under any circumstance — not via manual send, bulk reply, or automation.</p>
+
+      <!-- Composition -->
+      <h3 class="sub-heading">Composition</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Internal notes use the same composer toggled into Note mode (see Reply composer → Mode toggle). The amber background and "Add note" send label reinforce the private context. Notes support the same text formatting and attachment capabilities as customer replies.</p>
+
+      <!-- AI summary pre-populate -->
+      <h3 class="sub-heading">AI summary pre-populate</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">When a rep switches to Note mode, the composer field is pre-populated with an AI-generated draft summary of the conversation — similar to how Gmail's Gemini pre-populates a reply draft. The rep can edit, rewrite, or delete it entirely before saving. The pre-populated text is a starting point, not a finished note. It is never saved automatically.</p>
+
       <table class="spec-table">
         <thead>
           <tr>
-            <th colspan="3" style="text-align: center;">Noun types</th>
+            <th>Condition</th>
+            <th>Behavior</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Transaction</td>
-            <td>Scheduled transfer</td>
-            <td>Payee</td>
+            <td>Conversation has fewer than 5 messages</td>
+            <td>No pre-populate — composer opens empty. Threshold not yet met for a meaningful summary.</td>
           </tr>
           <tr>
-            <td>Payment card</td>
-            <td>External transfer account</td>
-            <td>Account</td>
+            <td>Conversation has 5 or more messages</td>
+            <td>Composer pre-populates with an AI-generated draft summary on first open of Note mode.</td>
           </tr>
           <tr>
-            <td>Payment</td>
-            <td>Deposit</td>
-            <td>File</td>
+            <td>Rep has already opened Note mode in this session</td>
+            <td>No re-populate on subsequent toggles — the rep may have edited the field. Their content is preserved.</td>
+          </tr>
+          <tr>
+            <td>Rep clears the pre-populated text</td>
+            <td>Composer remains empty — does not re-generate unless the rep explicitly requests it (Phase 2 consideration).</td>
+          </tr>
+          <tr>
+            <td>AI summary unavailable (timeout or error)</td>
+            <td>Composer opens empty with no error shown — degrades silently. Rep writes the note manually.</td>
           </tr>
         </tbody>
       </table>
-    </section>
 
-    <!-- Conversation (Internal notes in thread) -->
-    <section class="section" id="conv-internal-notes" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">Conversation</h3>
-      <p class="section-desc">Support team members can leave private notes directly within the conversation workspace. Notes are permanently visible to authorized staff and are never delivered to the customer under any circumstances — not via email, push, SMS, or any channel.</p>
+      <!-- Pre-populate states -->
+      <h3 class="sub-heading">Pre-populate states</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Every noun card passes through three states. The card's visual treatment and available actions change at each stage.</p>
 
-      <p class="section-desc" style="margin-top: 16px;">Internal notes use the same composer toggled into Note mode (see Reply composer &gt; Mode toggle). The yellow background + "Note" badge provides a persistent visual reminder that the content is internal-only.</p>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">State 1 — Generating</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Rep switches to Note mode. Spinner label reads "Summarizing conversation..." with amber-tinted skeleton lines. Composer is not editable during generation.</p>
+          <div style="margin: 0;">
+            <img src="images/composer-generating.png" alt="Internal note — Generating state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
+        </div>
 
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Internal_Note.png" alt="Internal note in conversation thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">State 2 — AI draft ready</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Draft appears with a purple "AI draft — edit before saving" banner. Text is amber-tinted to signal it is AI-generated and unvalidated. ✕ on the banner dismisses it and clears the field. Banner also disappears as soon as the rep begins typing.</p>
+          <div style="margin: 0;">
+            <img src="images/composer-ai-draft.png" alt="Internal note — AI draft ready state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">State 3 — Rep edited</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Banner is gone. Text color shifts from amber to full white — the rep has taken ownership of the content. The note saves as the rep's authored content, not the AI's draft.</p>
+          <div style="margin: 0;">
+            <img src="images/composer-rep-replied.png" alt="Internal note — Rep edited state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
         </div>
       </div>
 
+      <!-- Summary content guidelines -->
+      <h3 class="sub-heading">Summary content guidelines</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">The pre-populated draft should be fact-based, no editorialising, customer referenced by first name. Lead with the presenting issue, briefly describe what was done, end with the current state. Target length: 2–4 sentences. The rep is expected to validate and personalise before saving.</p>
+
       <!-- Display in thread -->
       <h3 class="sub-heading">Display in thread</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Notes render as full-width rows in the thread, visually distinct from customer and rep message bubbles. Each note shows text, sender name, timestamp, and an "Internal" label. Notes appear chronologically with all other thread items (i.e., the note is part of the unified timeline, not a separate panel).</p>
+      <p class="section-desc" style="margin-bottom: 8px;">Notes render as full-width inset cards in the thread, visually distinct from customer and rep message bubbles. Each note shows: author avatar and name, timestamp, "Internal" label, and a lock icon. Notes appear chronologically with all other thread content — they are part of the same unified timeline, not a separate view.</p>
+
+      <!-- Editing and deletion -->
+      <h3 class="sub-heading">Editing and deletion</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">Notes are not editable after submission in Phase 1. A new note should be added to correct or supersede a prior one. Deletion is available only to admins via a kebab action on the note. Deleted notes are replaced with a tombstone — "This note was deleted by [name]" — to maintain thread auditability.</p>
+
+      <div style="border-left: 3px solid var(--accent-green); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Phase 2:</strong> @mention support (@name in a note to notify a teammate) is deferred. Real-time co-editing is not included in Phase 1. Rep handoff is handled through notes, assignment changes, and conversation history.</p>
+      </div>
     </section>
 
     <!-- Conversation signals -->
     <section class="section" id="conv-signals" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Conversation signals</h3>
-      <p class="section-desc">Lightweight indicators provide awareness during active conversations without cluttering the thread.</p>
+      <p class="section-desc">Lightweight real-time indicators surface awareness during active conversations without cluttering the thread.</p>
 
-      <!-- Typing indicator -->
-      <h3 class="sub-heading">Typing indicator</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Shows below the message thread when the customer is actively typing. Uses a standard animated three-dot indicator. The indicator disappears if the customer stops typing for more than 8 seconds without sending.</p>
+      <div style="margin: 16px 0;">
+        <img src="images/message-typing.png" alt="Typing indicator" onclick="openLightbox(this)" style="cursor: zoom-in;">
+      </div>
 
-      <p class="section-desc" style="margin-bottom: 16px;">"Read" label appears beneath the most recent outbound rep message once the customer has viewed it. Format: "Read [time]". Only the last outbound message shows a read receipt — not every message in the thread.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">Shown below the message thread when the customer is actively typing. Uses a standard animated three-dot indicator. The indicator disappears if the customer stops typing for more than 8 seconds without sending. Only the customer's typing state is surfaced — rep-side typing is not shown to the customer in Phase 1.</p>
+
+      <!-- Animation spec -->
+      <h3 class="sub-heading">Animation spec</h3>
+      <p class="section-desc" style="margin-bottom: 8px;">The three dots animate in a sequential fade — dot 1 pulses, followed by dot 2, then dot 3, then loops. Use a CSS @keyframes opacity animation with staggered animation-delay values (0ms, 200ms, 400ms) on each dot. No JavaScript animation library required — CSS only. Wrap in @media (prefers-reduced-motion: no-preference) so motion is opt-out by default.</p>
+
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>🚨 Engineering dependency:</strong> The typing indicator requires a real-time WebSocket event from the customer's session. Confirm back-end support for per-message typing events on the chat channel before committing this to Phase 1 scope. See Engineering dependencies at the top of this section.</p>
+
+      <!-- Read receipt / seen state -->
+      <h3 class="sub-heading">Read receipt / seen state</h3>
+
+      <div style="margin: 16px 0;">
+        <img src="images/message-read.png" alt="Read receipt / seen state" onclick="openLightbox(this)" style="cursor: zoom-in;">
+      </div>
+
+      <p class="section-desc" style="margin-bottom: 16px;">A "Seen" label appears beneath the most recent outbound rep message once the customer has viewed it. Format: "Seen [time]" (e.g., "Seen 2:14 PM"). Only the last outbound message shows a read receipt — not every message in the thread.</p>
 
       <!-- Channel availability -->
       <h3 class="sub-heading">Channel availability</h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Signal availability depends on the underlying channel's event support. Channels without reliable delivery or read data omit these indicators entirely rather than showing inconsistent or misleading states.</p>
+
       <table class="spec-table">
         <thead>
           <tr>
-            <th></th>
-            <th>Widget</th>
+            <th>Signal</th>
+            <th>Chat</th>
             <th>Email</th>
-            <th>Phone</th>
+            <th>Forms</th>
           </tr>
         </thead>
         <tbody>
@@ -2366,88 +2749,205 @@
         </tbody>
       </table>
 
-      <p class="section-desc" style="margin-top: 16px;">Channel availability depends on the underlying channels each support. Channels without reliable delivery or read data omit these indicators entirely rather than showing inconsistent or misleading states.</p>
-      <p class="section-desc" style="margin-top: 8px;">Conversation history remains the source of truth across all channels regardless of signal availability.</p>
+      <p class="section-desc" style="margin-top: 16px;">Conversation history remains the source of truth across all channels regardless of signal availability.</p>
     </section>
 
     <!-- System states -->
     <section class="section" id="conv-system-states" style="margin-bottom: 72px;">
       <h3 class="sub-heading">System states</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">The conversation workspace must handle four system states gracefully. All states maintain the conversation header so reps never lose context about the case and customer.</p>
+      <p class="section-desc" style="margin-bottom: 24px;">The conversation window must handle four system states gracefully. All states maintain the conversation header so reps retain context about the case and customer.</p>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 20px; font-size: 13.5px; color: var(--text-secondary);">
-          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px;">Loading thread history</strong>
-          Skeleton/shimmer while messages are fetched. Composer is disabled during this state.
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Loading thread history</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0;">Skeleton screen — alternating left/right bubble-shaped placeholders at varying widths. Composer is disabled during load. Conversation header renders immediately.</p>
         </div>
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 20px; font-size: 13.5px; color: var(--text-secondary);">
-          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px;">Empty conversation</strong>
-          Shown when a case exists but has no messages yet (e.g., created via form intake). Composer is available for the FI to kick off reply — leave or close.
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Failed send / retry</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Optimistically staged message shows a red "Failed to send" label with inline Retry. Subsequent messages are blocked until the failed message resolves or is dismissed.</p>
+          <div style="margin: 0;">
+            <img src="images/message-failed.png" alt="Failed send / retry" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
         </div>
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 20px; font-size: 13.5px; color: var(--text-secondary);">
-          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px;">Failed send / retry</strong>
-          Automatically triggered message shows an "Failed to send" indicator. Retry button available. The "Toast" message surfaces an error (500). The Error message is surfaced as an inline indicator within the thread.
-        </div>
-        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 20px; font-size: 13.5px; color: var(--text-secondary);">
-          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px;">Restricted access / read-only</strong>
-          Thread is fully visible. Composer is disabled (or replaced with a different notice) as applicable.
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Restricted access / read-only</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Thread history is fully visible. Composer is replaced by a persistent banner. Applies when the rep lacks write access — different queue, resolved and locked, etc.</p>
+          <div style="margin: 0;">
+            <img src="images/composer-read-only.png" alt="Restricted access / read-only" onclick="openLightbox(this)" style="cursor: zoom-in; display: block;">
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Loading thread history -->
-      <h3 class="sub-heading">Loading thread history</h3>
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Loading_Thread.png" alt="Loading thread history" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+    <!-- System events -->
+    <section class="section" id="conv-system-events" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">System events</h3>
+      <p class="section-desc" style="margin-bottom: 24px;">System events are auto-generated, centered text entries that appear in the thread timeline whenever a case-level action occurs. They are never customer-facing — they exist to give support reps a clear audit trail of what happened and when. All events use sentence case and follow a consistent subject–verb–object pattern where applicable.</p>
 
-      <!-- Empty conversation -->
-      <h3 class="sub-heading">Empty conversation</h3>
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Empty_Conversation.png" alt="Empty conversation" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Trigger</th>
+            <th>Event copy</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Case assigned for the first time</td>
+            <td>Case assigned to {assignee}</td>
+            <td>First-time assignment only. Uses rep's display name.</td>
+          </tr>
+          <tr>
+            <td>Case reassigned to a different rep</td>
+            <td>Case reassigned to {assignee}</td>
+            <td>Distinct from first assignment — signals a handoff.</td>
+          </tr>
+          <tr>
+            <td>Rep self-assigns</td>
+            <td>You claimed this case</td>
+            <td>Shown only to the rep who claimed it. All others see "Case assigned to {name}".</td>
+          </tr>
+          <tr>
+            <td>Case unassigned</td>
+            <td>Case unassigned</td>
+            <td>No previous assignee named — keeps it concise.</td>
+          </tr>
+          <tr>
+            <td>Assigned to a queue</td>
+            <td>Case assigned to {queue name}</td>
+            <td>Same pattern as rep assignment. Queue name used verbatim.</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <!-- Failed send / retry -->
-      <h3 class="sub-heading">Failed send / retry</h3>
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Failed_Send.png" alt="Failed send / retry" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+      <!-- Status events -->
+      <h4 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-top: 32px; margin-bottom: 16px;">Status events</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Trigger</th>
+            <th>Event copy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Status → Needs Response</td>
+            <td>Case marked as needs response</td>
+          </tr>
+          <tr>
+            <td>Status → Awaiting Customer</td>
+            <td>Case marked as awaiting customer</td>
+          </tr>
+          <tr>
+            <td>Status → On Hold</td>
+            <td>Case placed on hold</td>
+          </tr>
+          <tr>
+            <td>Status → Resolved</td>
+            <td>Case resolved by {rep name}</td>
+          </tr>
+          <tr>
+            <td>Resolved via Send + Resolve</td>
+            <td>Case resolved by {rep name}</td>
+          </tr>
+          <tr>
+            <td>Case reopened after resolve</td>
+            <td>Case reopened by {rep name}</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <!-- Restricted access / read-only -->
-      <h3 class="sub-heading">Restricted access / read-only</h3>
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Restricted_Access.png" alt="Restricted access / read-only" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+      <!-- Call events -->
+      <h4 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-top: 32px; margin-bottom: 16px;">Call events</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Trigger</th>
+            <th>Event copy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rep sends video call invite</td>
+            <td>Call invite sent by {rep name}</td>
+          </tr>
+          <tr>
+            <td>Call session begins</td>
+            <td>Call started</td>
+          </tr>
+          <tr>
+            <td>Rep joins</td>
+            <td>{rep name} joined the call</td>
+          </tr>
+          <tr>
+            <td>Customer joins</td>
+            <td>{customer name} joined the call</td>
+          </tr>
+          <tr>
+            <td>Participant leaves</td>
+            <td>{name} left the call</td>
+          </tr>
+          <tr>
+            <td>Call session ends</td>
+            <td>Call ended</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Auto-reply events -->
+      <h4 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-top: 32px; margin-bottom: 16px;">Auto-reply events</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Trigger</th>
+            <th>Event copy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Auto-reply fired (outside hours)</td>
+            <td>Auto-reply sent · Outside business hours</td>
+          </tr>
+          <tr>
+            <td>Auto-reply fired (holiday)</td>
+            <td>Auto-reply sent · Holiday closure</td>
+          </tr>
+          <tr>
+            <td>Auto-reply fired (custom rule)</td>
+            <td>Auto-reply sent · {rule name}</td>
+          </tr>
+        </tbody>
+      </table>
 
       <!-- Designs + references -->
-      <h3 class="sub-heading">Designs + references</h3>
+      <h3 class="sub-heading">Designs + References</h3>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Composer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3756-13075&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Message thread</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Conversation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3685-10651&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Composer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Internal notes</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3774-2686&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Noun cards</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Noun cards</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3832-3330&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Attachments</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="#" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Toast confirmation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3812-1756&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Internal notes</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3690-2934&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">System states</a>
         </div>
       </div>
     </section>
@@ -3576,7 +4076,7 @@
     'overview': ['overview'],
     'backlog': ['backlog'],
     'case-queue': ['case-queue'],
-    'conversation-window': ['conversation-window', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states'],
+    'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states', 'conv-system-events'],
     'conversation': ['conversation'],
     'intake-forms': ['intake-forms'],
     'internal-notes': ['internal-notes'],
