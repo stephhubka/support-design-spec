@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Support 2.0</title>
+<title>Support V2</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234b7cf3'/><path d='M16 8v16M8 16h16' stroke='white' stroke-width='3' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1218,47 +1219,50 @@
       <div class="sidebar-logo-icon">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
     </div>
-      <span class="sidebar-logo-text">Support 2.0</span>
+      <span class="sidebar-logo-text">Support V2</span>
     </div>
   </div>
 
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
-    <a href="#backlog" class="nav-item nav-item--top">Backlog <span class="nav-chip nav-chip--updates">Updates</span></a>
-    <a href="https://supportv2.lovable.app" target="_blank" class="nav-item nav-item--top">Prototype <span class="nav-chip nav-chip--updates">Updates</span></a>
+    <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
+    <span class="nav-item nav-item--top" style="pointer-events: none; opacity: 0.6;">Prototype <span class="nav-chip nav-chip--active">In progress</span></span>
 
-    <div class="nav-group-label">Workspace</div>
-    <!-- <a href="#case-queue" class="nav-item">
-      <span class="nav-item-num">01</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
-    </a> -->
+    <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">01</span> Conversation window <span class="nav-chip nav-chip--ready">New</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">New</span>
     </a>
     <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
-      <span class="nav-item-num">02</span> Case details <span class="nav-chip nav-chip--active">In progress</span>
+      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--active">In progress</span>
     </span>
+    <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
+      <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
+    </span>
+    <a href="#case-queue" class="nav-item">
+      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
+    </a>
     <!-- <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">02</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
     </a> -->
-    <!-- <div class="nav-group-label">Settings</div>
+    <div class="nav-group-label">Settings</div>
     <a href="#settings" class="nav-item">
-      <span class="nav-item-num">06</span> General <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">5.0</span> General <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#team-roles" class="nav-item">
-      <span class="nav-item-num">07</span> Teams <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">5.1</span> Teams <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#channels" class="nav-item">
-      <span class="nav-item-num">08</span> Channels <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">5.2</span> Channels <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#rules-slas" class="nav-item">
-      <span class="nav-item-num">09</span> Rules <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">5.3</span> Rules <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#ai-config" class="nav-item">
-      <span class="nav-item-num">10</span> AI <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">5.4</span> AI <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#notifications" class="nav-item">
-      <span class="nav-item-num">11</span> Notifications <span class="nav-chip nav-chip--ready">Ready</span>
-    </a> -->
+      <span class="nav-item-num">5.5</span> Notifications <span class="nav-chip nav-chip--ready">Ready</span>
+    </a>
   </div>
 
 </nav>
@@ -1266,8 +1270,8 @@
 <!-- ═══════════ MAIN ═══════════ -->
 <div class="main">
   <header class="main-header">
-    <span class="main-header-title">Support 2.0 — Design Spec</span>
-    <span class="main-header-meta">Last updated Mar 18, 2026</span>
+    <span class="main-header-title">Support V2 — Design Spec</span>
+    <span class="main-header-meta">Last updated Mar 23, 2026</span>
   </header>
 
   <div class="content">
@@ -1277,11 +1281,51 @@
     <section class="section" id="overview">
       <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Support 2.0</h2>
-      <p class="section-desc">Jack Henry is redesigning Support from the ground up to create a faster, more unified experience for modern support teams. Support 2.0 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
+      <p class="section-desc">Jack Henry is redesigning Support from the ground up to create a faster, more unified experience for modern support teams. Support V2 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
       <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
 
       <h3 class="sub-heading">How to contribute</h3>
-      <p class="section-desc">Please share any questions, feedback, or discussion points in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> or captured directly in this spec.</p>
+      <p class="section-desc">Please share any questions, feedback, or discussion points in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> or capture directly in this spec.</p>
+
+      <h3 class="sub-heading">Delivery chunks</h3>
+      <p class="section-desc">Support V2 is organized into five delivery chunks, sequenced by dependency and complexity. This is the primary unit of design and engineering work.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1.0</td>
+            <td><strong>Conversation window</strong></td>
+            <td>Core message thread — reply composition, attachments, internal notes, noun cards, AI reply suggestions, and conversation summarization.</td>
+          </tr>
+          <tr>
+            <td>2.0</td>
+            <td><strong>Case details</strong></td>
+            <td>Right-hand sidebar — customer profile, CIF, account numbers, org details, assignment, status, tags, and AI-surfaced data cards.</td>
+          </tr>
+          <tr>
+            <td>3.0</td>
+            <td><strong>Forms</strong></td>
+            <td>How cases enter the system — form intake, structured data capture, case creation, and initial routing logic.</td>
+          </tr>
+          <tr>
+            <td>4.0</td>
+            <td><strong>Case queue</strong></td>
+            <td>List and Kanban views for navigating and triaging cases — sort, filter by assignee / priority / category, and search.</td>
+          </tr>
+          <tr>
+            <td>5.0</td>
+            <td><strong>Settings</strong></td>
+            <td>Platform administration — routing rules, auto-reply templates, SLA configs, team management, and per-FI AI agent configuration.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <div class="divider"></div>
@@ -1432,11 +1476,10 @@
     </section>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── CASE QUEUE (hidden) ─── -->
+    <!-- ─── CASE QUEUE ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <div style="display:none">
     <section class="section" id="case-queue">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 01</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 4.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case queue</h2>
       <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
 
@@ -1984,7 +2027,7 @@
         </div>
       </div>
     </section>
-    </div><!-- end Case Queue hidden -->
+    <!-- end Case Queue -->
 
     <!-- Old Workspace, Case Details, Intake + forms, Internal notes hidden -->
     <div style="display:none;">
@@ -2011,7 +2054,7 @@
     <!-- ─── CONVERSATION WINDOW ─── -->
     <!-- ══════════════════════════════════════════ -->
     <section class="section" id="conversation-window">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 01</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 1.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
 
@@ -2930,7 +2973,7 @@
     <div class="divider"></div>
 
     <!-- Designs + references -->
-    <section class="section" style="margin-bottom: 72px;">
+    <section class="section" id="conv-designs-references" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Designs + References</h3>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -3206,11 +3249,10 @@
     <div class="divider"></div>
 
     <!-- ══════════════════════════════════════════ -->
-    <!-- ─── SETTINGS (hidden) ─── -->
+    <!-- ─── SETTINGS ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <div style="display:none">
     <section class="section" id="settings" style="margin-bottom: 0;">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 03</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">General</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
 
@@ -3345,7 +3387,7 @@
 
     <!-- ─── Teams ─── -->
     <section class="section" id="team-roles">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 07</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.1</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Teams</h2>
       <p class="section-desc">Manage who has access to the support workspace. Two sections: Team lists people and their roles, Queues organizes how cases are routed to them.</p>
 
@@ -3458,7 +3500,7 @@
 
     <!-- ─── Channels ─── -->
     <section class="section" id="channels">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 08</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.2</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Channels</h2>
       <p class="section-desc">Configure how customers reach your support team. Each channel is an inbound pathway that creates cases in the shared inbox. Admins activate, deactivate, and configure each channel individually.</p>
 
@@ -3581,7 +3623,7 @@
 
     <!-- ─── Rules ─── -->
     <section class="section" id="rules-slas">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 09</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.3</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Rules</h2>
 
       <p class="section-desc">Automatically assign cases and set response time targets.</p>
@@ -3792,7 +3834,7 @@
 
     <!-- ─── AI ─── -->
     <section class="section" id="ai-config">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 10</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.4</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">AI</h2>
       <p class="section-desc">Configure how AI helps teams respond to customers. The Settings → AI tab contains two sections: AI Assistant (real-time agent tools) and auto-responses (trigger-based customer messages).</p>
 
@@ -3909,7 +3951,7 @@
 
     <!-- ─── Notifications ─── -->
     <section class="section" id="notifications">
-      <div class="section-label" style="letter-spacing: 0.14em;">Section 11</div>
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 5.5</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Notifications</h2>
       <p class="section-desc">Control how representatives and customers are notified about case activity. Three sections separate what representatives receive, what customers receive, and how notifications are delivered.</p>
 
@@ -4033,7 +4075,7 @@
         </div>
       </div>
     </section>
-    </div><!-- end Settings hidden -->
+    <!-- end Settings -->
 
     <div class="divider"></div>
 
@@ -4082,7 +4124,7 @@
     'overview': ['overview'],
     'backlog': ['backlog'],
     'case-queue': ['case-queue'],
-    'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states', 'conv-system-events'],
+    'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states', 'conv-system-events', 'conv-designs-references'],
     'conversation': ['conversation'],
     'intake-forms': ['intake-forms'],
     'internal-notes': ['internal-notes'],
