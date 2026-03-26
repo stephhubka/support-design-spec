@@ -3635,11 +3635,8 @@
       <p class="section-desc">This section covers behavior that isn't visible in the designs.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Rule Evaluation</h4>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Rules are evaluated top to bottom in the order they appear in the list. First match wins — once a case matches a rule, no further rules are evaluated.</li>
-        <li>Drag to reorder rules. This is the primary mechanism for controlling priority.</li>
-        <li>If no rules match, the case goes to the default queue (unassigned).</li>
-      </ul>
+      <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">Rules are evaluated against every incoming case — all matching rules execute, not just the first match. Rule order still matters: if two rules assign a case to different queues or agents, the last matching rule wins. For additive actions (tagging, group forwarding), all matching rules fire and their effects are cumulative.</p>
+      <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 8px 0 0;">If no rules match, the case goes to the default queue (unassigned).</p>
 
       <div class="mockup-group">
         <div class="mockup-frame">
