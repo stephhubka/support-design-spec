@@ -1225,6 +1225,7 @@
 
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
+    <a href="#open-questions" class="nav-item nav-item--top">Open Questions</a>
     <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
     <span class="nav-item nav-item--top" style="pointer-events: none; opacity: 0.6;">Prototype <span class="nav-chip nav-chip--active">In progress</span></span>
 
@@ -1323,6 +1324,34 @@
             <td>5.0</td>
             <td><strong>Settings</strong></td>
             <td>Platform administration — routing rules, auto-reply templates, SLA configs, team management, and per-FI AI agent configuration.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── OPEN QUESTIONS ─── -->
+    <section class="section" id="open-questions">
+      <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Open Questions</h2>
+      <p class="section-desc">Unresolved decisions that are blocking or may affect design and engineering work. Items here are actively being discussed or are deferred pending a decision. Once resolved, they move to the relevant spec section or the backlog.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Context</th>
+            <th>Status</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conflict validation at rule creation</td>
+            <td>Rather than special-casing runtime behavior, a more robust approach would be to validate for conflicts at rule creation time. Deferred to v2 — requires a migration plan for existing FI rule sets before it can be implemented.</td>
+            <td>Deferred to v2</td>
+            <td>—</td>
           </tr>
         </tbody>
       </table>
@@ -4093,7 +4122,7 @@
 <script>
   // ── Page-based navigation ──
   const pageOrder = [
-    'overview', 'backlog',
+    'overview', 'open-questions', 'backlog',
     'case-queue', 'conversation',
     'intake-forms', 'internal-notes', 'ai-assistance',
     'settings', 'team-roles', 'channels', 'rules-slas',
@@ -4102,6 +4131,7 @@
 
   const pageNames = {
     'overview': 'Overview',
+    'open-questions': 'Open Questions',
     'backlog': 'Backlog',
     'case-queue': 'Case Queue',
     'conversation': 'Workspace',
@@ -4119,6 +4149,7 @@
   // Map each page to its section IDs (includes sub-sections)
   const sectionGroups = {
     'overview': ['overview'],
+    'open-questions': ['open-questions'],
     'backlog': ['backlog'],
     'case-queue': ['case-queue'],
     'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states', 'conv-system-events', 'conv-designs-references'],
