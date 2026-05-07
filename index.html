@@ -33,6 +33,7 @@
     --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     --sidebar-w: 260px;
+    --toc-w: 200px;
     --radius-sm: 6px;
     --radius-md: 10px;
     --radius-lg: 14px;
@@ -218,6 +219,11 @@
     display: block;
   }
 
+  .section.active + .section.active {
+    border-top: 1px solid var(--border-default);
+    padding-top: 56px;
+  }
+
   /* ── Bottom Section Navigation ── */
   .section-nav {
     display: flex;
@@ -254,6 +260,55 @@
   .section-nav-arrow {
     font-size: 16px;
     line-height: 1;
+  }
+
+  /* ── Right TOC sidebar ── */
+  .toc-sidebar { display: none; }
+
+  @media (min-width: 1100px) {
+    .main { padding-right: var(--toc-w); }
+    .toc-sidebar {
+      display: block;
+      position: fixed;
+      top: 56px;
+      right: 0;
+      width: var(--toc-w);
+      max-height: calc(100vh - 56px);
+      overflow-y: auto;
+      padding: 32px 24px 48px;
+      border-left: 1px solid var(--border-default);
+      background: var(--bg-root);
+      z-index: 40;
+    }
+  }
+
+  .toc-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+    padding: 0 10px;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 6px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    cursor: pointer;
+  }
+
+  .toc-link:hover { color: var(--text-primary); }
+
+  .toc-link.active {
+    color: var(--accent-blue);
+    border-left-color: var(--accent-blue);
   }
 
   .section-label {
@@ -343,18 +398,44 @@
 
   /* ── Subsection heading ── */
   .sub-heading {
-    font-size: 20px;
+    font-size: 32px;
     font-weight: 600;
     letter-spacing: -0.02em;
     margin: 40px 0 16px;
-    padding-left: 14px;
-    border-left: 3px solid var(--accent-blue);
   }
 
-  .sub-heading--purple { border-left-color: var(--accent-purple); }
-  .sub-heading--green { border-left-color: var(--accent-green); }
-  .sub-heading--orange { border-left-color: var(--accent-orange); }
-  .sub-heading--red { border-left-color: var(--accent-red); }
+  .figma-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--accent-blue);
+    background: var(--accent-blue-dim);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--accent-blue);
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .figma-btn:hover {
+    background: rgba(57,120,241,0.18);
+  }
+
+  .figma-btn strong { font-weight: 700; }
+
+  .new-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+  }
 
   /* ── Tables ── */
   .spec-table {
@@ -1225,13 +1306,12 @@
 
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
-    <a href="#open-questions" class="nav-item nav-item--top">Open Questions</a>
     <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
     <span class="nav-item nav-item--top" style="pointer-events: none; opacity: 0.6;">Prototype <span class="nav-chip nav-chip--active">In progress</span></span>
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">READY</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--updates">Updated</span>
     </a>
     <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
       <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--active">Coming soon</span>
@@ -1272,8 +1352,10 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated Apr 27, 2026</span>
+    <span class="main-header-meta">Last updated May 6, 2026</span>
   </header>
+
+  <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
 
   <div class="content">
 
@@ -1284,9 +1366,6 @@
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Support 2.0</h2>
       <p class="section-desc">Jack Henry is redesigning Support from the ground up to create a faster, more unified experience for modern support teams. Support V2 improves how financial institutions manage customer conversations by providing quicker access to customer context, smarter tools for case handling, and AI-powered assistance — all within a streamlined workspace built for daily support operations.</p>
       <p class="section-desc">This document serves as the interaction design source of truth for Support 2.0, defining expected behaviors across inbox workflows, conversation handling, internal collaboration, and administrative configuration.</p>
-
-      <h3 class="sub-heading">How to contribute</h3>
-      <p class="section-desc">Please share any questions, feedback, or discussion points in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> or capture directly in this spec.</p>
 
       <h3 class="sub-heading">Delivery chunks</h3>
       <p class="section-desc">Support V2 is organized into five delivery chunks, sequenced by dependency and complexity. This is the primary unit of design and engineering work.</p>
@@ -1327,34 +1406,8 @@
           </tr>
         </tbody>
       </table>
-    </section>
 
-    <div class="divider"></div>
-
-    <!-- ─── OPEN QUESTIONS ─── -->
-    <section class="section" id="open-questions">
-      <div class="section-label" style="letter-spacing: 0.14em;">Overview</div>
-      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Open Questions</h2>
-      <p class="section-desc">Unresolved decisions that are blocking or may affect design and engineering work. Items here are actively being discussed or are deferred pending a decision. Once resolved, they move to the relevant spec section or the backlog.</p>
-
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Context</th>
-            <th>Status</th>
-            <th>Owner</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Conflict validation at rule creation</td>
-            <td>Rather than special-casing runtime behavior, a more robust approach would be to validate for conflicts at rule creation time. Deferred to v2 — requires a migration plan for existing FI rule sets before it can be implemented.</td>
-            <td>Deferred to v2</td>
-            <td>—</td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="section-desc" style="margin-top: 24px;">Please share any questions, feedback, or discussion points in <a href="https://banno.slack.com/archives/C09LLQREPM3" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">#support-v2</a> or capture directly in this spec.</p>
     </section>
 
     <div class="divider"></div>
@@ -1499,6 +1552,31 @@
           <tr>
             <td>Priority-based queue grouping</td>
             <td>Design + Front-End + Back-End</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
+
+      <!-- Open questions -->
+      <h3 class="sub-heading">Open questions</h3>
+      <p class="section-desc">Unresolved decisions that may affect design and engineering work. Items here are actively being discussed or are deferred pending a decision.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Context</th>
+            <th>Status</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conflict validation at rule creation</td>
+            <td>Rather than special-casing runtime behavior, a more robust approach would be to validate for conflicts at rule creation time. Deferred to v2 — requires a migration plan for existing FI rule sets before it can be implemented.</td>
+            <td>Deferred to v2</td>
+            <td>—</td>
           </tr>
         </tbody>
       </table>
@@ -2091,17 +2169,17 @@
     </section>
 
     <!-- 🚨 Engineering dependencies -->
-    <section class="section" id="conv-eng-dependencies" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">🚨 Engineering dependencies</h3>
+    <section class="section" id="conv-eng-dependencies" style="margin-bottom: 72px; border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px;">
+      <h3 class="sub-heading sub-heading--red" style="margin-top: 0; padding-left: 0; border-left: none;">Engineering dependencies</h3>
       <p class="section-desc">The following items represent significant architectural changes or new dependencies relative to the current v1 implementation.</p>
 
       <table class="spec-table">
         <thead>
           <tr>
-            <th>Dependency</th>
-            <th>What it means</th>
-            <th>Impact</th>
-            <th>Spec section</th>
+            <th style="background: var(--accent-red-dim); color: var(--accent-red);">Dependency</th>
+            <th style="background: var(--accent-red-dim); color: var(--accent-red);">What it means</th>
+            <th style="background: var(--accent-red-dim); color: var(--accent-red);">Impact</th>
+            <th style="background: var(--accent-red-dim); color: var(--accent-red);">Spec section</th>
           </tr>
         </thead>
         <tbody>
@@ -2110,12 +2188,6 @@
             <td>The current composer is built on a plain textarea with custom behavior. All formatting tiers, slash command improvements, and future AI writing tools require migrating to a contenteditable-based editor. <strong>Recommended library: <a href="https://tiptap.dev" target="_blank" style="color: #3978F1; text-decoration: underline;">Tiptap</a></strong> (React, extensible, well-maintained). All existing custom behaviors — mode toggle, slash command trigger, send shortcuts, character limits — must be re-implemented or validated post-migration.</td>
             <td>High</td>
             <td>Reply composer</td>
-          </tr>
-          <tr>
-            <td>Icon library — Google Material Icons</td>
-            <td>All UI icons in the conversation window should use Google Material Icons as the target library rather than custom icons. This affects the toolbar, message type indicators, noun card headers, call card states, system event labels, and any other iconography in this surface. Existing custom icons should be audited against Material equivalents before build begins.</td>
-            <td>Medium</td>
-            <td>All surfaces</td>
           </tr>
         </tbody>
       </table>
@@ -2128,7 +2200,7 @@
 
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/message-thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/message-thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in; max-width: 720px;">
         </div>
       </div>
 
@@ -2320,6 +2392,225 @@
       </table>
 
       <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> Internal notes use a full-width inset treatment rather than a right-aligned bubble to prevent reps from misreading them as outbound messages. The lock icon and "Internal" label add an explicit second signal. This distinction is load-bearing — a note accidentally sent to a customer is a serious trust failure.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Message thread →</a></p>
+
+      <!-- Message removal -->
+      <h3 class="sub-heading">Message removal <span class="new-badge">New</span></h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Support reps and admins can remove messages from the conversation thread. Removal is a soft delete — the message is not permanently destroyed. What a user sees after removal depends on their role.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Who can remove</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Can remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rep</td>
+            <td>Their own outbound messages and internal notes only</td>
+          </tr>
+          <tr>
+            <td>Admin</td>
+            <td>Any message in the thread — rep, customer, or internal note</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Customer messages are not removable by reps. A customer message that needs to be suppressed requires admin action.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Hovering a message reveals two inline action icons to the left of the bubble: a pencil (edit) and a circled X (remove). The remove icon is shown only for messages the current user is permitted to remove. Tooltips follow the standard 400ms delay pattern. Tooltip label: "Remove this message".</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Confirmation dialog</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Tapping the remove icon opens a confirmation dialog before any action is taken. The dialog is intentionally interruptive — removal affects what the customer sees and cannot be self-reversed by a rep.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Title</td>
+            <td>Remove message?</td>
+          </tr>
+          <tr>
+            <td>Body</td>
+            <td>Removing this message will hide it from the customer's view. Your team will still be able to see it.</td>
+          </tr>
+          <tr>
+            <td>Primary action</td>
+            <td>Remove</td>
+          </tr>
+          <tr>
+            <td>Secondary action</td>
+            <td>Nevermind</td>
+          </tr>
+          <tr>
+            <td>Dismiss</td>
+            <td>✕ in top-right corner</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Post-removal states</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Removal produces different in-thread results depending on the viewer's role.</p>
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Rep view (tombstone)</strong> — The message bubble is replaced by a muted tombstone in its original position in the thread. The tombstone preserves the sender attribution and timestamp so the thread timeline remains readable. Tombstone copy: "Message removed by [name]". The tombstone is not interactive.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Admin view (content visible)</strong> — Admins see the original message content rendered normally, with a removed badge on the bubble indicating it has been suppressed. The badge shows who removed it and when on hover. This allows admins to audit removals without a separate log view.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Restoration</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Admins can restore a removed message via a kebab action on the admin-view bubble. Restoring returns the message to its normal visible state for all viewers. A system event is injected into the thread: "Message restored by [name]." Reps cannot restore messages — including their own removals.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Scope</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Message type</th>
+            <th>Rep can remove</th>
+            <th>Admin can remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rep outbound</td>
+            <td>Own only</td>
+            <td>Any</td>
+          </tr>
+          <tr>
+            <td>Internal note</td>
+            <td>Own only</td>
+            <td>Any</td>
+          </tr>
+          <tr>
+            <td>Customer inbound</td>
+            <td>No</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>System event</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">System events are never removable — they are the audit trail and must remain intact.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Message removal →</a></p>
+
+      <!-- Message editing -->
+      <h3 class="sub-heading">Message editing <span class="new-badge">New</span></h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Reps can edit their own sent outbound messages and internal notes. Editing is not available on customer messages or system events.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Who can edit</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Can edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rep</td>
+            <td>Their own outbound messages and internal notes</td>
+          </tr>
+          <tr>
+            <td>Admin</td>
+            <td>Any rep outbound message or internal note</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Hovering a message reveals two inline action icons to the left of the bubble: a pencil (edit) and a circled X (remove). The pencil is shown only for messages the current user is permitted to edit. Tooltip label: "Edit this message".</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Edit modal</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Tapping the pencil opens a modal edit surface. The original message bubble remains visible in the thread behind the modal — it is not replaced inline.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header label</td>
+            <td>Edit message</td>
+          </tr>
+          <tr>
+            <td>Body</td>
+            <td>Editable rich text field pre-populated with the current message content. Supports Tier 1 formatting: bold, italic, link.</td>
+          </tr>
+          <tr>
+            <td>Toolbar</td>
+            <td>Emoji picker · Saved replies (insert only)</td>
+          </tr>
+          <tr>
+            <td>Cancel action</td>
+            <td>Nevermind — dismisses modal, discards changes</td>
+          </tr>
+          <tr>
+            <td>Save action</td>
+            <td>Save edits — commits the edit</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Pressing Escape dismisses the modal and discards changes.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Post-edit state</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">After saving, the message bubble updates in place with the new content. An "Edited" label appears beneath the message timestamp — subdued weight, tappable. Tapping it opens the edit history dialog. Editing does not re-trigger a delivery notification to the customer.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Constraints</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Attachments on a message are not editable — only the text content can be modified. A message may be edited multiple times; each version is stored and accessible in the edit history dialog.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Message editing →</a></p>
+
+      <!-- Edit history dialog -->
+      <h3 class="sub-heading">Edit history dialog <span class="new-badge">New</span></h3>
+      <p class="section-desc" style="margin-bottom: 16px;">Every edited message accumulates a version history accessible to all team members. It is never visible to the customer.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Tapping the "Edited" label beneath an edited message opens the edit history dialog.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Dialog anatomy</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Versions are displayed in reverse chronological order — most recent at top, original at bottom — separated by a horizontal rule.</p>
+
+      <p class="section-desc" style="margin-bottom: 8px;">Per-version entry:</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Version label</td>
+            <td>Current version · Edit [n] · Original</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>Full absolute timestamp: Weekday, Month Day · Time. Uses workspace timezone.</td>
+          </tr>
+          <tr>
+            <td>Edited by</td>
+            <td>Rep display name. Original entry shows the original sender.</td>
+          </tr>
+          <tr>
+            <td>Message content</td>
+            <td>Full text of that version, read-only. Rich text rendered as-is.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">The current version carries a "Current" badge. The original version carries an "Original" badge. Dialog title: "Edit history". Dismissed via ✕ or click outside. No version restoration in Phase 1.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Edit history →</a></p>
     </section>
 
     <!-- Reply composer -->
@@ -2346,10 +2637,6 @@
       <h3 class="sub-heading">Toolbar controls</h3>
       <p class="section-desc" style="margin-bottom: 8px;">Six tools are grouped left-to-right by intent: Insert (objects that become part of the message) → Assist (help composing) → Escalate (shifts the channel). A visual divider separates each group.</p>
 
-      <!-- Icon library -->
-      <h3 class="sub-heading">Icon library</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">All toolbar icons — and all icons across the conversation window surface — should use Google Material Icons. Existing custom icons should be audited against Material equivalents before build. Where a direct Material equivalent doesn't exist, flag to design before substituting. See Engineering dependencies at the top of this section.</p>
-
       <table class="spec-table">
         <thead>
           <tr>
@@ -2357,6 +2644,7 @@
             <th>Group</th>
             <th>Behavior</th>
             <th>Availability</th>
+            <th>Phase</th>
           </tr>
         </thead>
         <tbody>
@@ -2365,36 +2653,42 @@
             <td>Insert</td>
             <td>Opens an emoji picker popover</td>
             <td>Reply + Note</td>
+            <td>Phase 1</td>
           </tr>
           <tr>
             <td>Attachment</td>
             <td>Insert</td>
             <td>Opens the file picker</td>
             <td>Reply only</td>
+            <td>Phase 1</td>
           </tr>
           <tr>
             <td>Noun / form</td>
             <td>Insert</td>
             <td>Opens the noun insert menu — also triggered by typing / in the field.</td>
             <td>Reply only</td>
+            <td>Phase 1</td>
           </tr>
           <tr>
             <td>Saved replies</td>
             <td>Assist</td>
             <td>Opens a searchable list of pre-written responses. Selecting one populates the composer field.</td>
             <td>Reply only</td>
+            <td>Phase 1</td>
           </tr>
           <tr>
             <td>Writing assistant</td>
             <td>Assist</td>
             <td>Opens AI writing tools — rephrase, shorten, adjust tone. Operates on text already in the composer.</td>
             <td>Reply only</td>
+            <td>Phase 1</td>
           </tr>
           <tr>
             <td>Video call</td>
             <td>Assist</td>
             <td>Sends a video call invite link into the message thread.</td>
             <td>Reply only</td>
+            <td>Phase 1</td>
           </tr>
         </tbody>
       </table>
@@ -2403,8 +2697,10 @@
       <h3 class="sub-heading">Rich text formatting</h3>
       <p class="section-desc" style="margin-bottom: 8px;">Rich text formatting is scoped in three tiers. Tier 1 is included in Phase 1. Tiers 2 and 3 are deferred.</p>
 
-      <h3 class="sub-heading">🚨 Engineering dependency — text area migration required</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Engineering dependency — textarea migration required: The current composer is built on a plain textarea with custom behavior. A textarea cannot support inline rich text formatting of any tier — bold, italic, and link require a contenteditable-based rich text editor (Tiptap, Lexical, or ProseMirror). Tier 1 is not a configuration change; it requires migrating the composer input away from the current textarea implementation. This should be scoped as its own engineering workstream before any formatting tier is committed to a release. All existing custom behaviors (mode toggle, slash command trigger, send shortcuts, character limits) will need to be re-implemented or validated against the new editor.</p>
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Engineering dependency — text area migration required</h3>
+        <p class="section-desc" style="margin-bottom: 0;">The current composer is built on a plain textarea with custom behavior. A textarea cannot support inline rich text formatting of any tier — bold, italic, and link require a contenteditable-based rich text editor (Tiptap, Lexical, or ProseMirror). Tier 1 is not a configuration change; it requires migrating the composer input away from the current textarea implementation. This should be scoped as its own engineering workstream before any formatting tier is committed to a release. All existing custom behaviors (mode toggle, slash command trigger, send shortcuts, character limits) will need to be re-implemented or validated against the new editor.</p>
+      </div>
 
       <h3 class="sub-heading">Tier 1 — target scope once migration is complete</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Bold, italic, and link via keyboard shortcut only. No toolbar buttons required at this tier — shortcuts alone are sufficient to ship and validate whether reps use formatting in practice. Tier 1 is the minimum viable ask following a successful textarea migration.</p>
@@ -2459,8 +2755,10 @@
       </table>
 
       <!-- Rendering dependency -->
-      <h3 class="sub-heading">🚨 Rendering dependency</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget, email client) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Rendering dependency</h3>
+        <p class="section-desc" style="margin-bottom: 0;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget, email client) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
+      </div>
 
       <!-- Toolbar tooltips -->
       <h3 class="sub-heading">Toolbar tooltips</h3>
@@ -2470,29 +2768,25 @@
         <thead>
           <tr>
             <th>Control</th>
-            <th>Tooltip label</th>
+            <th>Tooltip</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Emoji</td>
-            <td>Emoji</td>
+            <td>Insert emoji</td>
           </tr>
           <tr>
             <td>Attachment</td>
             <td>Attach a file</td>
           </tr>
           <tr>
-            <td>Noun / form</td>
-            <td>Insert data</td>
-          </tr>
-          <tr>
-            <td>Saved replies</td>
-            <td>Saved replies</td>
+            <td>Insert (+ icon)</td>
+            <td>Insert into reply</td>
           </tr>
           <tr>
             <td>Writing assistant</td>
-            <td>AI writing tools</td>
+            <td>Writing assistant</td>
           </tr>
           <tr>
             <td>Video call</td>
@@ -2539,6 +2833,268 @@
 
       <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> The chevron dropdown is intentionally minimal in Phase 1 — one option. The split button component should be built to accommodate additional rows without a structural change so Phase 2 variants can be added without a redesign.</p>
 
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Composer →</a></p>
+
+    </section>
+
+    <!-- Writing assistant -->
+    <section class="section" id="conv-writing-assistant" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">Writing assistant <span class="new-badge">New</span></h3>
+      <p class="section-desc">The writing assistant is an AI tool that operates on text the agent has already typed in the reply composer. It modifies existing content — it does not generate replies from scratch. Available in Reply mode only.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Availability and disabled state</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Composer state</th>
+            <th>Writing assistant icon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Empty (no text)</td>
+            <td>Disabled — no tooltip on hover, click is a no-op</td>
+          </tr>
+          <tr>
+            <td>Has text — Reply mode</td>
+            <td>Enabled — full opacity, tooltip "Writing assistant"</td>
+          </tr>
+          <tr>
+            <td>Note mode (any text state)</td>
+            <td>Hidden from toolbar</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Tooltip: <strong>Writing assistant</strong> (400ms delay). Icon: ti-sparkles (Tabler outline).</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Tapping the sparkle icon opens a dropdown anchored to the icon. The dropdown lists four actions in a fixed order. The first three are direct actions; the fourth — Custom instruction — sits below a visual divider and is intentionally de-emphasized.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">The dropdown closes on: action selected · click outside · Escape key · composer loses focus.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Actions</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">The dropdown surfaces four actions, top to bottom:</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Action</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Fix spelling and grammar</td>
+            <td>Corrects errors. Preserves agent voice. Does not rewrite.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Make shorter</td>
+            <td>Condenses while preserving meaning. Does not add new information.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Adjust tone</td>
+            <td>Opens a sub-menu with four tone options.</td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>(divider)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Custom instruction</td>
+            <td>Opens a freeform input panel.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Fix spelling and grammar</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Operates on the full composer contents. Returns text with mechanical corrections applied only. The AI must not rephrase, restructure, or alter meaning.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Make shorter</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Condenses the message while preserving every fact, number, account reference, transaction ID, and named procedure. Must not add information that wasn't in the original.</p>
+
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Engineering callout — no new information</h3>
+        <p class="section-desc" style="margin-bottom: 0;">The "no new information" rule must be enforced at the prompt template level. A condense prompt that adds clarifying detail (e.g. inserting "your wire transfer of $5,000" when the agent didn't specify the amount) is a compliance failure. Output should be validated against source nouns and numbers before returning.</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Adjust tone</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Opens a flyout sub-menu with four tone options. No "Casual" option — explicitly out of scope for banking support.</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Tone</th>
+            <th>Intended use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Professional</td>
+            <td>Default for routine cases</td>
+          </tr>
+          <tr>
+            <td>Friendly</td>
+            <td>Approachable but still professional — low-stakes inquiries</td>
+          </tr>
+          <tr>
+            <td>Empathetic</td>
+            <td>Sensitive cases — fraud, lost cards, denied transactions, financial hardship</td>
+          </tr>
+          <tr>
+            <td>Formal</td>
+            <td>High-stakes or escalated cases — legal review, regulatory disputes</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Selecting a tone closes both menus and opens the result panel.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Custom instruction</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Opens a panel below the dropdown with a freeform text input.</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header</td>
+            <td>Custom instruction</td>
+          </tr>
+          <tr>
+            <td>Sub-label</td>
+            <td>Tell the AI what to do</td>
+          </tr>
+          <tr>
+            <td>Input</td>
+            <td>Single-line text field, placeholder: <em>"e.g. Add a sentence about next steps"</em></td>
+          </tr>
+          <tr>
+            <td>Submit</td>
+            <td>Primary button: <strong>Apply</strong></td>
+          </tr>
+          <tr>
+            <td>Cancel</td>
+            <td>Text link: <strong>Nevermind</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Pressing Enter in the input submits. Pressing Escape dismisses the panel.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Result panel</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Every action produces the same result panel. The panel replaces the dropdown and remains visible until the agent acts.</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Treatment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Status label</td>
+            <td>"Suggested edit" — top-left of panel</td>
+          </tr>
+          <tr>
+            <td>AI suggestion</td>
+            <td>Purple-tinted background. Full text rendered with formatting preserved.</td>
+          </tr>
+          <tr>
+            <td>Original composer text</td>
+            <td>Dimmed but visible for comparison</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Result actions</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Type</th>
+            <th>Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Insert into reply</td>
+            <td>Primary button</td>
+            <td>Replaces composer contents with the AI suggestion. Closes the panel.</td>
+          </tr>
+          <tr>
+            <td>Discard</td>
+            <td>Secondary text link</td>
+            <td>Discards the suggestion. Composer returns to its pre-action state. Closes the panel.</td>
+          </tr>
+          <tr>
+            <td>Retry</td>
+            <td>Tertiary, right-aligned</td>
+            <td>Re-runs the same action with the same source text. Panel returns to loading state, then displays the new suggestion.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Compliance rule — no auto-insert</h3>
+        <p class="section-desc" style="margin-bottom: 0;">The AI suggestion is <strong>never</strong> auto-inserted into the composer. The agent must explicitly tap "Insert into reply." This is a hard rule and must not be overridden by configuration.</p>
+      </div>
+
+      <p class="section-desc" style="margin-top: 16px;">The composer is read-only while the result panel is open. To edit before deciding, the agent must Discard first.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Loading state</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">While the AI is generating a response:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 16px;">
+        <li>The result panel renders immediately with a loading indicator in place of the suggestion text.</li>
+        <li>Loading copy: <strong>Generating suggestion…</strong></li>
+        <li>The Insert / Discard / Retry actions are replaced by a single text link: <strong>Cancel</strong></li>
+        <li>Cancel closes the panel and leaves the composer unchanged.</li>
+      </ul>
+
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Engineering callout — timeout</h3>
+        <p class="section-desc" style="margin-bottom: 0;">10-second hard timeout. Beyond 10s, the request is treated as a timeout error. No partial results are inserted into the composer under any failure mode.</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Error state</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">If the AI request fails:</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Header</td>
+            <td>Couldn't generate a suggestion</td>
+          </tr>
+          <tr>
+            <td>Body</td>
+            <td>Try again, or write the response yourself.</td>
+          </tr>
+          <tr>
+            <td>Retry</td>
+            <td>Primary button: <strong>Try again</strong></td>
+          </tr>
+          <tr>
+            <td>Dismiss</td>
+            <td>Text link: <strong>Close</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">The composer is never modified on error.</p>
+
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Engineering callout — error classification</h3>
+        <p class="section-desc" style="margin-bottom: 0;">Error states must distinguish between recoverable failures (timeout, transient model error) and hard failures (rate limit, model unavailable). The recoverable copy is "Try again, or write the response yourself"; the hard-failure copy should drop "Try again" and surface a single dismiss action with copy: "Writing assistant unavailable. Please write your response manually."</p>
+      </div>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Writing assistant →</a></p>
     </section>
 
     <!-- Attachments -->
@@ -2554,11 +3110,11 @@
 
       <!-- Sending attachment -->
       <h3 class="sub-heading">Sending attachment</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Attachments are staged in the composer before sending. Multiple files can be staged in a single message. Each staged file shows a thumbnail (images) or file icon (documents) with a dismiss control. Sending delivers staged content inline in the thread alongside any text.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">Files are staged in the composer before sending. Multiple files can be staged in a single message, each showing a thumbnail (images) or file icon (documents) with a dismiss control. Sending delivers all staged content inline in the thread alongside any text.</p>
 
       <!-- Receiving attachments -->
       <h3 class="sub-heading">Receiving attachments</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Customer-sent attachments render inline in the message bubble at their natural position in the thread. Images render as inline previews (max display width: 360px); clicking opens a lightbox. Documents and other file types render as a file card with name, size, and a download action.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">Customer-sent attachments render inline at their natural position in the thread. Images render as previews (max display width: 360px) — clicking opens a lightbox. Documents and other types render as a file card with name, size, and a download action.</p>
 
       <table class="spec-table">
         <thead>
@@ -2615,12 +3171,14 @@
           </tr>
         </tbody>
       </table>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Attachments →</a></p>
     </section>
 
     <!-- Noun cards -->
     <section class="section" id="conv-noun-cards" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Noun cards</h3>
-      <p class="section-desc">Noun cards are structured contextual data requests that reps send to customers directly in the conversation thread. Rather than sharing a single pinned record, each noun card surfaces a relevant data list — the customer's accounts, their recent transactions, a form to complete. Cards pass through three presentation states as the interaction progresses: Composer → Sent → Fulfilled.</p>
+      <p class="section-desc">Noun cards are structured contextual data requests that reps send to customers directly in the conversation thread. This section covers thread presentation only — noun card data models and backend behavior are documented separately. Rather than sharing a single pinned record, each noun card surfaces a relevant data list — the customer's accounts, their recent transactions, a form to complete. Cards pass through three presentation states as the interaction progresses: Composer → Sent → Fulfilled.</p>
 
       <!-- Supported noun types -->
       <h3 class="sub-heading">Supported noun types</h3>
@@ -2676,6 +3234,8 @@
       <h3 class="sub-heading">Customer-shared noun cards</h3>
       <p class="section-desc" style="margin-bottom: 8px;">Customers can share individual records directly into the conversation from their banking app — without the rep requesting them. The customer taps a "Share to support" action on a specific record (a transaction, a payment card, a payee) and it appears in the thread as a structured card. This is the inverse of the rep-sent list flow: the customer is providing context, not responding to a request.</p>
       <p class="section-desc" style="margin-top: 8px;">Customer-shared cards are <strong>read-only in the thread</strong>. No rep actions are available — no resend, no cancel. The rep reads the card as context and responds in the composer as normal.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Noun cards →</a></p>
     </section>
 
     <!-- Internal notes -->
@@ -2762,11 +3322,13 @@
 
       <!-- Editing and deletion -->
       <h3 class="sub-heading">Editing and deletion</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">Notes are not editable after submission in Phase 1. A new note should be added to correct or supersede a prior one. Deletion is available only to admins via a kebab action on the note. Deleted notes are replaced with a tombstone — "This note was deleted by [name]" — to maintain thread auditability.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">Notes are not editable after submission in Phase 1. A new note should be added to correct or supersede a prior one. Deletion is available to admins only via a kebab action on the note. Deleted notes follow the same tombstone and restoration rules as other message types — see Message removal.</p>
 
       <div style="border-left: 3px solid var(--accent-green); padding-left: 16px; margin-top: 16px;">
         <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Phase 2:</strong> @mention support (@name in a note to notify a teammate) is deferred. Real-time co-editing is not included in Phase 1. Rep handoff is handled through notes, assignment changes, and conversation history.</p>
       </div>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Internal notes →</a></p>
     </section>
 
     <!-- Conversation signals -->
@@ -2784,7 +3346,10 @@
       <h3 class="sub-heading">Animation spec</h3>
       <p class="section-desc" style="margin-bottom: 8px;">The three dots animate in a sequential fade — dot 1 pulses, followed by dot 2, then dot 3, then loops. Use a CSS @keyframes opacity animation with staggered animation-delay values (0ms, 200ms, 400ms) on each dot. No JavaScript animation library required — CSS only. Wrap in @media (prefers-reduced-motion: no-preference) so motion is opt-out by default.</p>
 
-      <p class="section-desc" style="margin-bottom: 8px;"><strong>🚨 Engineering dependency:</strong> The typing indicator requires a real-time WebSocket event from the customer's session. Confirm back-end support for per-message typing events on the chat channel before committing this to Phase 1 scope. See Engineering dependencies at the top of this section.</p>
+      <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
+        <h3 class="sub-heading" style="margin-top: 0;">Engineering dependency</h3>
+        <p class="section-desc" style="margin-bottom: 0;">The typing indicator requires a real-time WebSocket event from the customer's session. Confirm back-end support for per-message typing events on the chat channel before committing this to Phase 1 scope. See Engineering dependencies at the top of this section.</p>
+      </div>
 
       <!-- Read receipt / seen state -->
       <h3 class="sub-heading">Read receipt / seen state</h3>
@@ -2825,11 +3390,15 @@
       </table>
 
       <p class="section-desc" style="margin-top: 16px;">Conversation history remains the source of truth across all channels regardless of signal availability.</p>
+
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> Conversation signals →</a></p>
     </section>
 
-    <!-- System states -->
+    <!-- System states & events -->
     <section class="section" id="conv-system-states" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">System states</h3>
+      <h3 class="sub-heading">System states &amp; events</h3>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">States</h4>
       <p class="section-desc" style="margin-bottom: 24px;">The conversation window must handle four system states gracefully. All states maintain the conversation header so reps retain context about the case and customer.</p>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -2854,11 +3423,8 @@
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- System events -->
-    <section class="section" id="conv-system-events" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">System events</h3>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Events</h4>
       <p class="section-desc" style="margin-bottom: 24px;">System events are auto-generated, centered text entries that appear in the thread timeline whenever a case-level action occurs. They are never customer-facing — they exist to give support reps a clear audit trail of what happened and when. All events use sentence case and follow a consistent subject–verb–object pattern where applicable.</p>
 
       <table class="spec-table">
@@ -2997,39 +3563,7 @@
         </tbody>
       </table>
 
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Designs + references -->
-    <section class="section" id="conv-designs-references" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">Designs + References</h3>
-      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3756-13075&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Message thread</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3685-10651&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Composer</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3774-2686&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Noun cards</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3832-3330&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Attachments</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3812-1756&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Internal notes</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3690-2934&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">System states</a>
-        </div>
-      </div>
+      <p style="margin-top: 24px;"><a href="#" class="figma-btn"><strong>Figma:</strong> System states &amp; events →</a></p>
     </section>
 
     <!-- ══════════════════════════════════════════ -->
@@ -4122,8 +4656,8 @@
 <script>
   // ── Page-based navigation ──
   const pageOrder = [
-    'overview', 'open-questions', 'backlog',
-    'case-queue', 'conversation',
+    'overview', 'backlog',
+    'conversation-window', 'case-queue', 'conversation',
     'intake-forms', 'internal-notes', 'ai-assistance',
     'settings', 'team-roles', 'channels', 'rules-slas',
     'ai-config', 'notifications'
@@ -4131,8 +4665,8 @@
 
   const pageNames = {
     'overview': 'Overview',
-    'open-questions': 'Open Questions',
     'backlog': 'Backlog',
+    'conversation-window': 'Conversation window',
     'case-queue': 'Case Queue',
     'conversation': 'Workspace',
     'intake-forms': 'Intake + Forms',
@@ -4149,10 +4683,9 @@
   // Map each page to its section IDs (includes sub-sections)
   const sectionGroups = {
     'overview': ['overview'],
-    'open-questions': ['open-questions'],
     'backlog': ['backlog'],
     'case-queue': ['case-queue'],
-    'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states', 'conv-system-events', 'conv-designs-references'],
+    'conversation-window': ['conversation-window', 'conv-eng-dependencies', 'conv-message-thread', 'conv-reply-composer', 'conv-writing-assistant', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states'],
     'conversation': ['conversation'],
     'intake-forms': ['intake-forms'],
     'internal-notes': ['internal-notes'],
@@ -4167,6 +4700,111 @@
 
   const navItems = document.querySelectorAll('.nav-item');
   const allSections = document.querySelectorAll('.section');
+  const mainEl = document.querySelector('.main');
+  const tocSidebar = document.getElementById('toc-sidebar');
+
+  // Assign stable, globally unique IDs to all sub-headings (used by the right-side TOC).
+  // The counter is global — duplicate heading texts on different pages would otherwise
+  // collide on the same ID and break getElementById lookups.
+  (function ensureHeadingIds() {
+    const counts = {};
+    Object.keys(sectionGroups).forEach(pageId => {
+      sectionGroups[pageId].forEach(sid => {
+        const section = document.getElementById(sid);
+        if (!section) return;
+        section.querySelectorAll('h2.section-title, h3.sub-heading').forEach(h => {
+          if (h.id) return;
+          const text = (h.textContent || '').replace(/\bNew\b/gi, '').trim();
+          const base = 'h-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          counts[base] = (counts[base] || 0) + 1;
+          h.id = counts[base] === 1 ? base : base + '-' + counts[base];
+        });
+      });
+    });
+  })();
+
+  function buildTOC(pageId) {
+    if (!tocSidebar) return;
+    tocSidebar.innerHTML = '';
+
+    const sectionIds = sectionGroups[pageId] || [pageId];
+    const headings = [];
+    sectionIds.forEach(sid => {
+      const section = document.getElementById(sid);
+      if (!section) return;
+      const top = section.querySelector('h2.section-title, h3.sub-heading');
+      if (!top) return;
+      if (!top.id) {
+        const text = (top.textContent || '').replace(/\bNew\b/gi, '').trim();
+        top.id = 'h-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      }
+      headings.push({
+        id: top.id,
+        text: (top.textContent || '').replace(/\bNew\b/gi, '').trim()
+      });
+    });
+
+    if (headings.length < 2) {
+      tocSidebar.style.visibility = 'hidden';
+      return;
+    }
+    tocSidebar.style.visibility = '';
+
+    const label = document.createElement('div');
+    label.className = 'toc-label';
+    label.textContent = 'On this page';
+    tocSidebar.appendChild(label);
+
+    headings.forEach(h => {
+      const link = document.createElement('a');
+      link.className = 'toc-link';
+      link.href = '#' + h.id;
+      link.textContent = h.text;
+      link.dataset.target = h.id;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById(h.id);
+        if (target && mainEl) {
+          const tRect = target.getBoundingClientRect();
+          const mRect = mainEl.getBoundingClientRect();
+          mainEl.scrollTo({
+            top: mainEl.scrollTop + tRect.top - mRect.top - 72,
+            behavior: 'smooth'
+          });
+        }
+      });
+      tocSidebar.appendChild(link);
+    });
+
+    updateTOCActive();
+  }
+
+  function updateTOCActive() {
+    if (!tocSidebar || !mainEl) return;
+    const links = tocSidebar.querySelectorAll('.toc-link');
+    if (!links.length) return;
+    const mainTop = mainEl.getBoundingClientRect().top;
+    let activeId = links[0].dataset.target;
+    links.forEach(link => {
+      const target = document.getElementById(link.dataset.target);
+      if (!target) return;
+      const offset = target.getBoundingClientRect().top - mainTop;
+      if (offset <= 96) activeId = link.dataset.target;
+    });
+    links.forEach(link => {
+      link.classList.toggle('active', link.dataset.target === activeId);
+    });
+  }
+
+  if (mainEl) {
+    let ticking = false;
+    mainEl.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { updateTOCActive(); ticking = false; });
+        ticking = true;
+      }
+    });
+  }
 
   // Build bottom nav for each page's last section
   function buildBottomNav(pageId) {
@@ -4230,8 +4868,12 @@
     // Build bottom navigation
     buildBottomNav(pageId);
 
-    // Scroll main to top
+    // Scroll main to top BEFORE building the TOC so the active
+    // highlight is computed against the new (top) scroll position.
     document.querySelector('.main').scrollTo(0, 0);
+
+    // Build right-side TOC for this page
+    buildTOC(pageId);
 
     // Update URL hash
     if (pushHistory) {
