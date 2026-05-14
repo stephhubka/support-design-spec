@@ -182,11 +182,32 @@
     z-index: 50;
     background: rgba(10,12,16,0.85);
     backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-default);
     padding: 14px 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .main-header::after {
+    content: "";
+    position: absolute;
+    left: calc(-1 * var(--sidebar-w));
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--border-default);
+  }
+
+  @media (min-width: 1100px) {
+    .main-header::after {
+      right: calc(-1 * var(--toc-w));
+    }
+  }
+
+  @media (max-width: 800px) {
+    .main-header::after {
+      left: 0;
+    }
   }
 
   .main-header-title {
@@ -276,7 +297,6 @@
       max-height: calc(100vh - 56px);
       overflow-y: auto;
       padding: 32px 24px 48px;
-      border-left: 1px solid var(--border-default);
       background: var(--bg-root);
       z-index: 40;
     }
@@ -955,6 +975,22 @@
     display: none;
   }
 
+  .divider-full {
+    border: none;
+    border-top: 1px solid var(--border-default);
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: min(calc(622px - 50vw), -48px);
+    margin-right: min(calc(622px - 50vw), -48px);
+  }
+
+  @media (max-width: 800px) {
+    .divider-full {
+      margin-left: -24px;
+      margin-right: -24px;
+    }
+  }
+
   /* ── Hero ── */
   .hero {
     text-align: center;
@@ -1311,11 +1347,11 @@
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--updates">Updated</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
-    <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
-      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--active">Coming soon</span>
-    </span>
+    <a href="#case-details" class="nav-item">
+      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--updates">New</span>
+    </a>
     <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
       <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
     </span>
@@ -1352,7 +1388,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated May 13, 2026</span>
+    <span class="main-header-meta">Last updated May 14, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -2143,9 +2179,6 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 02</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Workspace (old)</h2>
     </section>
-    <section class="section" id="case-details">
-      <h2 class="section-title">Case details</h2>
-    </section>
     <section class="section" id="intake-forms">
       <h2 class="section-title">Intake + forms</h2>
     </section>
@@ -2164,8 +2197,6 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 1.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
-
-      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 0px;">
     </section>
 
     <!-- Message thread -->
@@ -3538,6 +3569,156 @@
 
     </section>
 
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- ─── CASE DETAILS ─── -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="case-details">
+      <div class="section-label" style="letter-spacing: 0.14em;">Section 2.0</div>
+      <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case details</h2>
+      <p class="section-desc">The contextual sidebar that gives reps everything they need to understand and act on a case without leaving the conversation. The panel is organized as a stack of noun cards — Person, Organization, Case, and Quick actions — so it is always explicit which fields belong to which object.</p>
+    </section>
+
+    <hr class="divider-full">
+
+    <!-- Anatomy -->
+    <section class="section" id="case-panel-anatomy" style="margin-bottom: 72px; padding-top: 24px; border-top: none;">
+      <h3 class="sub-heading">Anatomy</h3>
+      <p class="section-desc">The panel is a vertical stack of cards. Each card represents one noun the rep is working with. Cards are visually distinct surfaces separated by 12px gutters — not collapsible accordions.</p>
+
+      <div class="mockup-group" style="margin-top: 24px;">
+        <div class="mockup-frame">
+          <img src="images/chat-customer-profile.png" alt="Case details panel anatomy" onclick="openLightbox(this)" style="cursor: zoom-in; max-width: 720px;">
+        </div>
+      </div>
+
+      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3914-1018&t=G4xSDTKaS743YWeJ-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Panel →</a></p>
+    </section>
+
+    <!-- Person / Business card -->
+    <section class="section" id="case-person" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">Person / Business card</h3>
+      <p class="section-desc">Identifies the customer the rep is supporting and surfaces lifetime context: segment, conversation history, and the account identifiers needed to look the customer up in adjacent systems.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Header</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Viewer indicator</td><td>Top right of the card, above the identity block. Eye icon + count in info color (e.g. "1 viewing"). Always visible when at least one other agent is viewing — does not require hover. Tooltip on hover: "{n} agent viewing" or "{n} agents viewing".</td></tr>
+          <tr><td>Avatar</td><td>44px circle. Customer photo when available; initials on an info-tinted background as the fallback.</td></tr>
+          <tr><td>Customer name</td><td>16px / 500. Sentence case.</td></tr>
+          <tr><td>Segment badge</td><td>Pill below the name. Three values — see Customer segment below.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Customer segment</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Retail</td><td>Personal banking customer</td></tr>
+          <tr><td>Business</td><td>Business banking customer with linked organization</td></tr>
+          <tr><td>Unverified</td><td>Account exists but identity is not confirmed</td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 12px;">The Business variant renders only when segment is Business — see Business below.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Business</h4>
+      <p class="section-desc">Renders only when customer segment is Business. Hidden for Retail and Unverified segments — the slot is removed from the layout, not rendered as an empty card.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Conversation count</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">A bordered sub-card surfacing the customer's lifetime support context. Visually distinct from the identity block above so the high-touch signal isn't buried in metadata.</p>
+      <p class="section-desc">The count includes conversations in any non-resolved status (New, Needs response, Awaiting customer, On hold). Resolved cases are excluded. The label is singular ("active conversation") when the count is 1 and plural otherwise. When the count is zero, the filter action is hidden — the sub-card renders "0 active conversations" with no action link.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Identifiers</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Three account identifiers in a horizontal row, each rendered as a label stacked above a compact value chip. The label is plain text; the chip carries the copy-on-click affordance.</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Identifier</th>
+            <th>Label</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Username</td><td>"Username"</td><td>System-facing login name</td></tr>
+          <tr><td>CIF</td><td>"CIF" — tooltip on hover: "Customer Information File"</td><td>CIF ID from core banking</td></tr>
+          <tr><td>NT</td><td>"NT" — tooltip on hover: "Account number"</td><td>Primary account number</td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px; margin-bottom: 8px;"><strong>Behavior:</strong></p>
+      <ul class="card-list">
+        <li>Long values truncate with ellipsis in the chip (e.g. "9498…2284"); the full value is copied to the clipboard regardless of truncation.</li>
+        <li>Tap or click anywhere on the chip triggers the copy.</li>
+        <li>A transient confirmation ("Copied") appears for 2 seconds after a successful copy.</li>
+      </ul>
+
+      <div class="mockup-grid">
+        <div class="card">
+          <div class="card-title">Tag hover</div>
+          <div style="margin-top: 12px;">
+            <video src="images/Screen%20Recording%202026-05-14%20at%2010.44.28%20AM.mov" controls muted playsinline style="display: block; width: 100%;"></video>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Profile hover</div>
+          <div style="margin-top: 12px;">
+            <video src="images/Screen%20Recording%202026-05-14%20at%2011.10.57%20AM.mov" controls muted playsinline style="display: block; width: 100%;"></video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case details -->
+    <section class="section" id="case-case" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">Case details</h3>
+      <p class="section-desc">Identifies the active case and surfaces the metadata reps need to triage, assign, and update it.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Status</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. The status is editable — the chevron signals clickability. The exception is <strong>Permanently closed</strong>, which is terminal: the row renders without a chevron and the rest of the panel falls into the read-only treatment.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Lifecycle states</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Dot color token</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>New</td><td><code>info</code></td><td>Case created, not yet triaged</td></tr>
+          <tr><td>Needs response</td><td><code>info</code></td><td>Customer is awaiting a rep reply</td></tr>
+          <tr><td>Awaiting customer</td><td><code>warning</code></td><td>Rep is awaiting a customer reply</td></tr>
+          <tr><td>On hold</td><td><code>warning</code></td><td>Case paused pending external dependency</td></tr>
+          <tr><td>Resolved</td><td><code>success</code></td><td>Case closed</td></tr>
+          <tr><td>Permanently closed</td><td><code>neutral</code></td><td>Terminal archival state applied by admin / compliance after retention review. Not reversible and not selectable from the rep's status picker.</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Assignee</h4>
+      <p class="section-desc">Inline label/value row. The assignee picker supports two scopes — individual agents (with type-ahead search) and queues. Selecting any value commits immediately and emits the corresponding system event ("Case assigned to {name}" or "Case reassigned to {name}") in the thread.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Tags</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. Tags categorize the case for reporting and routing.</p>
+      <p class="section-desc" style="margin-top: 16px; margin-bottom: 8px;"><strong>Behavior:</strong></p>
+      <ul class="card-list">
+        <li>The dashed pill is the only entry point for adding tags. There is no separate input field — this avoids having both an input and an add affordance compete for the same job.</li>
+        <li>The tag picker is a multi-select with type-ahead search. Selecting one or more tags closes the picker and commits the changes.</li>
+        <li>Removing a tag (X on the chip) commits immediately — no confirmation.</li>
+      </ul>
+    </section>
+
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── RESEARCH AGENT (Phase 1) (hidden) ─── -->
     <!-- ══════════════════════════════════════════ -->
@@ -3790,12 +3971,9 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 5.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">General</h2>
       <p class="section-desc">Administrative configuration for the support platform. Six settings tabs covering workspace configuration, team management, channels, routing rules, AI features, and notification preferences.</p>
-
-      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 0px;">
     </section>
 
     <section class="section" id="c5-general" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">General</h3>
       <p class="section-desc">Basic settings for the support workspace.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
@@ -4629,7 +4807,7 @@
   // ── Page-based navigation ──
   const pageOrder = [
     'overview', 'backlog',
-    'conversation-window', 'case-queue', 'conversation',
+    'conversation-window', 'case-details', 'case-queue', 'conversation',
     'intake-forms', 'internal-notes', 'ai-assistance',
     'settings', 'team-roles', 'channels', 'rules-slas',
     'ai-config', 'notifications'
@@ -4639,7 +4817,8 @@
     'overview': 'Overview',
     'backlog': 'Backlog',
     'conversation-window': 'Conversation window',
-    'case-queue': 'Case details',
+    'case-details': 'Case details',
+    'case-queue': 'Case queue',
     'conversation': 'Workspace',
     'intake-forms': 'Intake + Forms',
     'internal-notes': 'Internal Notes',
@@ -4656,6 +4835,7 @@
   const sectionGroups = {
     'overview': ['overview'],
     'backlog': ['backlog'],
+    'case-details': ['case-details', 'case-panel-anatomy', 'case-person', 'case-case'],
     'case-queue': ['case-queue'],
     'conversation-window': ['conversation-window', 'conv-message-thread', 'conv-reply-composer', 'conv-writing-assistant', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states'],
     'conversation': ['conversation'],
