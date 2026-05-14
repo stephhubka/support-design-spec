@@ -3685,7 +3685,7 @@
       <p class="section-desc">Identifies the active case and surfaces the metadata reps need to triage, assign, and update it.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Status</h4>
-      <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. The status is editable — the chevron signals clickability.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. The status is editable — the chevron signals clickability. The exception is <strong>Permanently closed</strong>, which is terminal: the row renders without a chevron and the rest of the panel falls into the read-only treatment.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Lifecycle states</h4>
       <table class="spec-table">
@@ -3702,6 +3702,7 @@
           <tr><td>Awaiting customer</td><td><code>warning</code></td><td>Rep is awaiting a customer reply</td></tr>
           <tr><td>On hold</td><td><code>warning</code></td><td>Case paused pending external dependency</td></tr>
           <tr><td>Resolved</td><td><code>success</code></td><td>Case closed</td></tr>
+          <tr><td>Permanently closed</td><td><code>neutral</code></td><td>Terminal archival state applied by admin / compliance after retention review. Not reversible and not selectable from the rep's status picker.</td></tr>
         </tbody>
       </table>
 
