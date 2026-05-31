@@ -457,6 +457,36 @@
     color: var(--accent-green);
   }
 
+  .updated-badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--accent-orange-dim);
+    color: var(--accent-orange);
+  }
+
+  .update-highlight {
+    background: var(--accent-orange-dim);
+    border-left: 3px solid var(--accent-orange);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+  }
+
+  tr.update-highlight-row > td { background: var(--accent-orange-dim); }
+
+  .update-mark {
+    background: var(--accent-orange-dim);
+    box-shadow: inset 0 -1px 0 var(--accent-orange);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
   /* ── Tables ── */
   .spec-table {
     width: 100%;
@@ -1343,7 +1373,6 @@
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
     <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
-    <span class="nav-item nav-item--top" style="pointer-events: none; opacity: 0.6;">Prototype <span class="nav-chip nav-chip--active">In progress</span></span>
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
@@ -1388,7 +1417,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated May 14, 2026</span>
+    <span class="main-header-meta">Last updated May 31, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -2197,6 +2226,20 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 1.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
+
+      <!-- TODO: re-enable functional prototype callout when the Figma prototype is ready
+      <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec" target="_blank" class="callout callout--purple" style="display: flex; align-items: center; gap: 14px; margin-top: 24px; text-decoration: none;">
+        <svg width="20" height="30" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+          <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/>
+          <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/>
+          <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/>
+          <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/>
+          <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/>
+        </svg>
+        <span style="flex: 1; color: var(--text-secondary); font-size: 14px;">Explore the clickable, functional prototype of the conversation window in Figma.</span>
+        <span style="color: var(--accent-purple); font-size: 20px; flex-shrink: 0;">→</span>
+      </a>
+      -->
     </section>
 
     <!-- Message thread -->
@@ -2205,9 +2248,7 @@
       <p class="section-desc">Messages are displayed in a single chronological timeline combining customer messages, rep replies, noun cards, internal notes, and system-generated events. The thread is the source of truth for the full history of a case.</p>
 
       <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/message-thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in; max-width: 720px;">
-        </div>
+        <img src="images/message-thread.png" alt="Message Thread" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; width: 100%;">
       </div>
 
       <!-- Scroll behavior -->
@@ -2402,7 +2443,7 @@
       <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3756-13075&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message thread →</a></p>
 
       <!-- Message removal -->
-      <h3 class="sub-heading">Message removal <span class="new-badge">New</span></h3>
+      <h3 class="sub-heading">Message removal</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Support reps and admins can remove messages from the conversation thread. Removal is a soft delete — the message is not permanently destroyed. What a user sees after removal depends on their role.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Who can remove</h4>
@@ -2508,7 +2549,7 @@
       <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4281-3681&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message removal →</a></p>
 
       <!-- Message editing -->
-      <h3 class="sub-heading">Message editing <span class="new-badge">New</span></h3>
+      <h3 class="sub-heading">Message editing</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Reps can edit their own sent outbound messages and internal notes. Editing is not available on customer messages or system events.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Who can edit</h4>
@@ -2578,7 +2619,7 @@
       <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4282-2721&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message editing →</a></p>
 
       <!-- Edit history dialog -->
-      <h3 class="sub-heading">Edit history dialog <span class="new-badge">New</span></h3>
+      <h3 class="sub-heading">Edit history dialog</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Every edited message accumulates a version history accessible to all team members. It is never visible to the customer.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Trigger</h4>
@@ -2765,6 +2806,10 @@
         <p class="section-desc" style="margin-bottom: 0;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget, email client) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
       </div>
 
+      <!-- Character cap -->
+      <h3 class="sub-heading">Character cap <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc update-highlight" style="margin-bottom: 0;">The composer enforces a flat cap on raw content, with markup counting toward the limit. The final value is pending engineering input on encoding overhead — currently considering 30K. Blocked on Chad Bibler / River Ginther.</p>
+
       <!-- Toolbar tooltips -->
       <h3 class="sub-heading">Toolbar tooltips</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Every toolbar control shows a tooltip on hover. Tooltips appear after a 400ms delay and dismiss immediately on mouse-out. Controls with a keyboard shortcut surface it in the tooltip. The send split button does not show a tooltip — its labels are always visible.</p>
@@ -2844,7 +2889,7 @@
 
     <!-- Writing assistant -->
     <section class="section" id="conv-writing-assistant" style="margin-bottom: 72px;">
-      <h3 class="sub-heading">Writing assistant <span class="new-badge">New</span></h3>
+      <h3 class="sub-heading">Writing assistant</h3>
       <p class="section-desc">The writing assistant is an AI tool that operates on text the agent has already typed in the reply composer. It modifies existing content — it does not generate replies from scratch. Available in Reply mode only.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Availability and disabled state</h4>
@@ -3198,7 +3243,7 @@
       </ul>
 
       <!-- Presentation states -->
-      <h3 class="sub-heading">Presentation states</h3>
+      <h3 class="sub-heading">Presentation states <span class="updated-badge">Updated</span></h3>
       <p class="section-desc" style="margin-bottom: 16px;">Every noun card passes through three states. The card's visual treatment and available actions change at each stage.</p>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -3220,7 +3265,7 @@
 
         <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
           <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Fulfilled</strong>
-          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Customer has acted on the card — viewed, selected, or submitted</p>
+          <p class="update-highlight" style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Customer has opened the card. This is an open-tracking signal only — it confirms a view, not completion of any in-card action. There is no link back to a source-of-truth system for downstream outcome state, so the Fulfilled state must not imply completion (no checkmark, no "Submitted" label, no echoed-back record).</p>
           <div style="margin: 0;">
             <img src="images/noun-fulfilled.png" alt="Noun card — Fulfilled state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
           </div>
@@ -3253,8 +3298,8 @@
       <p class="section-desc" style="margin-bottom: 8px;">Internal notes use the same composer toggled into Note mode (see Reply composer → Mode toggle). The amber background and "Add note" send label reinforce the private context. Notes support the same text formatting and attachment capabilities as customer replies.</p>
 
       <!-- AI summary pre-populate -->
-      <h3 class="sub-heading">AI summary pre-populate</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">When a rep switches to Note mode, the composer field is pre-populated with an AI-generated draft summary of the conversation — similar to how Gmail's Gemini pre-populates a reply draft. The rep can edit, rewrite, or delete it entirely before saving. The pre-populated text is a starting point, not a finished note. It is never saved automatically.</p>
+      <h3 class="sub-heading">AI summary pre-populate <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc update-highlight" style="margin-bottom: 16px;">When a rep switches to Note mode, the composer field is pre-populated with an AI-generated draft summary of the conversation — similar to how Gmail's Gemini pre-populates a reply draft. The summary is generated in two variants: a standard summary (2–4 sentences) and a brief summary (a single sentence). The standard variant pre-populates the composer by default; the rep can switch to the brief variant via a toggle on the AI draft banner. The rep can edit, rewrite, or delete either before saving. The pre-populated text is a starting point, not a finished note. It is never saved automatically.</p>
 
       <table class="spec-table">
         <thead>
@@ -3280,6 +3325,10 @@
             <td>Rep clears the pre-populated text</td>
             <td>Composer remains empty — does not re-generate unless the rep explicitly requests it (Phase 2 consideration).</td>
           </tr>
+          <tr class="update-highlight-row">
+            <td>Rep begins typing into the draft</td>
+            <td>Variant toggle is pre-edit only. The Standard / Brief toggle is live only while the draft is untouched. As soon as the rep begins typing, the toggle is disabled and the variant choice is locked — consistent with the banner dismissing on first keystroke. To switch variants after editing, the rep must clear the field and re-trigger the draft (Phase 2 consideration, matching the "Rep clears the pre-populated text" rule above).</td>
+          </tr>
           <tr>
             <td>AI summary unavailable (timeout or error)</td>
             <td>Composer opens empty with no error shown — degrades silently. Rep writes the note manually.</td>
@@ -3288,8 +3337,8 @@
       </table>
 
       <!-- Pre-populate states -->
-      <h3 class="sub-heading">Pre-populate states</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">Every noun card passes through three states. The card's visual treatment and available actions change at each stage.</p>
+      <h3 class="sub-heading">Pre-populate states <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc update-highlight" style="margin-bottom: 16px;">The pre-populate flow passes through three states — Generating → AI draft ready → Rep edited. The composer's visual treatment and available actions change at each stage.</p>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
@@ -3302,7 +3351,7 @@
 
         <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
           <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">State 2 — AI draft ready</strong>
-          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Draft appears with a purple "AI draft — edit before saving" banner. Text is amber-tinted to signal it is AI-generated and unvalidated. ✕ on the banner dismisses it and clears the field. Banner also disappears as soon as the rep begins typing.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Draft appears with a purple "AI draft — edit before saving" banner. <span class="update-mark">The banner carries a Standard / Brief toggle to switch between the two summary variants — switching replaces the field contents with the selected variant.</span> Text is amber-tinted to signal it is AI-generated and unvalidated. ✕ on the banner dismisses it and clears the field. Banner also disappears as soon as the rep begins typing.</p>
           <div style="margin: 0;">
             <img src="images/composer-ai-draft.png" alt="Internal note — AI draft ready state" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
           </div>
@@ -3319,7 +3368,16 @@
 
       <!-- Summary content guidelines -->
       <h3 class="sub-heading">Summary content guidelines</h3>
-      <p class="section-desc" style="margin-bottom: 8px;">The pre-populated draft should be fact-based, no editorialising, customer referenced by first name. Lead with the presenting issue, briefly describe what was done, end with the current state. Target length: 2–4 sentences. The rep is expected to validate and personalise before saving.</p>
+      <p class="section-desc" style="margin-bottom: 8px;">The pre-populated draft should be fact-based, no editorialising, customer referenced by first name. Lead with the presenting issue, briefly describe what was done, end with the current state. <span class="update-mark">The standard variant targets 2–4 sentences; the brief variant condenses this to a single sentence.</span> The rep is expected to validate and personalise before saving.</p>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Known Phase 1 limitation:</strong> The Standard / Brief toggle locks on the rep's first keystroke. Re-triggering the draft to restore the toggle is a Phase 2 consideration, so in Phase 1 there is no path back to the toggle once typing begins — to change variants the rep must clear the field, and the draft does not re-generate automatically.</p>
+      </div>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Open (KAYAK-4727):</strong> Standard is treated as the default pre-populated variant throughout this spec, but the default choice is not yet settled — this is a working assumption.</p>
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 8px 0 0;"><strong>Open:</strong> Whether re-triggering the draft (and restoring the toggle) should become a Phase 1 affordance rather than Phase 2 is undecided.</p>
+      </div>
 
       <!-- Display in thread -->
       <h3 class="sub-heading">Display in thread</h3>
@@ -3428,7 +3486,7 @@
         </div>
       </div>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Events</h4>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Events <span class="updated-badge">Updated</span></h4>
       <p class="section-desc" style="margin-bottom: 24px;">System events are auto-generated, centered text entries that appear in the thread timeline whenever a case-level action occurs. They are never customer-facing — they exist to give support reps a clear audit trail of what happened and when. All events use sentence case and follow a consistent subject–verb–object pattern where applicable.</p>
 
       <table class="spec-table">
@@ -3464,6 +3522,11 @@
             <td>Assigned to a queue</td>
             <td>Case assigned to {queue name}</td>
             <td>Same pattern as rep assignment. Queue name used verbatim.</td>
+          </tr>
+          <tr class="update-highlight-row">
+            <td>Auto-assigned by the rules engine</td>
+            <td>Assigned to {assignee} via {rule name}</td>
+            <td>Distinct from a manual "{rep} assigned this to {assignee}" event. The UI distinguishes auto from manual via the rules-engine special user ID. If rule-name passthrough is unavailable, falls back to "Assigned to {assignee} automatically." Rule-name passthrough is pending.</td>
           </tr>
         </tbody>
       </table>
