@@ -3509,7 +3509,7 @@
       </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Events <span class="updated-badge">Updated</span></h4>
-      <p class="section-desc" style="margin-bottom: 24px;">System events are auto-generated, centered text entries that appear in the thread timeline whenever a case-level action occurs. They are never customer-facing — they exist to give support reps a clear audit trail of what happened and when. All events use sentence case and follow a consistent subject–verb–object pattern where applicable.</p>
+      <p class="section-desc" style="margin-bottom: 24px;">System events are centered, non-message timeline entries that record changes to a case's state or routing. They may be triggered automatically (by the rules engine) or manually (by a rep). Metadata changes that don't affect how someone follows the case — auto-tagging, for example — are recorded in the case activity log, not the conversation timeline. All events use sentence case and follow a consistent subject–verb–object pattern where applicable.</p>
 
       <table class="spec-table">
         <thead>
@@ -3547,8 +3547,8 @@
           </tr>
           <tr class="update-highlight-row">
             <td>Auto-assigned by the rules engine</td>
-            <td>Assigned to {assignee} via {rule name}</td>
-            <td>Distinct from a manual "{rep} assigned this to {assignee}" event. The UI distinguishes auto from manual via the rules-engine special user ID. If rule-name passthrough is unavailable, falls back to "Assigned to {assignee} automatically." Rule-name passthrough is pending.</td>
+            <td>Assigned to {assignee} automatically</td>
+            <td>Distinct from a manual "{rep} assigned this to {assignee}" event. The UI distinguishes auto from manual via the rules-engine special user ID. Rule-name passthrough ("via {rule name}") deferred to Phase 2+ — backend cost not justified for Phase 1 (Odd, confirmed).</td>
           </tr>
         </tbody>
       </table>
@@ -3651,6 +3651,10 @@
           </tr>
         </tbody>
       </table>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 32px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Activity log (deferred — Phase 2+):</strong> Metadata events such as tag add/remove are tracked on the backend but are not surfaced in the UI in Phase 1. A dedicated case activity log is planned for a later phase. Phase 1 keeps no tag history in the UI.</p>
+      </div>
 
     </section>
 
