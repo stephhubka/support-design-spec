@@ -160,6 +160,7 @@
   .nav-chip--active { background: var(--accent-orange-dim); color: var(--accent-orange); }
   .nav-chip--ready { background: var(--accent-green-dim); color: var(--accent-green); }
   .nav-chip--updates { background: var(--accent-purple-dim); color: var(--accent-purple); }
+  .nav-chip--updated { background: var(--accent-orange-dim); color: var(--accent-orange); }
 
   .sidebar-footer {
     padding: 16px 24px;
@@ -1376,10 +1377,10 @@
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--updated">Updated</span>
     </a>
     <a href="#case-details" class="nav-item">
-      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--updates">New</span>
+      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--updated">Updated</span>
     </a>
     <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
       <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
@@ -1417,7 +1418,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated May 31, 2026</span>
+    <span class="main-header-meta">Last updated June 1, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -2222,7 +2223,7 @@
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── CONVERSATION WINDOW ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="conversation-window">
+    <section class="section" id="conversation-window" style="margin-bottom: 24px;">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 1.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
@@ -2243,7 +2244,7 @@
     </section>
 
     <!-- Message thread -->
-    <section class="section" id="conv-message-thread" style="margin-bottom: 72px;">
+    <section class="section" id="conv-message-thread" style="margin-bottom: 72px; padding-top: 0; border-top: none;">
       <h3 class="sub-heading">Message thread</h3>
       <p class="section-desc">Messages are displayed in a single chronological timeline combining customer messages, rep replies, noun cards, internal notes, and system-generated events. The thread is the source of truth for the full history of a case.</p>
 
@@ -3521,7 +3522,7 @@
           <tr>
             <td>Assigned to a queue</td>
             <td>Case assigned to {queue name}</td>
-            <td>Same pattern as rep assignment. Queue name used verbatim.</td>
+            <td>Fires only from auto-routing rules at case creation — never picker-triggered (manual queue assignment is out of scope in v1). Queue name used verbatim.</td>
           </tr>
           <tr class="update-highlight-row">
             <td>Auto-assigned by the rules engine</td>
@@ -3637,16 +3638,28 @@
     <!-- ══════════════════════════════════════════ -->
     <!-- ─── CASE DETAILS ─── -->
     <!-- ══════════════════════════════════════════ -->
-    <section class="section" id="case-details">
+    <section class="section" id="case-details" style="margin-bottom: 24px;">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 2.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case details</h2>
       <p class="section-desc">The contextual sidebar that gives reps everything they need to understand and act on a case without leaving the conversation. The panel is organized as a stack of noun cards — Person, Organization, Case, and Quick actions — so it is always explicit which fields belong to which object.</p>
+
+      <!-- TODO: re-enable functional prototype callout when the Figma prototype is ready
+      <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec" target="_blank" class="callout callout--purple" style="display: flex; align-items: center; gap: 14px; margin-top: 24px; text-decoration: none;">
+        <svg width="20" height="30" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+          <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0Z" fill="#1ABCFE"/>
+          <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0Z" fill="#0ACF83"/>
+          <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19Z" fill="#FF7262"/>
+          <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5Z" fill="#F24E1E"/>
+          <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5Z" fill="#A259FF"/>
+        </svg>
+        <span style="flex: 1; color: var(--text-secondary); font-size: 14px;">Explore the clickable, functional prototype of the case details panel in Figma.</span>
+        <span style="color: var(--accent-purple); font-size: 20px; flex-shrink: 0;">→</span>
+      </a>
+      -->
     </section>
 
-    <hr class="divider-full">
-
     <!-- Anatomy -->
-    <section class="section" id="case-panel-anatomy" style="margin-bottom: 72px; padding-top: 24px; border-top: none;">
+    <section class="section" id="case-panel-anatomy" style="margin-bottom: 72px; padding-top: 0; border-top: none;">
       <h3 class="sub-heading">Anatomy</h3>
       <p class="section-desc">The panel is a vertical stack of cards. Each card represents one noun the rep is working with. Cards are visually distinct surfaces separated by 12px gutters — not collapsible accordions.</p>
 
@@ -3749,6 +3762,7 @@
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Status</h4>
       <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. The status is editable — the chevron signals clickability. The exception is <strong>Permanently closed</strong>, which is terminal: the row renders without a chevron and the rest of the panel falls into the read-only treatment.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Read-only signal dependency.</strong> The read-only banner depends on the UI knowing the rep's write-access state at case load, so it can render before any write is attempted. This load-time signal is net-new infrastructure (ticketed), tied to the broader Settings / Teams / Queues access model. If the signal is unavailable at load, the treatment degrades to error-on-write-attempt — a fallback, not the target behavior.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Lifecycle states</h4>
       <table class="spec-table">
@@ -3769,8 +3783,35 @@
         </tbody>
       </table>
 
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Status enum mapping.</strong> The rep-facing labels above are display states over the backend <code>CaseDetails.status</code> enum:</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Rep-facing label</th>
+            <th>Backend enum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>New</td><td><code>NEW</code></td></tr>
+          <tr><td>Needs response</td><td><code>OPEN</code></td></tr>
+          <tr><td>Awaiting customer</td><td><code>PENDING</code></td></tr>
+          <tr><td>On hold</td><td>Net-new value, pending KAYAK-4922</td></tr>
+          <tr><td>Resolved</td><td><code>CLOSED</code></td></tr>
+          <tr><td>Permanently closed</td><td><code>PERMANENTLY_CLOSED</code></td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 8px;">On hold is net-new and must <strong>not</strong> collapse into <code>PENDING</code> — the two remain distinct for SLA and reporting. The <code>OPEN</code>/<code>PENDING</code> mapping reflects semantic fit: Needs response (<code>OPEN</code>) means the case is live and actionable by the rep; Awaiting customer (<code>PENDING</code>) means it is waiting on the other party. This mapping is adopted, pending River's confirmation that nothing currently consumes <code>OPEN</code>/<code>PENDING</code> in a conflicting way.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">On hold behavior <span class="updated-badge">Stub</span></h4>
+      <p class="section-desc" style="margin-bottom: 8px;">On hold behavior under KAYAK-4922:</p>
+      <ul class="card-list">
+        <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
+        <li><strong>Reporting:</strong> On hold must be reportable as distinct from Awaiting customer (<code>PENDING</code>) and not aggregated with it in queue-health or SLA reporting — a case deliberately parked on an external dependency is operationally different from one awaiting a customer reply.</li>
+      </ul>
+
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Assignee</h4>
-      <p class="section-desc">Inline label/value row. The assignee picker supports two scopes — individual agents (with type-ahead search) and queues. Selecting any value commits immediately and emits the corresponding system event ("Case assigned to {name}" or "Case reassigned to {name}") in the thread.</p>
+      <p class="section-desc">Inline label/value row. The picker assigns a case to an individual agent via type-ahead search only. Selecting a value commits immediately and emits the corresponding system event in the thread — "Case assigned to {name}" on first assignment, or "Case reassigned to {name}" on handoff.</p>
+      <p class="section-desc" style="margin-top: 12px;"><strong>Queue assignment is not available from the picker in v1.</strong> Cases enter a queue (forwarding group) only via auto-routing rules at case creation — there is no manual rep command to move a case to a queue. Any "Case assigned to {queue name}" event therefore originates from auto-routing at creation, never from the picker. Manual queue-move is a post-v1 enhancement under consideration.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Tags</h4>
       <p class="section-desc" style="margin-bottom: 16px;">Inline label/value row. Tags categorize the case for reporting and routing.</p>
