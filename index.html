@@ -2847,8 +2847,17 @@
       </table>
 
       <!-- Send behavior -->
-      <h3 class="sub-heading">Send behavior</h3>
-      <p class="section-desc" style="margin-bottom: 16px;">The composer uses a split button. The left side dispatches the message; the right chevron opens a small dropdown with send variants. In Phase 1, only one variant is available.</p>
+      <h3 class="sub-heading">Send behavior <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc" style="margin-bottom: 16px;">The composer uses a split button. The left side dispatches the message; the right chevron opens a dropdown of send variants. In Phase 1 the dropdown holds one variant — Send &amp; Resolve — and <strong>Send</strong> remains the default left-button action.</p>
+
+      <div class="mockup-group">
+        <div class="mockup-frame">
+          <img src="images/composer-hover.png" alt="Composer split button at rest — Send with chevron" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div class="mockup-frame">
+          <img src="images/composer-active.png" alt="Composer send dropdown open — Send and Send & Resolve" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
 
       <table class="spec-table">
         <thead>
@@ -2860,29 +2869,41 @@
         </thead>
         <tbody>
           <tr>
-            <td>Send</td>
-            <td>Dispatches the message. Case stays open. Composer clears and focus returns to the input.</td>
+            <td><strong>Send</strong></td>
+            <td>Dispatches the message. Case stays open. Composer clears and focus returns to the input. Default left-button action.</td>
             <td>Phase 1</td>
           </tr>
           <tr>
-            <td>Send + Resolve</td>
-            <td>Dispatches the message and transitions the case to Resolved in a single action. The most common end-of-conversation pattern — avoids a separate status update step. Shown in the chevron dropdown.</td>
+            <td><strong>Send + Resolve</strong></td>
+            <td>Dispatches the message and transitions the case to Resolved in a single action. The most common end-of-conversation pattern — avoids a separate status update step. Shown in the chevron dropdown. <strong>Atomic per case</strong> (see note below).</td>
             <td>Phase 1</td>
           </tr>
           <tr>
-            <td>Send + Assign</td>
+            <td><strong>Send + Assign</strong></td>
             <td>Reserved. Would dispatch and open an assignment picker in a single action — for rep handoff at case close.</td>
             <td>Phase 2+</td>
           </tr>
           <tr>
-            <td>Scheduled send</td>
+            <td><strong>Scheduled send</strong></td>
             <td>Reserved. Would dispatch at a specified time — most relevant for email channel.</td>
             <td>Phase 2+</td>
           </tr>
         </tbody>
       </table>
 
-      <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> The chevron dropdown is intentionally minimal in Phase 1 — one option. The split button component should be built to accommodate additional rows without a structural change so Phase 2 variants can be added without a redesign.</p>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Atomicity</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Send + Resolve is <strong>atomic per case</strong>: the message send and the status transition either both succeed or both fail. It is a single backend command, not a UI sequence of two separate calls. This matters because the resolve writes an Activity event — a sent message paired with a failed resolve (or vice versa) would leave the case and its audit trail inconsistent.</p>
+      <p class="section-desc" style="margin-bottom: 16px;">Atomicity here is per-case only. There is no cross-case rollback in the composer (the composer acts on one case at a time); cross-case behavior is covered in the bulk operations spec.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Chevron affordance</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">The chevron is an icon-only control and carries an accessible name of "Send options," surfaced as a tooltip on hover via the Forge tooltip component. The label names the capability, not the current contents, so it stays accurate as variants are added in later phases. The left <strong>Send</strong> button is self-labeled and is not tooltipped.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Default action</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">In Phase 1 the left button is always plain <strong>Send</strong>. Send + Resolve is reachable only through the dropdown — the button does not remember the rep's last choice. Last-used stickiness is a possible later enhancement, not Phase 1 scope.</p>
+
+      <div style="border-left: 3px solid var(--accent-green); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Reserved / Phase 2+ (note, not built):</strong> When a second variant is added, the dropdown groups into "Send and…" (state changes on send — Resolve, Assign) and "Timing" (Scheduled send), separated by a divider. This grouping keeps send-variants distinct from send-timing. Not designed or built in Phase 1.</p>
+      </div>
 
       <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3812-1755&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Composer →</a></p>
 
