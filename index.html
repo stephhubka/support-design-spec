@@ -1830,7 +1830,7 @@
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li><strong>Assignee:</strong> Filter by assigned representative</li>
         <li><strong>Status:</strong> Filter by case status</li>
-        <li><strong>Channel:</strong> Filter by inbound channel (Chat, Forms, Email)</li>
+        <li><strong>Channel:</strong> Filter by inbound channel (Chat, Forms)</li>
         <li><strong>More filters:</strong> Expands to reveal additional filtering options (see below)</li>
       </ul>
 
@@ -1885,10 +1885,10 @@
         </tbody>
       </table>
 
-      <p class="section-desc"><strong>Customer segment</strong> is an attribute of the associated <em>customer</em>, not the conversation. Values: Retail, Business, Unverified. It is resolved from the customer record and associated with the case via the linked customer (not stamped onto the conversation independently). Distinct from <strong>Channel</strong>, which describes how the case originated (Chat, Forms, Email) — segment describes <em>who</em> the customer is, channel describes <em>how</em> the case arrived. [OPEN: confirm whether segment is snapshotted at case creation or resolved live from the customer record.]</p>
+      <p class="section-desc"><strong>Customer segment</strong> is an attribute of the associated <em>customer</em>, not the conversation. Values: Retail, Business, Unverified. It is resolved from the customer record and associated with the case via the linked customer (not stamped onto the conversation independently). Distinct from <strong>Channel</strong>, which describes how the case originated (Chat, Forms) — segment describes <em>who</em> the customer is, channel describes <em>how</em> the case arrived. Segment is resolved live from the customer record (not snapshotted at case creation) — a case always reflects the customer's current segment. This matters for the Unverified → Retail/Business upgrade path: when a guest verifies, their existing cases reflect the new segment. Segment is a customer attribute owned by the customer-details service (exact owning service TBC).</p>
 
       <p class="section-desc">Active filters display as dismissible chips below the filter bar. A "Clear all filters" action appears when any filter is active.</p>
-      <p class="section-desc">Filters are additive (AND logic) — applying Channel = Email + Tag = "Wire transfer" returns only email cases tagged with "Wire transfer."</p>
+      <p class="section-desc">Filters are additive (AND logic) — applying Channel = Chat + Tag = "Wire transfer" returns only chat cases tagged with "Wire transfer."</p>
       <p class="section-desc">Filter selections persist within a session but reset on logout or browser refresh. They do not persist across scope changes (switching from "My cases" to "All cases" clears applied filters).</p>
 
       <div class="card">
@@ -2038,7 +2038,7 @@
       <ol style="list-style: decimal; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Rep clicks "Reply all" in the bulk-action bar</li>
         <li>An inline text area expands directly above the bulk action bar (not a modal or a new page)</li>
-        <li>Plain text only — no rich formatting, since messages may go across mixed channels (chat, email, forms)</li>
+        <li>Plain text only — no rich formatting, since messages may go across mixed channels (chat, forms)</li>
         <li>A send button shows the count: "Send to [n] cases"</li>
         <li>Clicking send triggers a confirmation dialog</li>
         <li>On success, a toast confirms: <em>"Reply sent to [n] cases"</em></li>
@@ -2818,7 +2818,7 @@
       <!-- Rendering dependency -->
       <div style="border: 1px solid var(--accent-red); background: var(--accent-red-dim); border-radius: var(--radius-md); padding: 24px 28px; margin: 24px 0;">
         <h3 class="sub-heading" style="margin-top: 0;">Rendering dependency</h3>
-        <p class="section-desc" style="margin-bottom: 0;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget, email client) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
+        <p class="section-desc" style="margin-bottom: 0;">Rich text formatting only adds value if the customer-side rendering surface (mobile banking app chat widget) can display it. Plain text must always be the delivery fallback. Confirm the rendering chain with engineering before committing Tier 1 to the release.</p>
       </div>
 
       <!-- Character cap -->
@@ -2899,7 +2899,7 @@
           </tr>
           <tr>
             <td><strong>Scheduled send</strong></td>
-            <td>Reserved. Would dispatch at a specified time — most relevant for email channel.</td>
+            <td>Reserved. Would dispatch at a specified time.</td>
             <td>Phase 2+</td>
           </tr>
         </tbody>
@@ -3468,7 +3468,6 @@
           <tr>
             <th>Signal</th>
             <th>Chat</th>
-            <th>Email</th>
             <th>Forms</th>
           </tr>
         </thead>
@@ -3477,12 +3476,10 @@
             <td>Typing indicator</td>
             <td>Supported</td>
             <td>Not available</td>
-            <td>Not available</td>
           </tr>
           <tr>
             <td>Read receipts</td>
             <td>Supported</td>
-            <td>Not available</td>
             <td>Not available</td>
           </tr>
         </tbody>
@@ -3844,6 +3841,7 @@
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">On hold behavior <span class="updated-badge">Stub</span></h4>
       <p class="section-desc" style="margin-bottom: 8px;">On hold behavior under KAYAK-4922:</p>
       <ul class="card-list">
+        <li><strong>Manually set:</strong> On hold is a manually set status — the agent deliberately applies it for an internal block (third-party dependency, escalation, internal investigation). It is never auto-applied, and is distinct from Awaiting customer, which is for waiting on the customer.</li>
         <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
         <li><strong>Reporting:</strong> On hold must be reportable as distinct from Awaiting customer (<code>PENDING</code>) and not aggregated with it in queue-health or SLA reporting — a case deliberately parked on an external dependency is operationally different from one awaiting a customer reply.</li>
       </ul>
@@ -4302,7 +4300,12 @@
 
       <!-- Queues -->
       <h3 class="sub-heading">Queues</h3>
-      <p class="section-desc">Queues are groups that cases can be routed to. Each queue has assigned representatives. The list view shows summary rows; clicking drills into a detail view.</p>
+      <p class="section-desc">Queues are not a net-new Support concept — they <strong>are</strong> the existing platform Groups: the same entities managed via CRUD in <strong>Users &amp; Groups</strong> and referenced by the <code>DistributeToGroup</code> / <code>ForwardToGroup</code> routing actions. They are surfaced inside Support Settings for convenience, but Group CRUD remains in Users &amp; Groups as the source of truth.</p>
+      <p class="section-desc">Each queue (group) has assigned representatives — individuals are assigned to a queue, and the queue is itself the grouping. The list view shows summary rows; clicking drills into a detail view. Decided with River Ginther (5/28).</p>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Open follow-up:</strong> Confirm the platform Group model can carry queue membership + scope-dropdown + auto-routing without collision.</p>
+      </div>
 
       <!-- Queues detail view -->
       <h3 class="sub-heading">Queues detail view</h3>
@@ -4373,7 +4376,7 @@
 
       <!-- Inbound channels -->
       <h3 class="sub-heading">Inbound channels</h3>
-      <p class="section-desc">The three channels are fixed — they're platform capabilities, not user-created entities. This distinguishes channels from queues or rules which are user-managed.</p>
+      <p class="section-desc">The channels are fixed — they're platform capabilities, not user-created entities. This distinguishes channels from queues or rules which are user-managed.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Channel data</h4>
       <table class="spec-table">
@@ -4395,15 +4398,10 @@
             <td>Contact and support request forms</td>
             <td><span style="background: #166534; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Active</span></td>
           </tr>
-          <tr>
-            <td>Email</td>
-            <td>Forward emails to create cases</td>
-            <td><span style="background: #374151; color: #9ca3af; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">Inactive</span></td>
-          </tr>
         </tbody>
       </table>
 
-      <p class="section-desc" style="margin-top: 12px;">Email defaults to Inactive because it requires forwarding configuration before it can receive cases. Chat and Forms are active out of the box.</p>
+      <p class="section-desc" style="margin-top: 12px;">Chat and Forms are active out of the box. Email is out of scope for the current release (see below).</p>
 
       <!-- Channel detail -->
       <h3 class="sub-heading">Channel detail</h3>
@@ -4411,6 +4409,7 @@
 
       <!-- Chat -->
       <h3 class="sub-heading">Chat</h3>
+      <p class="section-desc">Guest / unauthenticated chat is <strong>not</strong> a separate channel — it rolls up under Chat as an auth-state of the conversation: same channel, different identity context. Authenticated and guest (later upgraded) conversations both surface on Chat; the guest state is reflected via the <strong>Unverified</strong> customer segment. Consistent with the unified-queue direction, all conversations surface in one queue regardless of auth state.</p>
 
       <div class="mockup-group">
         <div class="mockup-frame">
@@ -4429,23 +4428,18 @@
       </div>
 
       <!-- Email -->
-      <h3 class="sub-heading">Email</h3>
-      <p class="section-desc">Configuration for email-to-case forwarding. This is the only channel that defaults to Inactive because it requires explicit setup.</p>
-
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/Email_Details.png" alt="Email — Detail View" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
+      <h3 class="sub-heading">Email <span class="updated-badge">Out of scope</span></h3>
+      <p class="section-desc">Email-to-case forwarding is out of scope for the current release. The channel is not offered in the Chat + Forms scope; the configuration design below is retained for reference only and is not active.</p>
 
       <!-- States -->
       <h3 class="sub-heading">States</h3>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">All channels inactive</h4>
-      <p class="section-desc">All three rows show "Inactive" badges. No special warning or blocking UI — the admin may be mid-setup. The Channels tab itself doesn't gate other settings.</p>
+      <p class="section-desc">Both rows show "Inactive" badges. No special warning or blocking UI — the admin may be mid-setup. The Channels tab itself doesn't gate other settings.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Activating email</h4>
-      <p class="section-desc">Email has a prerequisite: the forwarding address must be configured before the status toggle can be switched to Active.</p>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">What deactivation does</h4>
+      <p class="section-desc">The per-channel toggle is a per-FI admin control: it stops that institution from accepting <strong>new</strong> inbound conversations on the channel. It is <strong>not</strong> an infrastructure kill switch — it does not disable Support platform-wide or affect other client teams.</p>
+      <p class="section-desc">In-flight conversations continue to resolution: agents can still reply and customers still receive responses; only new inbound is blocked. The channel shows as Inactive (with a badge) while any pre-existing conversations resolve naturally. This is consistent with the filter-bar logic, which already surfaces inactive channels because cases may exist from when the channel was active.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Deactivation confirmation</h4>
       <p class="section-desc">Deactivating a channel that is currently receiving traffic triggers a confirmation dialog.</p>
@@ -4542,7 +4536,7 @@
           <tr>
             <td>Channel</td>
             <td>equals, not equals</td>
-            <td>channel = Email</td>
+            <td>channel = Chat</td>
           </tr>
           <tr>
             <td>Priority</td>
