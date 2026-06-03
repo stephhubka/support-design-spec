@@ -1418,7 +1418,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated June 1, 2026</span>
+    <span class="main-header-meta">Last updated June 3, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -1621,6 +1621,18 @@
           </tr>
         </tbody>
       </table>
+
+      <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
+
+      <!-- Business Hours -->
+      <h3 class="sub-heading">Split business hours</h3>
+      <p class="section-desc">Support multiple open/close windows per day — e.g. an FI open 9–12, closed for lunch, then open 1–5. Lunch closures are a common pattern for community banks and credit unions, making this a legitimate v2 need.</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li><strong>v1 scope:</strong> single window per day — <code>{closed, from, to}</code> — intentional.</li>
+        <li><strong>v2:</strong> support multiple intervals per day. The data shape changes from a single <code>{from, to}</code> to an array of intervals per day.</li>
+        <li><strong>v1 constraint to honor now:</strong> don't lock the v1 API contract in a way that makes adding a second interval a breaking change later — design the shape to leave room for it.</li>
+        <li>Surfaced by Odd Kristensen during business hours validation review.</li>
+      </ul>
 
       <hr style="border: none; border-top: 1px solid var(--border-default); margin: 32px 0;">
 
@@ -1872,6 +1884,8 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="section-desc"><strong>Customer segment</strong> is an attribute of the associated <em>customer</em>, not the conversation. Values: Retail, Business, Unverified. It is resolved from the customer record and associated with the case via the linked customer (not stamped onto the conversation independently). Distinct from <strong>Channel</strong>, which describes how the case originated (Chat, Forms, Email) — segment describes <em>who</em> the customer is, channel describes <em>how</em> the case arrived. [OPEN: confirm whether segment is snapshotted at case creation or resolved live from the customer record.]</p>
 
       <p class="section-desc">Active filters display as dismissible chips below the filter bar. A "Clear all filters" action appears when any filter is active.</p>
       <p class="section-desc">Filters are additive (AND logic) — applying Channel = Email + Tag = "Wire transfer" returns only email cases tagged with "Wire transfer."</p>
@@ -4145,6 +4159,11 @@
         <li>The timezone also governs when "Outside business hours" auto-response triggers fire (see Section 10: AI Configuration).</li>
       </ul>
 
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Ownership (confirmed):</strong> Timezone is owned by the <code>institution-details</code> endpoint — a separate team's service — not the Hours/Closures API. <code>HoursResponse.timezone</code> and <code>ClosuresResponse.timezone</code> reflect this value but are not its source of truth. Timezone updates route through <code>institution-details</code>; no timezone field is added to <code>PUT /settings/hours</code>, which would duplicate a setting owned elsewhere.</p>
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 8px 0 0;"><strong>Cross-team dependency:</strong> Live, timezone-driven SLA timer behavior depends on the <code>institution-details</code> system (owned by another team) and is a Settings v2 dependency, not Phase 1 — Phase 1 uses hardcoded SLA defaults.</p>
+      </div>
+
       <div class="mockup-group">
         <div class="mockup-frame">
           <img src="images/Timezone_Dialog.png" alt="Timezone — Confirmation Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
@@ -4979,6 +4998,10 @@
     'notifications': ['notifications']
   };
 
+  // Single-section pages that should list their internal sub-headings in the
+  // right-side "On this page" TOC (multi-section pages list one entry per section).
+  const tocSubheadingPages = new Set(['case-queue']);
+
   const navItems = document.querySelectorAll('.nav-item');
   const allSections = document.querySelectorAll('.section');
   const mainEl = document.querySelector('.main');
@@ -5010,20 +5033,38 @@
 
     const sectionIds = sectionGroups[pageId] || [pageId];
     const headings = [];
-    sectionIds.forEach(sid => {
-      const section = document.getElementById(sid);
-      if (!section) return;
-      const top = section.querySelector('h2.section-title, h3.sub-heading');
-      if (!top) return;
-      if (!top.id) {
-        const text = (top.textContent || '').replace(/\bNew\b/gi, '').trim();
-        top.id = 'h-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+    if (sectionIds.length === 1 && tocSubheadingPages.has(pageId)) {
+      // Single-section page: list the section's sub-headings.
+      const section = document.getElementById(sectionIds[0]);
+      if (section) {
+        section.querySelectorAll('h3.sub-heading').forEach(h => {
+          if (!h.id) {
+            const text = (h.textContent || '').replace(/\bNew\b/gi, '').trim();
+            h.id = 'h-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          }
+          headings.push({
+            id: h.id,
+            text: (h.textContent || '').replace(/\bNew\b/gi, '').trim()
+          });
+        });
       }
-      headings.push({
-        id: top.id,
-        text: (top.textContent || '').replace(/\bNew\b/gi, '').trim()
+    } else {
+      sectionIds.forEach(sid => {
+        const section = document.getElementById(sid);
+        if (!section) return;
+        const top = section.querySelector('h2.section-title, h3.sub-heading');
+        if (!top) return;
+        if (!top.id) {
+          const text = (top.textContent || '').replace(/\bNew\b/gi, '').trim();
+          top.id = 'h-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        }
+        headings.push({
+          id: top.id,
+          text: (top.textContent || '').replace(/\bNew\b/gi, '').trim()
+        });
       });
-    });
+    }
 
     if (headings.length < 2) {
       tocSidebar.style.visibility = 'hidden';
