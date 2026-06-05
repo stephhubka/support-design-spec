@@ -1130,10 +1130,11 @@
   /* ── System State Demos ── */
   .state-demo-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
     margin-top: 20px;
   }
+  @media (max-width: 1100px) { .state-demo-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 900px) { .state-demo-grid { grid-template-columns: 1fr; } }
 
   .state-demo {
@@ -1374,19 +1375,20 @@
   <div class="sidebar-nav">
     <a href="#overview" class="nav-item nav-item--top active">Overview</a>
     <a href="#backlog" class="nav-item nav-item--top">Backlog</a>
+    <a href="#" target="_blank" class="nav-item nav-item--top">Prototype</a>
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--updated">Updated</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <a href="#case-details" class="nav-item">
-      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--updated">Updated</span>
+      <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <span class="nav-item" style="pointer-events: none; opacity: 0.6;">
       <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
     </span>
     <a href="#case-queue" class="nav-item">
-      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--updated">Updated</span>
     </a>
     <!-- <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">02</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
@@ -1418,7 +1420,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated June 3, 2026</span>
+    <span class="main-header-meta">Last updated June 5, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -1666,7 +1668,29 @@
     <section class="section" id="case-queue">
       <div class="section-label" style="letter-spacing: 0.14em;">Section 4.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case queue</h2>
-      <p class="section-desc">The Inbox is the primary interface for the Support v2 case queue — where agents triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
+      <p class="section-desc">The Case queue is the primary workspace for support reps and managers — where they triage work by scanning, filtering, and selecting cases to resolve. This section defines the queue experience across both board and list-based views, including the shared controls, case preview model, and key interactions that occur before entering a conversation.</p>
+
+      <div class="divider" style="margin: 28px 0;"></div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3636-7513&t=jjwgq4Roft2T8Eki-1" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="14" height="21" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
+            <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/>
+            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
+            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
+          </svg>
+          <strong>Figma</strong> designs →
+        </a>
+        <a href="https://supportv2.lovable.app" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF4D2E" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <strong>Lovable</strong> prototype →
+        </a>
+      </div>
+      <p class="section-desc" style="margin-top: 10px; font-size: 13px; color: var(--text-tertiary);">Note: the Lovable prototype isn't 100% reflective of the final design — it's there to demonstrate the interactions.</p>
 
       <h3 class="sub-heading">Supported views</h3>
       <p class="section-desc">The board and list views are not universally available. View availability depends on the selected case scope:</p>
@@ -1710,14 +1734,12 @@
 
       <p class="section-desc">When a rep switches from "My cases" to "All cases" or "Unassigned," the queue automatically transitions to list view. The board / list toggle is hidden in these scopes — there is no option to switch back to board. Returning to "My cases" restores the last used view preference.</p>
 
-      <p class="section-desc"><em><strong>Rationale:</strong></em> Board view is optimized for personal workflow management where a rep tracks their own cases through stages. All and Unassigned scopes are high-volume triage views where list-based scanning, sorting, and bulk actions are more effective than spatial arrangement.</p>
-
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view</h4>
-      <p class="section-desc">Board view supports drag-and-drop between status columns to update case status. Dropping a card into a new column immediately updates the case status and logs a system event in the conversation thread for auditability. If the target status pauses the SLA clock (Awaiting Customer, On Hold), a confirmation toast appears before the change commits.</p>
-      <p class="section-desc">Drag-and-drop applies to single cards only in Phase 1. When multiple cards are selected via bulk selection, drag-and-drop is disabled — bulk status changes use the bulk action bar instead. This avoids ambiguity around partial failures (e.g., 3 of 8 cards fail to update) and keeps the bulk workflow consistent between board and list views.</p>
+      <p class="section-desc">Board view supports drag-and-drop between status columns to update case status. Dropping a card into a new column immediately updates the status and logs a system event in the conversation thread for auditability. If the target status pauses the SLA clock (Awaiting Customer, On Hold), a confirmation toast appears before the change commits.</p>
+      <p class="section-desc">With multiple cards selected, drag-and-drop is disabled — bulk status changes use the bulk action bar instead. This avoids partial-failure ambiguity (e.g., 3 of 8 cards fail) and keeps the bulk workflow consistent across board and list views.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/Board_View.png" alt="Board View — Kanban" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/board-view.png" alt="Board View — Kanban" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -1725,7 +1747,7 @@
       <p class="section-desc">List view presents cases as sortable rows optimized for high-volume scanning and triage. It is the default and only available view for All cases, Unassigned, and Queue scopes.</p>
       <div class="mockup-group">
         <div class="mockup-frame">
-          <img src="images/List_view.png" alt="List View — Table" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/list-view.png" alt="List View — Table" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -1771,16 +1793,10 @@
       <p class="section-desc">When Assignee is hidden, the Preview column expands to fill the available space.</p>
       <p class="section-desc">Status changes in list view are performed inline via a status dropdown on each row, or through the bulk action bar when multiple rows are selected. Each status change logs a system event. The same SLA confirmation toast applies when moving a case to a clock-pausing status (Awaiting Customer, On Hold).</p>
 
-      <div class="mockup-group">
-        <div class="mockup-frame">
-          <img src="images/All_Cases.png" alt="All Cases — List View" onclick="openLightbox(this)" style="cursor: zoom-in;">
-        </div>
-      </div>
-
       <h3 class="sub-heading">Case cards</h3>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Age indicator</h4>
-      <p class="section-desc">A colored dot beside the timestamp on each case card reflects how long the case has been in an actionable state (New or Needs Response). This provides a lightweight urgency signal without requiring a full priority system.</p>
+      <p class="section-desc">A colored dot beside the timestamp on each case card represents one thing: <strong>Awaiting-FI time</strong> — how long the case has been waiting on the FI/agent to act (cumulative time in the actionable states New + Needs Response). The dot always means "waiting on us," regardless of status — it never changes meaning. This provides a lightweight urgency signal without requiring a full priority system.</p>
 
       <table class="spec-table">
         <thead>
@@ -1792,27 +1808,29 @@
         </thead>
         <tbody>
           <tr>
-            <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-blue);"></span></td>
+            <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-green);"></span></td>
             <td>Fresh</td>
-            <td>Less than 4 hours in current state</td>
+            <td>Less than 4 hours of Awaiting-FI time</td>
           </tr>
           <tr>
             <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-orange);"></span></td>
             <td>Aging</td>
-            <td>4-12 hours in current status</td>
+            <td>4–12 hours of Awaiting-FI time</td>
           </tr>
           <tr>
             <td><span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-red);"></span></td>
             <td>Urgent</td>
-            <td>12+ hours in current status</td>
+            <td>12+ hours of Awaiting-FI time</td>
           </tr>
         </tbody>
       </table>
 
-      <p class="section-desc">The clock pauses when a case moves to Awaiting Customer or On Hold — a case sitting in Awaiting Customer for 3 days does not turn red. Only time spent in actionable states counts toward the threshold.</p>
+      <p class="section-desc">Both Awaiting Customer and On Hold pause the indicator — in either state there is nothing for the agent to act on, so neither drives the dot. A case sitting in Awaiting Customer or On Hold for 3 days does not turn red. Only Awaiting-FI time counts toward the threshold.</p>
+      <p class="section-desc"><strong>Three durations are tracked and persisted from day one:</strong> Awaiting-FI time (New + Needs Response) drives the live dot and SLA notifications; Awaiting-Customer time and On-Hold time are persisted for reporting only and never drive the dot or notifications. Capturing all three now is cheaper than backfilling later — changing what feeds the indicator would otherwise require recalculating across every conversation.</p>
+      <p class="section-desc"><strong>Notifications:</strong> idle-time threshold notifications key off Awaiting-FI time only. A case in Awaiting Customer or On Hold never triggers idle escalation, since it is not actionable by the FI.</p>
+      <p class="section-desc"><strong>On Hold aging:</strong> if On-Hold wait is ever surfaced, it must be a separate, visually distinct signal — never this dot wearing a second meaning. Noted as a possible future addition, not Phase 1.</p>
+      <p class="section-desc"><strong>Live-update dependency (UI):</strong> the indicator is truly live, so the UI must react to changes in the underlying calculation inputs — e.g. business hours or timezone changing while the case list is loaded — not just to backend updates. This ties to the existing cross-team timezone dependency (<code>institution-details</code> / Dreamworks) already logged for Settings v2.</p>
       <p class="section-desc">This indicator uses the same idle duration logic proposed for default queue sort order, so the backend work is shared.</p>
-      <p class="section-desc">Applies to: Both board view cards and list view rows. The dot appears in the same position on both.</p>
-      <p class="section-desc"><strong>Future-proofing:</strong> If an explicit priority system is introduced in a later release, these dots can be repurposed to represent priority levels without changing the visual pattern — reps are already trained to read "red dot = needs attention."</p>
 
       <div class="card" style="margin-top: 24px;">
         <div class="card-title">Case card (board)</div>
@@ -1834,19 +1852,19 @@
         <li><strong>More filters:</strong> Expands to reveal additional filtering options (see below)</li>
       </ul>
 
-      <p class="section-desc">Channel uses a single-select dropdown matching the three configured channels from Settings → Channels. If a channel is deactivated in settings, it still appears in the filter (cases may exist from when it was active) but displays an "Inactive" badge beside the label.</p>
+      <p class="section-desc">Channel uses a single-select dropdown matching the two configured channels from Settings → Channels. If a channel is deactivated in settings, it still appears in the filter (cases may exist from when it was active) but displays an "Inactive" badge beside the label.</p>
 
       <div class="card">
         <div class="card-title">Filters for board view</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Filter_Board_View.png" alt="Filters for Board View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/filter-board-view.png" alt="Filters for Board View" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
       <div class="card">
         <div class="card-title">Filters for list view</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Filter_List_View.png" alt="Filters for List View" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/filter-list-view.png" alt="Filters for List View" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -1873,11 +1891,6 @@
             <td>Populated from workspace tag taxonomy. Type-ahead search supported</td>
           </tr>
           <tr>
-            <td>Category</td>
-            <td>Single-select dropdown</td>
-            <td>Populated from workspace categories (same values used by auto-categorization)</td>
-          </tr>
-          <tr>
             <td>Customer segment</td>
             <td>Single-select dropdown</td>
             <td>Retail, Business, Unverified</td>
@@ -1887,9 +1900,6 @@
 
       <p class="section-desc"><strong>Customer segment</strong> is an attribute of the associated <em>customer</em>, not the conversation. Values: Retail, Business, Unverified. It is resolved from the customer record and associated with the case via the linked customer (not stamped onto the conversation independently). Distinct from <strong>Channel</strong>, which describes how the case originated (Chat, Forms) — segment describes <em>who</em> the customer is, channel describes <em>how</em> the case arrived. Segment is resolved live from the customer record (not snapshotted at case creation) — a case always reflects the customer's current segment. This matters for the Unverified → Retail/Business upgrade path: when a guest verifies, their existing cases reflect the new segment. Segment is a customer attribute owned by the customer-details service (exact owning service TBC).</p>
 
-      <p class="section-desc">Active filters display as dismissible chips below the filter bar. A "Clear all filters" action appears when any filter is active.</p>
-      <p class="section-desc">Filters are additive (AND logic) — applying Channel = Chat + Tag = "Wire transfer" returns only chat cases tagged with "Wire transfer."</p>
-      <p class="section-desc">Filter selections persist within a session but reset on logout or browser refresh. They do not persist across scope changes (switching from "My cases" to "All cases" clears applied filters).</p>
 
       <div class="card">
         <div class="card-title">More filters dropdown</div>
@@ -1917,6 +1927,68 @@
             <img src="images/Customer_Segment_Dropdown.png" alt="Customer Segment Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
           </div>
         </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 32px 0 8px;">Custom date range picker</h4>
+      <p class="section-desc">Selecting <strong>Custom range</strong> in the Date range filter opens a calendar picker for choosing an explicit start and end date. It filters by case created date (consistent with the preset ranges).</p>
+
+      <div class="card">
+        <div class="card-title">Custom date range picker</div>
+        <div style="margin-top: 12px; display: inline-block;">
+          <img src="images/filter-custom-date-range.png" alt="Custom date range picker" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+        </div>
+      </div>
+
+      <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Layout</h5>
+      <p class="section-desc">A <strong>dual-month</strong> layout shows two consecutive months side by side, so most ranges can be selected without paging. Above the grids, two <strong>typed inputs</strong> (Start / End) accept direct keyboard entry as an alternative to clicking — typing a valid date moves the calendar to that month and updates the selection. A <strong>footer</strong> previews the resolved range (e.g. "Jun 1 – Jun 14, 2026 · 14 days") and holds the Apply / Cancel actions. The footer preview updates live as the selection or hover changes.</p>
+
+      <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Selection behavior</h5>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li><strong>Start-then-end:</strong> the first click sets the range start; the second sets the range end. The intervening days fill in as the in-range state.</li>
+        <li><strong>Auto-swap:</strong> if the second date is earlier than the first, the two are swapped automatically so start ≤ end — no error state.</li>
+        <li><strong>Single-day:</strong> clicking the same date twice (or typing identical start/end) is a valid single-day range.</li>
+        <li><strong>Hover preview:</strong> after the start is set, hovering a candidate end date previews the resulting range (and updates the footer day count) before commit.</li>
+      </ul>
+
+      <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Disabled dates</h5>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+        <li><strong>Future dates</strong> are disabled — cases can't be created in the future, so they're never valid range edges.</li>
+        <li><strong>Retention floor:</strong> dates before the data-retention horizon are disabled (no case data exists to filter against below it).</li>
+        <li><strong>Today marker:</strong> the current date carries a distinct marker so reps can orient quickly; today is selectable and acts as the upper bound of the selectable window.</li>
+      </ul>
+
+      <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Day-cell states</h5>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Default</td><td>Selectable day, no selection applied.</td></tr>
+          <tr><td>Range-start</td><td>The selected start date — leading edge of the range, rounded leading corner.</td></tr>
+          <tr><td>Range-end</td><td>The selected end date — trailing edge of the range, rounded trailing corner.</td></tr>
+          <tr><td>In-range</td><td>Days between start and end — continuous fill, no rounding.</td></tr>
+          <tr><td>Single-day</td><td>Start and end are the same date — fully rounded, both edges on one cell.</td></tr>
+          <tr><td>Hover</td><td>Pointer over a selectable day; after start is set, previews the prospective range to that day.</td></tr>
+          <tr><td>Today</td><td>The current date marker; composes with selection states.</td></tr>
+          <tr><td>Disabled</td><td>Future or pre-retention day; not selectable, not hoverable.</td></tr>
+          <tr><td>Focused</td><td>Keyboard focus ring on the active cell in the roving-tabindex grid.</td></tr>
+        </tbody>
+      </table>
+
+      <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Keyboard &amp; ARIA</h5>
+      <p class="section-desc">The calendar is a <code>role="grid"</code> with a single roving tabindex — arrow keys move day-to-day (and across the week / month boundary), <kbd>Home</kbd>/<kbd>End</kbd> jump to the week edges, <kbd>PageUp</kbd>/<kbd>PageDown</kbd> page months, <kbd>Enter</kbd>/<kbd>Space</kbd> selects, and <kbd>Esc</kbd> dismisses without applying. Disabled days are skipped by arrow navigation and exposed as <code>aria-disabled</code>. The grid announces the focused date and selection boundaries (start / end / range length) via an <code>aria-live</code> region; the typed inputs remain a fully keyboard-accessible alternative path to the same selection.</p>
+
+      <div class="callout callout--orange">
+        <strong>Open — engineering:</strong> Two boundary questions are unresolved and must be settled before build.
+        <strong>(1) End-boundary inclusivity:</strong> whether the API query treats the end date as inclusive (<code>&le; end</code>) or exclusive (<code>&lt; end+1</code>). This changes both the query and the footer day count, and must be consistent with how the preset ranges are computed.
+        <strong>(2) Timezone basis for day edges:</strong> which timezone defines the start/end of a "day" (midnight in whose zone). This must align with the timezone basis used by the Awaiting-FI / SLA clock model (see <em>Age indicator</em> and <em>Clock Behavior</em>) so a case's created-date filtering and its idle/SLA math don't disagree at day boundaries.
+      </div>
+
+      <div class="callout callout--blue">
+        <strong>Open — Forge coverage:</strong> Cross-channel handoff to native iOS / Android should present the range picker as a platform date-range <em>sheet</em> rather than the dual-month web popover. The sheet treatment is not yet specced — tracked as a Forge coverage open item.
       </div>
 
       <div class="divider" style="margin: 32px 0;"></div>
@@ -1967,15 +2039,6 @@
         </tbody>
       </table>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Why "On hold" is a new status</h4>
-      <p class="section-desc">Without On Hold, reps would use Awaiting Customer for internal blocks (escalation, third-party dependencies, internal investigation), which:</p>
-      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
-        <li>Misrepresents who the case is actually waiting on</li>
-        <li>Corrupts "time waiting on customer" metrics</li>
-        <li>Makes it impossible to distinguish internal delays from customer response gaps in reporting</li>
-      </ul>
-      <p class="section-desc">On Hold pauses the SLA clock (same as Awaiting customer) but categorizes the wait differently for reporting and queue filtering.</p>
-
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view column mapping</h4>
       <p class="section-desc">Board columns map 1:1 to statuses. The board displays five columns: New → Needs Response → Awaiting Customer → On Hold → Resolved.</p>
 
@@ -2012,12 +2075,11 @@
       </table>
 
       <p class="section-desc">Queue entries appear below a divider, grouped under a "Queues" label. If no queues are configured, this group is hidden.</p>
-      <p class="section-desc">All non-"My cases" scopes default to list view only (see view availability table above).</p>
 
       <div class="card">
         <div class="card-title">Case scope dropdown</div>
         <div style="margin-top: 12px; display: inline-block;">
-          <img src="images/Case_Scope_Dropdown.png" alt="Case Scope Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
+          <img src="images/case-menu.png" alt="Case Scope Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
         </div>
       </div>
 
@@ -2048,7 +2110,7 @@
       <div class="card">
         <div class="card-title">Bulk actions bar</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Bulk_Actions.png" alt="Bulk Actions Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/bulk-actions.png" alt="Bulk Actions Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -2062,7 +2124,32 @@
       <div class="card">
         <div class="card-title">Confirmation dialog</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Bulk_Confirmation_Dialog.png" alt="Bulk Confirmation Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/bulk-confirmation-dialog.png" alt="Bulk Confirmation Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 class="sub-heading">New case creation</h3>
+      <p class="section-desc">Reps can open a case proactively — for an outbound follow-up or a customer who reached out off-channel — via <strong>"+ New case"</strong> in the top navigation. This opens the <em>New case</em> modal, where the rep selects the customer the case belongs to before the case is created.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select a customer</h4>
+      <p class="section-desc">The modal opens to a search field ("Search for someone") with a <strong>Recent</strong> list below it — customers the rep has recently interacted with, each showing initials, name, and a relative timestamp. Reps can type to search the full customer directory or pick from Recent.</p>
+
+      <div class="card">
+        <div class="card-title">New case — customer search</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/new-case.png" alt="New case — customer search with Recent list" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Confirm and create</h4>
+      <p class="section-desc">Selecting a customer replaces the search field with a confirmation row showing the resolved record — name plus identifying details (account type, masked account number, CIF, and location) — so the rep can verify they have the right person. The ✕ on the row clears the selection and returns to search. <strong>Create case</strong> opens a new empty case linked to that customer; <strong>Cancel</strong> dismisses the modal without creating anything.</p>
+
+      <div class="card">
+        <div class="card-title">New case — customer selected</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/new-case-user.png" alt="New case — selected customer with Create case action" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -2077,7 +2164,7 @@
         <div class="state-demo">
           <div class="state-demo-label">Empty queue</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/Empty_Queue_Cropped.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/empty-queue.png" alt="Empty Queue State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Scope-aware empty state. Headline and description change based on active scope (My cases: "No cases assigned to you," All cases: "No cases yet," Unassigned: "No unassigned cases," Queue: "No cases in [Queue name]"). No CTA — cases arrive via customer-initiated channels. Filter bar reflects active view (board or list filters).</div>
         </div>
@@ -2086,133 +2173,22 @@
         <div class="state-demo">
           <div class="state-demo-label">No search results</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/No_Search_Results_Cropped.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/no-search.png" alt="No Search Results State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Reflects active query back to the user. "Clear search" link resets the input. Toolbar and filters remain accessible so agents can adjust without starting over. Filter bar shows updated controls: Assignee, Status (list only), Channel, Category, More filters.</div>
-        </div>
-
-        <!-- Loading Skeleton -->
-        <div class="state-demo">
-          <div class="state-demo-label">Loading skeleton</div>
-          <div style="padding: 0 12px 12px;">
-            <div class="state-frame">
-              <div class="state-toolbar">
-                <span class="state-toolbar-title">My cases</span>
-                <span style="font-size: 10px; color: #9ca3af;">▾</span>
-                <div class="state-toggle">
-                  <div class="state-toggle-btn active"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
-                  <div class="state-toggle-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
-                </div>
-              </div>
-              <div class="state-filters">
-                <div class="state-search"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search</div>
-                <span class="state-filter-btn">Assignee ▾</span>
-                <span class="state-filter-btn">Channel ▾</span>
-                <span class="state-filter-btn">Category ▾</span>
-              </div>
-              <div>
-                <div class="state-skeleton-row">
-                  <div class="skel-avatar"></div>
-                  <div class="skel-lines">
-                    <div class="skel-line" style="width: 35%;"></div>
-                    <div class="skel-line" style="width: 80%;"></div>
-                  </div>
-                  <div class="skel-meta">
-                    <div class="skel-badge"></div>
-                    <div class="skel-dot"></div>
-                    <div class="skel-time"></div>
-                  </div>
-                </div>
-                <div class="state-skeleton-row">
-                  <div class="skel-avatar"></div>
-                  <div class="skel-lines">
-                    <div class="skel-line" style="width: 40%;"></div>
-                    <div class="skel-line" style="width: 70%;"></div>
-                  </div>
-                  <div class="skel-meta">
-                    <div class="skel-badge"></div>
-                    <div class="skel-dot"></div>
-                    <div class="skel-time"></div>
-                  </div>
-                </div>
-                <div class="state-skeleton-row">
-                  <div class="skel-avatar"></div>
-                  <div class="skel-lines">
-                    <div class="skel-line" style="width: 30%;"></div>
-                    <div class="skel-line" style="width: 85%;"></div>
-                  </div>
-                  <div class="skel-meta">
-                    <div class="skel-badge"></div>
-                    <div class="skel-dot"></div>
-                    <div class="skel-time"></div>
-                  </div>
-                </div>
-                <div class="state-skeleton-row">
-                  <div class="skel-avatar"></div>
-                  <div class="skel-lines">
-                    <div class="skel-line" style="width: 38%;"></div>
-                    <div class="skel-line" style="width: 65%;"></div>
-                  </div>
-                  <div class="skel-meta">
-                    <div class="skel-badge"></div>
-                    <div class="skel-dot"></div>
-                    <div class="skel-time"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">Scope-aware skeleton — column count matches the active view. My cases and Unassigned show 5 columns (no Assignee); All cases and Queue show 6 columns (with Assignee). Board view uses card-shaped placeholders. Toolbar and filters render immediately. Content area transitions to the selected view once data arrives.</div>
         </div>
 
         <!-- Error Fetching Cases -->
         <div class="state-demo">
           <div class="state-demo-label">Error fetching cases</div>
           <div style="padding: 0 12px 12px;">
-            <img src="images/Error_Fetching_Cropped.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
+            <img src="images/error-fetching.png" alt="Error Fetching Cases State" onclick="openLightbox(this)" style="cursor: zoom-in; width: 100%; border-radius: 6px;">
           </div>
           <div style="padding: 0 16px 14px; font-size: 12px; color: var(--text-tertiary); line-height: 1.45;">API failure or timeout. "Unable to load cases" with reassuring copy + "Try again" retry button. Don't clear existing data if a background refresh fails — only show on initial load failure. Filter bar shows updated controls: Assignee, Status (list only), Channel, Category, More filters.</div>
         </div>
 
       </div>
 
-      <div class="divider" style="margin: 32px 0;"></div>
-
-      <h3 class="sub-heading">Designs + references</h3>
-      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2159&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Board view</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-2504&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">List view</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-19034&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">All cases</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-21439&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Reply all</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3153-21392&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Bulk confirmation dialog</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-13981&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty queue</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-14561&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">No search results</a>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3019-15021&t=gikvAH21tlX6oC5l-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Error fetching cases</a>
-        </div>
-      </div>
     </section>
     <!-- end Case Queue -->
 
@@ -3842,7 +3818,7 @@
       <p class="section-desc" style="margin-bottom: 8px;">On hold behavior under KAYAK-4922:</p>
       <ul class="card-list">
         <li><strong>Manually set:</strong> On hold is a manually set status — the agent deliberately applies it for an internal block (third-party dependency, escalation, internal investigation). It is never auto-applied, and is distinct from Awaiting customer, which is for waiting on the customer.</li>
-        <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
+        <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Both On Hold and Awaiting Customer pause the clock and the queue idle indicator; the indicator measures Awaiting-FI time only (New + Needs Response), so On-Hold time is persisted for reporting but never drives the dot or idle notifications (see <em>Age indicator</em>, Case queue). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
         <li><strong>Reporting:</strong> On hold must be reportable as distinct from Awaiting customer (<code>PENDING</code>) and not aggregated with it in queue-health or SLA reporting — a case deliberately parked on an external dependency is operationally different from one awaiting a customer reply.</li>
       </ul>
 
@@ -4622,7 +4598,8 @@
         <li>SLA clock starts when a case is created (not when it's assigned).</li>
         <li>Clock runs on business hours by default (pulled from Settings → General → Business hours). Weekends and holidays are excluded.</li>
         <li>Option to override to calendar hours per SLA policy.</li>
-        <li>Clock pauses when case status is set to "Waiting on customer." Resumes when the customer replies or a support rep manually resumes.</li>
+        <li>Clock pauses in <strong>both</strong> Awaiting Customer and On Hold — in either state the case is not actionable by the FI, so neither counts against the SLA. The Awaiting Customer clock resumes when the customer replies or a support rep manually resumes; the On Hold clock resumes on exit from On Hold. Accumulated elapsed time is preserved (not reset).</li>
+        <li>The SLA / idle clock measures <strong>Awaiting-FI time only</strong> (New + Needs Response). Awaiting-Customer time and On-Hold time are tracked separately for reporting and never count against the SLA or drive idle notifications. See <em>Age indicator</em> (Case queue) for the shared model.</li>
       </ul>
 
       <!-- Edit Drawer (SLA) -->
