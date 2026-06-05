@@ -1835,7 +1835,7 @@
       <div class="card" style="margin-top: 24px;">
         <div class="card-title">Case card (board)</div>
         <div style="margin-top: 12px; display: inline-block;">
-          <img src="images/Case_Card_Crops.png.png" alt="Case Card — Board" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
+          <img src="images/case-card.png" alt="Case Card — Board" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 301px;">
         </div>
       </div>
 
@@ -1927,6 +1927,12 @@
             <img src="images/Customer_Segment_Dropdown.png" alt="Customer Segment Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
           </div>
         </div>
+        <div class="card">
+          <div class="card-title">Category dropdown</div>
+          <div style="margin-top: 12px; display: inline-block;">
+            <img src="images/filter-category.png" alt="Category Dropdown" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
       </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 32px 0 8px;">Custom date range picker</h4>
@@ -1980,16 +1986,6 @@
 
       <h5 style="font-size: 14px; font-weight: 700; margin: 20px 0 6px;">Keyboard &amp; ARIA</h5>
       <p class="section-desc">The calendar is a <code>role="grid"</code> with a single roving tabindex — arrow keys move day-to-day (and across the week / month boundary), <kbd>Home</kbd>/<kbd>End</kbd> jump to the week edges, <kbd>PageUp</kbd>/<kbd>PageDown</kbd> page months, <kbd>Enter</kbd>/<kbd>Space</kbd> selects, and <kbd>Esc</kbd> dismisses without applying. Disabled days are skipped by arrow navigation and exposed as <code>aria-disabled</code>. The grid announces the focused date and selection boundaries (start / end / range length) via an <code>aria-live</code> region; the typed inputs remain a fully keyboard-accessible alternative path to the same selection.</p>
-
-      <div class="callout callout--orange">
-        <strong>Open — engineering:</strong> Two boundary questions are unresolved and must be settled before build.
-        <strong>(1) End-boundary inclusivity:</strong> whether the API query treats the end date as inclusive (<code>&le; end</code>) or exclusive (<code>&lt; end+1</code>). This changes both the query and the footer day count, and must be consistent with how the preset ranges are computed.
-        <strong>(2) Timezone basis for day edges:</strong> which timezone defines the start/end of a "day" (midnight in whose zone). This must align with the timezone basis used by the Awaiting-FI / SLA clock model (see <em>Age indicator</em> and <em>Clock Behavior</em>) so a case's created-date filtering and its idle/SLA math don't disagree at day boundaries.
-      </div>
-
-      <div class="callout callout--blue">
-        <strong>Open — Forge coverage:</strong> Cross-channel handoff to native iOS / Android should present the range picker as a platform date-range <em>sheet</em> rather than the dual-month web popover. The sheet treatment is not yet specced — tracked as a Forge coverage open item.
-      </div>
 
       <div class="divider" style="margin: 32px 0;"></div>
 
@@ -2117,7 +2113,7 @@
       <div class="card">
         <div class="card-title">Reply all</div>
         <div class="mockup-frame" style="margin-top: 12px;">
-          <img src="images/Reply_All.png" alt="Reply All Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
+          <img src="images/reply-all.png" alt="Reply All Dialog" onclick="openLightbox(this)" style="cursor: zoom-in;">
         </div>
       </div>
 
@@ -5016,7 +5012,7 @@
           }
           headings.push({
             id: h.id,
-            text: (h.textContent || '').replace(/\bNew\b/gi, '').trim()
+            text: (() => { const t = (h.textContent || '').replace(/\bNew\b/gi, '').trim(); return t.charAt(0).toUpperCase() + t.slice(1); })()
           });
         });
       }
