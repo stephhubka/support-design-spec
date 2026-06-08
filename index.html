@@ -2093,9 +2093,16 @@
         <li>Plain text only — no rich formatting, since messages may go across mixed channels (chat, forms)</li>
         <li>A send button shows the count: "Send to [n] cases"</li>
         <li>Clicking send triggers a confirmation dialog</li>
-        <li>On success, a toast confirms: <em>"Reply sent to [n] cases"</em></li>
+        <li>On success, a toast confirms: <em>"Reply sent to [n] cases"</em>. On partial failure the toast reflects the partial outcome (see Partial-failure state below), not full success</li>
       </ol>
-      <p class="section-desc">The confirmation step is critical — unlike Assign and Status changes (which are internal and reversible), a bulk reply is customer-facing and irreversible. Each case's conversation thread receives the message independently — customers see it as a direct reply, not a broadcast. System events log "Bulk reply sent" on each affected case for auditability.</p>
+      <p class="section-desc">The confirmation step is critical — unlike Assign and Status changes (which are internal and reversible), a bulk reply is customer-facing and irreversible. Each case's conversation thread receives the message independently — customers see it as a direct reply, not a broadcast. In the agent's conversation thread, the bulk reply renders as a normal message — no special bubble treatment, no "sent via bulk" marker on the message itself. Because the bubble is not specially rendered, no new conversation-history event type is required (no <code>BulkMessageAdded</code>) and no API expansion is needed for the conversation thread.</p>
+      <p class="section-desc"><strong>Atomicity.</strong> BulkReply is per-case atomic with no cross-case rollback — a failure is partial, not all-or-nothing (e.g., "case #14 failed, the other 29 sent"). This matches the partial-failure pattern already used by bulk status and bulk assign. BulkReply is the only bulk operation that is atomic per-case, because it writes a single activity event per case (tags, by contrast, are bulk-but-not-atomic).</p>
+      <p class="section-desc"><strong>Audit marker.</strong> The "Bulk reply sent" event appears in the Activity history (the case audit log), per affected case. The conversation-thread message renders normally; the separate Activity event sitting alongside it — not an inline flag on the message — is what marks the message as a bulk reply.</p>
+      <p class="section-desc update-highlight" style="margin-bottom: 0;"><strong>TODO (pending Odd confirmation):</strong> whether this Activity event reuses an existing system-event shape or needs a new typed payload to carry bulk-specific data (the [n] count, a batch ID linking the affected cases). If a new payload is needed, log it as an API gap — distinct from the (not-needed) <code>BulkMessageAdded</code> conversation-history event.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Partial-failure state</h4>
+      <p class="section-desc">Because send is per-case atomic, the result can be mixed. After send, surface a per-case success/fail result — e.g. "29 sent, 1 failed" — rather than a single generic error. Provide a retry affordance scoped to the failed subset only; it must not re-send to cases that already succeeded. Failed cases make the reason available where possible, consistent with the generic Error state used elsewhere in the spec.</p>
+      <p class="section-desc update-highlight" style="margin-bottom: 0;"><strong>Designs pending.</strong> The behavior is specced here; the partial-failure result view and scoped-retry affordance still need a visual.</p>
 
       <div class="card">
         <div class="card-title">Bulk actions bar</div>
