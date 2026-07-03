@@ -357,6 +357,15 @@
     max-width: 680px;
   }
 
+  /* Body-copy links match the ON THIS PAGE sidebar blue */
+  .section-desc a, .card-list a, .card-desc a, .spec-table td a {
+    color: var(--accent-blue);
+    text-decoration: underline;
+  }
+  .section-desc a:hover, .card-list a:hover, .card-desc a:hover, .spec-table td a:hover {
+    color: var(--text-primary);
+  }
+
   /* ── Cards ── */
   .card {
     background: var(--bg-surface);
@@ -1388,7 +1397,7 @@
       <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
     </span>
     <a href="#case-queue" class="nav-item">
-      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--updated">Updated</span>
+      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
     </a>
     <!-- <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">02</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
@@ -1420,7 +1429,7 @@
 <div class="main">
   <header class="main-header">
     <span class="main-header-title">Support V2 — Design Spec</span>
-    <span class="main-header-meta">Last updated June 5, 2026</span>
+    <span class="main-header-meta">Last updated June 24, 2026</span>
   </header>
 
   <aside id="toc-sidebar" class="toc-sidebar" aria-label="On this page"></aside>
@@ -1681,16 +1690,19 @@
             <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
             <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
           </svg>
-          <strong>Figma</strong> designs →
+          <strong>Designs</strong> →
         </a>
-        <a href="https://supportv2.lovable.app" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF4D2E" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        <a href="https://www.figma.com/proto/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4444-2422&viewport=1368%2C198%2C0.5&t=ImdBLP2F0iZRxDcy-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=4444%3A2422&page-id=4444%3A2421" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="14" height="21" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
+            <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/>
+            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
+            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
           </svg>
-          <strong>Lovable</strong> prototype →
+          <strong>Prototype</strong> →
         </a>
       </div>
-      <p class="section-desc" style="margin-top: 10px; font-size: 13px; color: var(--text-tertiary);">Note: the Lovable prototype isn't 100% reflective of the final design — it's there to demonstrate the interactions.</p>
 
       <h3 class="sub-heading">Supported views</h3>
       <p class="section-desc">The board and list views are not universally available. View availability depends on the selected case scope:</p>
@@ -1795,8 +1807,8 @@
 
       <h3 class="sub-heading">Case cards</h3>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Age indicator</h4>
-      <p class="section-desc">A colored dot beside the timestamp on each case card represents one thing: <strong>Awaiting-FI time</strong> — how long the case has been waiting on the FI/agent to act (cumulative time in the actionable states New + Needs Response). The dot always means "waiting on us," regardless of status — it never changes meaning. This provides a lightweight urgency signal without requiring a full priority system.</p>
+      <h4 id="idle-indicator-model" style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Age indicator <span style="font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-blue-dim); color: var(--accent-blue); border: 1px solid rgba(75,124,243,0.25); vertical-align: middle; margin-left: 8px;">AUTHORITATIVE MODEL</span></h4>
+      <p class="section-desc"><strong>Definition.</strong> A colored dot beside the timestamp on each case card (the idle indicator / live dot) represents <strong>one thing only</strong>: <strong>Awaiting-FI time</strong> — time the case is waiting on the FI/agent to act, accrued in the actionable states <strong>New</strong> and <strong>Needs Response</strong>. The dot always means "waiting on us," regardless of status — it never changes meaning. It is the <strong>only</strong> signal that drives agent-facing urgency and notification thresholds, because it is the only time that is both actionable and worth escalating. This provides a lightweight urgency signal without requiring a full priority system. <em>This subsection is the single authoritative definition of the idle indicator; the Rules/SLA and Case details sections reference it rather than restating it independently.</em></p>
 
       <table class="spec-table">
         <thead>
@@ -1825,11 +1837,11 @@
         </tbody>
       </table>
 
-      <p class="section-desc">Both Awaiting Customer and On Hold pause the indicator — in either state there is nothing for the agent to act on, so neither drives the dot. A case sitting in Awaiting Customer or On Hold for 3 days does not turn red. Only Awaiting-FI time counts toward the threshold.</p>
-      <p class="section-desc"><strong>Three durations are tracked and persisted from day one:</strong> Awaiting-FI time (New + Needs Response) drives the live dot and SLA notifications; Awaiting-Customer time and On-Hold time are persisted for reporting only and never drive the dot or notifications. Capturing all three now is cheaper than backfilling later — changing what feeds the indicator would otherwise require recalculating across every conversation.</p>
+      <p class="section-desc"><strong>Clock pause.</strong> The live dot pauses in <strong>both</strong> Awaiting Customer and On Hold — in either state there is nothing for the agent to act on, so neither drives the dot. A case sitting in Awaiting Customer or On Hold for 3 days does not turn red; only Awaiting-FI time counts toward the threshold. (Both non-actionable states pause the dot — it does not pause on Awaiting Customer alone.)</p>
+      <p class="section-desc"><strong>Three tracked durations, persisted from day one:</strong> (1) <strong>Awaiting-FI time</strong> (New + Needs Response) — drives the live dot and notifications; (2) <strong>Awaiting-Customer duration</strong> — persisted for reporting, does not drive the Phase 1 dot; (3) <strong>On-Hold duration</strong> — persisted for reporting, does not drive the Phase 1 dot. All three are tracked from initial implementation even though only Awaiting-FI drives the Phase 1 indicator, because changing what the indicator calculates later requires recalculating across all conversations and is costly to backfill.</p>
       <p class="section-desc"><strong>Notifications:</strong> idle-time threshold notifications key off Awaiting-FI time only. A case in Awaiting Customer or On Hold never triggers idle escalation, since it is not actionable by the FI.</p>
-      <p class="section-desc"><strong>On Hold aging:</strong> if On-Hold wait is ever surfaced, it must be a separate, visually distinct signal — never this dot wearing a second meaning. Noted as a possible future addition, not Phase 1.</p>
-      <p class="section-desc"><strong>Live-update dependency (UI):</strong> the indicator is truly live, so the UI must react to changes in the underlying calculation inputs — e.g. business hours or timezone changing while the case list is loaded — not just to backend updates. This ties to the existing cross-team timezone dependency (<code>institution-details</code> / Dreamworks) already logged for Settings v2.</p>
+      <p class="section-desc"><strong>On-Hold aging.</strong> If On-Hold aging is ever surfaced to agents, it is a separate, visually distinct signal — not this dot. The idle dot never represents two different things depending on status. Noted as a possible future addition, not Phase 1.</p>
+      <p class="section-desc"><strong>Live-update dependency (UI).</strong> The idle indicator is truly live: the UI must <strong>recalculate the indicator when its inputs change mid-session</strong> — for example, if business-hours or timezone configuration changes while the case list is loaded — not only on backend updates. Flagged here as a UI dependency so it isn't missed in implementation. This ties to the existing cross-team timezone dependency (<code>institution-details</code>) already logged for Settings v2.</p>
       <p class="section-desc">This indicator uses the same idle duration logic proposed for default queue sort order, so the backend work is shared.</p>
 
       <div class="card" style="margin-top: 24px;">
@@ -2003,22 +2015,22 @@
             <td>No change. Case has been created but not yet viewed or acted on.</td>
           </tr>
           <tr>
-            <td>Open</td>
+            <td>Pending</td>
             <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-red-dim); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.25);">NEEDS RESPONSE</span></td>
             <td>Rename</td>
-            <td>Clarifies that the ball is with the support rep. Signals action required.</td>
+            <td>Pending is reached when a customer message has not yet been responded to — including auto-pended cases from unread consumer input. This is an agent-actionable state: the ball is with the rep.</td>
           </tr>
           <tr>
-            <td>Pending</td>
+            <td>Open</td>
             <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--accent-orange-dim); color: var(--accent-orange); border: 1px solid rgba(245,158,11,0.25);">AWAITING CUSTOMER</span></td>
             <td>Rename</td>
-            <td>Clarifies who the case is waiting on.</td>
+            <td>Open is reached when enterprise-side conversation activity (an agent response) has occurred and the case is now waiting on the customer.</td>
           </tr>
           <tr>
-            <td>No equivalent</td>
+            <td>(new)</td>
             <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface-hover); color: var(--text-secondary); border: 1px solid var(--border-default);">ON HOLD</span></td>
             <td>New status</td>
-            <td>For internal blocks. Waiting on third party, pending escalation, or requires internal investigation. Distinct from Awaiting customer to preserve reporting accuracy.</td>
+            <td>For non-customer pauses (third party, escalation, internal investigation), set manually by an agent. Replaces the former manual-Pending behavior. Distinct from Awaiting customer to preserve reporting accuracy. See <a href="#on-hold-behavior">On hold behavior</a> (SLA-pause) below.</td>
           </tr>
           <tr>
             <td>Closed</td>
@@ -2034,6 +2046,9 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="section-desc"><strong>Organizing principle: "whose turn is it?"</strong> The status model maps to who owes the next move. <strong>New</strong> and <strong>Needs Response</strong> (from v1 <em>Pending</em>) are both states where the customer is waiting on a response — the ball is with the rep. <strong>Awaiting Customer</strong> (from v1 <em>Open</em>) means the customer has been responded to and we are now waiting on their reply. This corrects the prior inverted assignment that described Pending as "Awaiting Customer."</p>
+      <p class="section-desc">Two notes on Pending: <strong>manual Pending is being retired</strong> in favor of <strong>On Hold</strong> for non-customer pauses (third party, escalation, internal investigation), so Pending no longer doubles as a manual parking state. And the <strong>auto-pended path</strong> (a case pended automatically on unread consumer input) is the dominant source of Pending by event volume, which is why Pending maps to the agent-actionable Needs Response rather than to a waiting-on-customer state.</p>
 
       <h4 id="reopen-behavior" style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Reopen behavior for terminal statuses</h4>
       <p class="section-desc">The two terminal statuses behave differently when activity arrives after the case has ended:</p>
@@ -2113,11 +2128,80 @@
       <p class="section-desc"><strong>Atomicity.</strong> BulkReply is per-case atomic with no cross-case rollback — a failure is partial, not all-or-nothing (e.g., "case #14 failed, the other 29 sent"). This matches the partial-failure pattern already used by bulk status and bulk assign. BulkReply is the only bulk operation that is atomic per-case, because it writes a single activity event per case (tags, by contrast, are bulk-but-not-atomic).</p>
       <p class="section-desc"><strong>Language translation.</strong> BulkReply honors per-case language translation. Because BulkReply is a bespoke per-case atomic command (not a single message fanned out), each case resolves its own language context and translates the reply on send, matching single-reply behavior for non-English conversations. The rep composes one reply in English and does not see translated output before sending. Per-case translation failures surface in that case's individual result state and do not fail the batch — they are handled by the per-case success/fail result model described in <em>Partial-failure state</em> below.</p>
       <p class="section-desc"><strong>Audit marker.</strong> The "Bulk reply sent" event appears in the Activity history (the case audit log), per affected case. The conversation-thread message renders normally; the separate Activity event sitting alongside it — not an inline flag on the message — is what marks the message as a bulk reply.</p>
+      <p class="section-desc" id="batch-id-purpose"><strong>Why the batch ID exists.</strong> The per-case "Bulk reply sent" activity event (<code>push.enterprise.BulkMessageSent</code>) carries a shared <strong>batch ID</strong>. This ID is <em>not</em> used by conversation-history rendering — the event does not need to visually reference which message was the bulk reply, and the message renders as a normal direct reply. The batch ID exists to <strong>correlate all cases originating from a single bulk send</strong>, which is the data hook required by the post-send bulk-reply management affordance (<a href="#bulk-reply-edit-delete">Editing or deleting a bulk reply after send</a>). Without the ID persisted on each per-case event, there is no way to later identify the full set of cases a bulk reply was sent to. To be explicit about what is and isn't persisted: <strong>the per-case event with its batch ID is persisted</strong> (it is the correlation mechanism), whereas the aggregate <strong>"N of M succeeded" count is UI-only and not persisted</strong> — it is a render of the send result, not a stored record.</p>
       <p class="section-desc update-highlight" style="margin-bottom: 0;"><strong>TODO (pending Odd confirmation):</strong> whether this Activity event reuses an existing system-event shape or needs a new typed payload to carry bulk-specific data (the [n] count, a batch ID linking the affected cases). If a new payload is needed, log it as an API gap — distinct from the (not-needed) <code>BulkMessageAdded</code> conversation-history event.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Selection cap</h4>
+      <p class="section-desc">Reply all is capped at <strong>50 cases per bulk send</strong>. The cap matches Gmail's bulk-operation limit (a familiar mental model for reps), stays comfortably within backend limits, and keeps operation time and partial-failure likelihood low. Most importantly, bulk reply is customer-facing and irreversible, so the cap is deliberately conservative to limit blast radius.</p>
+      <p class="section-desc">The cap applies <strong>only to Reply all</strong>, not to multi-select or the other bulk actions (Assign, Status, Priority), which have no equivalent limit.</p>
+      <p class="section-desc"><strong>Over-limit behavior.</strong> When more than 50 cases are selected, the Reply all action is disabled — rather than blocking at send — with an inline hint: <em>"Reply all supports up to 50 cases at a time."</em> Selection itself is not constrained: the rep can still select 50+ cases and use the other bulk actions; only Reply all is gated. This is a client-side selection constraint and does not alter the <code>GetCases</code> contract or any API behavior.</p>
+      <p class="section-desc"><strong>Note.</strong> The cap is a starting value based on infrequent expected use; revisit if usage data shows reps regularly hitting the ceiling.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Partial-failure state</h4>
       <p class="section-desc">Because send is per-case atomic, the result can be mixed. After send, surface a per-case success/fail result — e.g. "29 sent, 1 failed" — rather than a single generic error. Provide a retry affordance scoped to the failed subset only; it must not re-send to cases that already succeeded. Failed cases make the reason available where possible, consistent with the generic Error state used elsewhere in the spec.</p>
-      <p class="section-desc update-highlight" style="margin-bottom: 0;"><strong>Designs pending.</strong> The behavior is specced here; the partial-failure result view and scoped-retry affordance still need a visual.</p>
+
+      <div class="card">
+        <div class="card-title">Partial-failure result &amp; scoped retry</div>
+        <div class="card-desc" style="margin-bottom: 18px;">Mixed result after a per-case atomic send. The outcome is warning-level — most of the batch delivered — so it leads with the success count, lists the failed case with its reason, and offers a retry scoped to the failed subset only.</div>
+
+        <!-- Partial-outcome toast — reflects the partial outcome, not full success -->
+        <div style="margin-bottom: 18px;">
+          <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 8px;">Toast (partial outcome)</div>
+          <div style="display: inline-flex; align-items: center; gap: 10px; background: var(--bg-surface-raised); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 12px 18px; font-size: 13.5px; color: var(--text-primary); box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>Reply sent to <strong>29 of 30</strong> cases — 1 failed</span>
+          </div>
+        </div>
+
+        <!-- Result panel — warning level, leads with success count -->
+        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 8px;">Result view</div>
+        <div style="background: var(--bg-surface-raised); border: 1px solid var(--border-default); border-left: 3px solid var(--accent-orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; overflow: hidden;">
+
+          <!-- Summary header -->
+          <div style="display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; background: var(--accent-orange-dim); border-bottom: 1px solid var(--border-default);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true">
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.01em;">29 sent, 1 failed</div>
+              <div style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">Most of the batch was delivered. 1 case needs attention before it can send.</div>
+            </div>
+          </div>
+
+          <!-- Failed case detail -->
+          <div style="padding: 14px 18px;">
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 10px;">Failed case</div>
+            <div style="display: flex; align-items: flex-start; gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: 12px 14px;">
+              <span style="flex-shrink: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 4px; background: var(--accent-red-dim); color: var(--accent-red); margin-top: 1px;">Failed</span>
+              <div style="min-width: 0;">
+                <div style="font-size: 14px; color: var(--text-primary);"><span style="font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary);">#14</span> &nbsp;Maria González</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 3px;"><strong style="color: var(--text-primary); font-weight: 600;">Translation failed</strong> — couldn't render the reply in Spanish (es). The reply was not sent to this case; the other 29 sent in their resolved language.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scoped retry footer -->
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 0 18px 16px;">
+            <button type="button" style="display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: none; border-radius: var(--radius-sm); background: var(--accent-blue); color: #fff; font-family: var(--font-sans); font-size: 13.5px; font-weight: 600; cursor: pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+              Retry failed case (1)
+            </button>
+            <span style="font-size: 12.5px; color: var(--text-tertiary); line-height: 1.4;">Retry re-sends to the 1 failed case only — the 29 cases that already sent are untouched.</span>
+          </div>
+
+        </div>
+      </div>
+
+      <h4 id="bulk-reply-edit-delete" style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Editing or deleting a bulk reply after send <span style="font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface-hover); color: var(--text-secondary); border: 1px solid var(--border-default); vertical-align: middle; margin-left: 8px;">NOT YET DESIGNED</span></h4>
+      <p class="section-desc"><strong>Problem.</strong> A bulk reply can land in many cases (up to ~30, or more). If the FI later needs to edit or delete that message, there is currently no way to act on all affected cases at once. The rep would have to manually track every conversation ID and navigate to each case individually, which does not scale.</p>
+      <p class="section-desc"><strong>What already exists to build on.</strong> Each bulk send logs a per-case Activity event carrying a shared <strong>batch ID</strong> for correlation (see <a href="#batch-id-purpose">Why the batch ID exists</a> above), so all sends originating from a single bulk reply are already linked at the data layer. Single-message edit and delete already exist on a per-case basis. The fan-out would reuse the same <em>per-case atomic command</em> model as the original send (see <em>Atomicity</em> above).</p>
+      <p class="section-desc"><strong>To be designed.</strong> A bulk-reply management affordance that uses the batch ID to find all cases from a given bulk send and apply an edit or delete across them as a fan-out, returning per-case success/fail results consistent with the original send's <em>Partial-failure state</em> model above.</p>
+      <p class="section-desc"><strong>Constraint.</strong> Edit/delete is best-effort per case, not guaranteed across the full batch. A case should be excluded from the fan-out if the customer has already replied or the message has already been individually altered. The design must define how excluded cases are surfaced to the rep — this is the same per-case success/fail/excluded result UI family as the Partial-failure state, which is already flagged as needing design.</p>
+      <p class="section-desc update-highlight" style="margin-bottom: 0;"><strong>Not yet designed.</strong> Behavior captured here only; the management entry point, the edit/delete fan-out result view, and the excluded-case treatment all still need a visual — the same failure-state UI family noted as pending under Partial-failure state.</p>
 
       <div class="card">
         <div class="card-title">Bulk actions bar</div>
@@ -2229,6 +2313,19 @@
       <div class="section-label" style="letter-spacing: 0.14em;">Section 1.0</div>
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Conversation window</h2>
       <p class="section-desc">The core conversation experience — where support reps read customer messages and compose replies. This section covers the message thread display, reply composition, attachments, noun cards, and internal notes. It is the primary workspace for resolving an active support case.</p>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3678-17774&t=YvNc099lIAqa2gNZ-1" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="14" height="21" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
+            <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/>
+            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
+            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
+          </svg>
+          <strong>Designs</strong> →
+        </a>
+      </div>
 
       <!-- TODO: re-enable functional prototype callout when the Figma prototype is ready
       <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec" target="_blank" class="callout callout--purple" style="display: flex; align-items: center; gap: 14px; margin-top: 24px; text-decoration: none;">
@@ -2443,7 +2540,6 @@
 
       <p class="section-desc" style="margin-top: 16px;"><strong><em>Note:</em></strong> Internal notes use a full-width inset treatment rather than a right-aligned bubble to prevent reps from misreading them as outbound messages. The lock icon and "Internal" label add an explicit second signal. This distinction is load-bearing — a note accidentally sent to a customer is a serious trust failure.</p>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3756-13075&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message thread →</a></p>
 
       <!-- Message removal -->
       <h3 class="sub-heading">Message removal</h3>
@@ -2549,7 +2645,6 @@
       </table>
       <p class="section-desc" style="margin-top: 16px;">System events are never removable — they are the audit trail and must remain intact.</p>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4281-3681&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message removal →</a></p>
 
       <!-- Message editing -->
       <h3 class="sub-heading">Message editing</h3>
@@ -2619,7 +2714,6 @@
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Constraints</h4>
       <p class="section-desc" style="margin-bottom: 16px;">Attachments on a message are not editable — only the text content can be modified. A message may be edited multiple times; each version is stored and accessible in the edit history dialog.</p>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4282-2721&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Message editing →</a></p>
 
       <!-- Edit history dialog -->
       <h3 class="sub-heading">Edit history dialog</h3>
@@ -2660,7 +2754,6 @@
       </table>
       <p class="section-desc" style="margin-top: 16px;">The current version carries a "Current" badge. The original version carries an "Original" badge. Dialog title: "Edit history". Dismissed via ✕ or click outside. No version restoration in Phase 1.</p>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4287-4405&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Edit history →</a></p>
     </section>
 
     <!-- Reply composer -->
@@ -2749,7 +2842,7 @@
 
       <h3 class="sub-heading">Text area migration — engineering dependency</h3>
       <p class="section-desc" style="margin-bottom: 8px;">The current composer is built on a plain textarea with custom behavior. A textarea cannot support inline rich text formatting of any tier — bold, italic, and link require a contenteditable-based rich text editor. Tier 1 is not a configuration change; it requires migrating the composer input away from the current textarea implementation. This represents a significant architectural change relative to the current v1 implementation and should be scoped as its own engineering workstream before any formatting tier is committed to a release. The same migration also unblocks slash command improvements and future AI writing tools.</p>
-      <p class="section-desc" style="margin-bottom: 16px;"><strong>Recommended library: <a href="https://tiptap.dev" target="_blank" style="color: #3978F1; text-decoration: underline;">Tiptap</a></strong> (React, extensible, well-maintained). Alternatives include Lexical and ProseMirror. All existing custom behaviors — mode toggle, slash command trigger, send shortcuts, character limits — must be re-implemented or validated post-migration.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Recommended library: <a href="https://tiptap.dev" target="_blank" style="color: var(--accent-blue); text-decoration: underline;">Tiptap</a></strong> (React, extensible, well-maintained). Alternatives include Lexical and ProseMirror. All existing custom behaviors — mode toggle, slash command trigger, send shortcuts, character limits — must be re-implemented or validated post-migration.</p>
 
       <h3 class="sub-heading">Tier 1 — target scope once migration is complete</h3>
       <p class="section-desc" style="margin-bottom: 16px;">Bold, italic, and link via keyboard shortcut only. No toolbar buttons required at this tier — shortcuts alone are sufficient to ship and validate whether reps use formatting in practice. Tier 1 is the minimum viable ask following a successful textarea migration.</p>
@@ -2907,7 +3000,6 @@
         <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Reserved / Phase 2+ (note, not built):</strong> When a second variant is added, the dropdown groups into "Send and…" (state changes on send — Resolve, Assign) and "Timing" (Scheduled send), separated by a divider. This grouping keeps send-variants distinct from send-timing. Not designed or built in Phase 1.</p>
       </div>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3812-1755&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Composer →</a></p>
 
     </section>
 
@@ -3168,7 +3260,6 @@
         <p class="section-desc" style="margin-bottom: 0;">Error states must distinguish between recoverable failures (timeout, transient model error) and hard failures (rate limit, model unavailable). The recoverable copy is "Try again, or write the response yourself"; the hard-failure copy should drop "Try again" and surface a single dismiss action with copy: "Writing assistant unavailable. Please write your response manually."</p>
       </div>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4281-2383&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Writing assistant →</a></p>
     </section>
 
     <!-- Attachments -->
@@ -3246,7 +3337,6 @@
         </tbody>
       </table>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3812-4156&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Attachments →</a></p>
     </section>
 
     <!-- Noun cards -->
@@ -3309,7 +3399,6 @@
       <p class="section-desc" style="margin-bottom: 8px;">Customers can share individual records directly into the conversation from their banking app — without the rep requesting them. The customer taps a "Share to support" action on a specific record (a transaction, a payment card, a payee) and it appears in the thread as a structured card. This is the inverse of the rep-sent list flow: the customer is providing context, not responding to a request.</p>
       <p class="section-desc" style="margin-top: 8px;">Customer-shared cards are <strong>read-only in the thread</strong>. No rep actions are available — no resend, no cancel. The rep reads the card as context and responds in the composer as normal.</p>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4263-5550&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Noun cards →</a></p>
     </section>
 
     <!-- Internal notes -->
@@ -3415,7 +3504,6 @@
         <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Phase 2:</strong> @mention support (@name in a note to notify a teammate) is deferred. Real-time co-editing is not included in Phase 1. Rep handoff is handled through notes, assignment changes, and conversation history.</p>
       </div>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4263-5549&t=eNId4y4C5zGjKe8G-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Internal notes →</a></p>
     </section>
 
     <!-- Conversation signals -->
@@ -3667,6 +3755,19 @@
       <h2 class="section-title" style="font-size: 42px; margin-bottom: 24px;">Case details</h2>
       <p class="section-desc">The contextual sidebar that gives reps everything they need to understand and act on a case without leaving the conversation. The panel is organized as a stack of noun cards — Person, Organization, Case, and Quick actions — so it is always explicit which fields belong to which object.</p>
 
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px;">
+        <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3841-3343&t=YvNc099lIAqa2gNZ-1" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="14" height="21" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
+            <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/>
+            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
+            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
+          </svg>
+          <strong>Designs</strong> →
+        </a>
+      </div>
+
       <!-- TODO: re-enable functional prototype callout when the Figma prototype is ready
       <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec" target="_blank" class="callout callout--purple" style="display: flex; align-items: center; gap: 14px; margin-top: 24px; text-decoration: none;">
         <svg width="20" height="30" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
@@ -3693,7 +3794,6 @@
         </div>
       </div>
 
-      <p style="margin-top: 24px;"><a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=3914-1018&t=G4xSDTKaS743YWeJ-1" target="_blank" class="figma-btn"><strong>Figma:</strong> Panel →</a></p>
     </section>
 
     <!-- Person / Business card -->
@@ -3826,11 +3926,11 @@
       </table>
       <p class="section-desc" style="margin-top: 8px;">On hold is net-new and must <strong>not</strong> collapse into <code>PENDING</code> — the two remain distinct for SLA and reporting. The <code>OPEN</code>/<code>PENDING</code> mapping reflects semantic fit: Needs response (<code>OPEN</code>) means the case is live and actionable by the rep; Awaiting customer (<code>PENDING</code>) means it is waiting on the other party. This mapping is adopted, pending River's confirmation that nothing currently consumes <code>OPEN</code>/<code>PENDING</code> in a conflicting way.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">On hold behavior <span class="updated-badge">Stub</span></h4>
+      <h4 id="on-hold-behavior" style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">On hold behavior <span class="updated-badge">Stub</span></h4>
       <p class="section-desc" style="margin-bottom: 8px;">On hold behavior under KAYAK-4922:</p>
       <ul class="card-list">
-        <li><strong>Manually set:</strong> On hold is a manually set status — the agent deliberately applies it for an internal block (third-party dependency, escalation, internal investigation). It is never auto-applied, and is distinct from Awaiting customer, which is for waiting on the customer.</li>
-        <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Both On Hold and Awaiting Customer pause the clock and the queue idle indicator; the indicator measures Awaiting-FI time only (New + Needs Response), so On-Hold time is persisted for reporting but never drives the dot or idle notifications (see <em>Age indicator</em>, Case queue). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
+        <li><strong>Manually set:</strong> On hold is a manually set status — the agent deliberately applies it for an internal block (third-party dependency, escalation, internal investigation). It is never auto-applied, and is distinct from Awaiting customer, which is for waiting on the customer. On hold <strong>replaces the former manual-Pending behavior</strong>: in v1, reps parked non-customer pauses on Pending; that manual use is retired here, leaving Pending (now Needs Response) for the auto-pended, customer-waiting case.</li>
+        <li><strong>SLA clock:</strong> On hold pauses the response-SLA clock and resumes it on exit, preserving accumulated elapsed time (not reset). Both On Hold and Awaiting Customer pause the clock and the queue idle indicator; the indicator measures Awaiting-FI time only (New + Needs Response), so On-Hold time is persisted for reporting but never drives the dot or idle notifications (see the authoritative <a href="#idle-indicator-model">idle indicator definition</a>, Age indicator, Case queue). Rationale: On hold covers external dependencies outside the rep's control; counting that time against the rep's SLA would penalize them for external wait and incentivize avoiding the status. Pending River's confirmation that the SLA engine supports pause/resume rather than stop/reset only.</li>
         <li><strong>Reporting:</strong> On hold must be reportable as distinct from Awaiting customer (<code>PENDING</code>) and not aggregated with it in queue-health or SLA reporting — a case deliberately parked on an external dependency is operationally different from one awaiting a customer reply.</li>
       </ul>
 
@@ -4065,27 +4165,27 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-22400&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Loaded state</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-22400&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Loaded state</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23800&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Loading state</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23800&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Loading state</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-22400&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Partial fail</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-22400&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Partial fail</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23459&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Full error</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23459&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Full error</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23244&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">No data</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-23244&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">No data</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-24287&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Details tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3641-24287&t=jPrKtLHzEgROBkqZ-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Details tab</a>
         </div>
       </div>
     </section>
@@ -4211,23 +4311,23 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3833&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">General Tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3833&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">General Tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3960&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Timezone Dialog</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3960&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Timezone Dialog</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3986&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Hours Validation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-3986&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Hours Validation</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4070&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4070&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Holiday Drawer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4055&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Holiday Empty</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4055&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Holiday Empty</a>
         </div>
       </div>
     </section>
@@ -4329,23 +4429,23 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4905&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Teams tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-4905&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Teams tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3075-2598&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Invite dialog</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3075-2598&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Invite dialog</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3076-4392&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Pending invite</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3076-4392&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Pending invite</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3077-4606&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Queue detail view</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3077-4606&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Queue detail view</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6048&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty no queue</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6048&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Empty no queue</a>
         </div>
       </div>
     </section>
@@ -4443,23 +4543,23 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6459&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Channel tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6459&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Channel tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6878&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Channel details</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-6878&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Channel details</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-7798&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Form details</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-7798&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Form details</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8362&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Email details</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8362&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Email details</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8810&t=M6J8urTpOFROI7My-1œ" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Deactivate channel dialog</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3078-8810&t=M6J8urTpOFROI7My-1œ" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Deactivate channel dialog</a>
         </div>
       </div>
     </section>
@@ -4611,7 +4711,7 @@
         <li>Clock runs on business hours by default (pulled from Settings → General → Business hours). Weekends and holidays are excluded.</li>
         <li>Option to override to calendar hours per SLA policy.</li>
         <li>Clock pauses in <strong>both</strong> Awaiting Customer and On Hold — in either state the case is not actionable by the FI, so neither counts against the SLA. The Awaiting Customer clock resumes when the customer replies or a support rep manually resumes; the On Hold clock resumes on exit from On Hold. Accumulated elapsed time is preserved (not reset).</li>
-        <li>The SLA / idle clock measures <strong>Awaiting-FI time only</strong> (New + Needs Response). Awaiting-Customer time and On-Hold time are tracked separately for reporting and never count against the SLA or drive idle notifications. See <em>Age indicator</em> (Case queue) for the shared model.</li>
+        <li>The SLA / idle clock measures <strong>Awaiting-FI time only</strong> (New + Needs Response). Awaiting-Customer time and On-Hold time are tracked separately for reporting and never count against the SLA or drive idle notifications. The authoritative definition of what the idle indicator represents lives in the <a href="#idle-indicator-model">idle indicator model</a> (Age indicator, Case queue) — this section follows it rather than restating it.</li>
       </ul>
 
       <!-- Edit Drawer (SLA) -->
@@ -4648,27 +4748,27 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-5448&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Evaluation order</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-5448&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Evaluation order</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9178&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Disabled state</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9178&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Disabled state</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9368&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Edit drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9368&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Edit drawer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9890&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty state</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9890&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Empty state</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9947&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">SLA edit drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-9947&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">SLA edit drawer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-10863&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Custom SLA drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3084-10863&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Custom SLA drawer</a>
         </div>
       </div>
     </section>
@@ -4777,15 +4877,15 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7772&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Settings AI tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7772&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Settings AI tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7888&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Edit drawer</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7888&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Edit drawer</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7834&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Empty state</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-7834&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Empty state</a>
         </div>
       </div>
     </section>
@@ -4908,11 +5008,11 @@
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-6521&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Notifications tab</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3055-6521&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Notifications tab</a>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <img src="images/Figma Logo.png" alt="Figma" width="20" height="20">
-          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3057-7353&t=M6J8urTpOFROI7My-1" target="_blank" style="color: #3978F1; text-decoration: underline; font-size: 14px;">Toast confirmation</a>
+          <a href="https://www.figma.com/design/clYIUliUpjbjhVZlr6el03/Support-2.0-%E2%80%94-Design-Spec?node-id=3057-7353&t=M6J8urTpOFROI7My-1" target="_blank" style="color: var(--accent-blue); text-decoration: underline; font-size: 14px;">Toast confirmation</a>
         </div>
       </div>
     </section>
