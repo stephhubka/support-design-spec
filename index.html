@@ -1685,6 +1685,12 @@
             <td>Open</td>
             <td>—</td>
           </tr>
+          <tr class="update-highlight-row">
+            <td>Sidebar panel responsive breakpoint</td>
+            <td>Section 4.0 specifies that the sidebar case view's details column auto-collapses below roughly 1280px rather than the panel switching to a stacked layout. Two parts are unconfirmed: (a) the 1280px figure is asserted, not derived — the real breakpoint is the width at which the conversation window hits its minimum reading measure, which needs to come from the design; and (b) auto-collapse versus stacking is a spec position that has not been reviewed. See Section 4.0 → Sidebar case view.</td>
+            <td>Open</td>
+            <td>—</td>
+          </tr>
         </tbody>
       </table>
     </section>
@@ -1709,16 +1715,6 @@
             <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
           </svg>
           <strong>Designs</strong> →
-        </a>
-        <a href="https://www.figma.com/proto/clYIUliUpjbjhVZlr6el03/Support-V2-%E2%80%94-Design-Spec?node-id=4444-2422&viewport=1368%2C198%2C0.5&t=ImdBLP2F0iZRxDcy-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=4444%3A2422&page-id=4444%3A2421" target="_blank" class="figma-btn" style="display: inline-flex; align-items: center; gap: 8px;">
-          <svg width="14" height="21" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
-            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
-            <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/>
-            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
-            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
-          </svg>
-          <strong>Prototype</strong> →
         </a>
       </div>
 
@@ -2146,6 +2142,85 @@
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Select and open a case</h4>
       <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Sidebar case view <span class="updated-badge">Updated</span></h4>
+      <p class="section-desc">When <strong>"Open cases in sidebar"</strong> is enabled in <em>View settings</em>, selecting a case opens it in an overlay panel pinned to the right edge of the viewport. When the setting is off, the case opens full-page instead — the sidebar is a presentation preference, not a separate destination.</p>
+      <p class="section-desc"><strong>The queue is clipped, not reflowed.</strong> The panel overlays the queue rather than displacing it: board columns retain their width and are partially occluded at the right edge, and the underlying layout does not recalculate. This follows the Jira work-item panel pattern. Reflowing instead would re-wrap card content and shift column positions on every open and close, so the queue a rep was scanning would not be the queue they return to.</p>
+
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Panel header.</strong> The panel carries its own header holding <em>case-level</em> actions, distinct from the conversation header rendered inside the panel (see Section 1.0 → Header actions). Left to right:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 12px;">
+        <li><strong>Copy chat transcript</strong> — copies the conversation to the clipboard.</li>
+        <li><strong>Watch</strong> (with count) — same message-subscription semantics and same "Stop watching" copy as the conversation header.</li>
+        <li><strong>Expand to full width</strong> — promotes the panel to the full-page case view, the same surface reps get when "Open cases in sidebar" is off.</li>
+        <li><strong>Close</strong> — dismisses the panel and returns to the queue.</li>
+      </ul>
+      <p class="section-desc"><strong>No back navigation.</strong> Close is the only exit; there is no back affordance. The queue is the persistent surface and the case is transient — it was never navigated away from, so there is nothing to go back to. A back control would imply a history stack the panel does not have.</p>
+
+      <p class="section-desc"><strong>Panel contents.</strong> The panel splits into two columns: the <strong>conversation window</strong> on the left and the <strong>case and customer details</strong> on the right. A rail control sits between them and collapses the details column. It is <strong>expanded by default</strong> — status and assignee are the two things a rep most often opens a case to read or change, so they should be visible on open rather than behind an interaction.</p>
+
+      <div class="card">
+        <div class="card-title">Sidebar case view (board)</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/board-view-sidebar.png" alt="Sidebar case view over the board queue" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Frame is out of date.</strong> The exported frame shows three header actions — copy, watch, close — and is missing <strong>Expand to full width</strong>. The watch control also renders as a bare eye with no count. Both need a re-export against the header specified above. The frame does correctly show the queue clipped rather than reflowed, and the details column expanded by default.</p>
+        </div>
+      </div>
+
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Responsive constraint.</strong> Below roughly <strong>1280px</strong> viewport width the two-column split becomes untenable — the conversation window falls below a usable reading measure once the details column takes its share of an already-overlaid panel. Below that breakpoint the <strong>details column auto-collapses</strong> to its rail; the panel does not switch to a stacked layout.</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 12px;">
+        <li>Auto-collapse preserves the conversation as a single continuous scroll. Stacking would push status and assignee below the fold of that scroll, which is worse than the rail — at least the rail is a one-click reveal at a fixed position.</li>
+        <li>The collapse is a <strong>responsive override, not a preference write</strong>. It does not overwrite the rep's expanded/collapsed choice; returning above the breakpoint restores whatever state they had set.</li>
+        <li>Expanding the rail below the breakpoint overlays the details column above the conversation rather than splitting the panel further.</li>
+      </ul>
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin: 16px 0;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Needs design confirmation.</strong> The 1280px figure is approximate and has not been validated against the panel's actual minimum widths — the real breakpoint is whatever width the conversation window hits its minimum reading measure at, which needs to come from the design rather than being asserted here. The auto-collapse-over-stacking decision above is a spec position, not a settled one. Logged in <a href="#backlog">Open questions</a>.</p>
+      </div>
+
+      <div class="divider" style="margin: 32px 0;"></div>
+
+      <h3 class="sub-heading">View settings <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc">View settings is a small toggle group in the filter bar controlling how the queue presents itself. It holds three switches — <strong>Open cases in sidebar</strong>, <strong>Hide resolved cases</strong>, and <strong>Show channel</strong>. These are presentation preferences, persisted per user alongside filter state (see <em>Search + filter bar</em> above), not case data.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Toggle</th>
+            <th>On</th>
+            <th>Off</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Open cases in sidebar</strong></td>
+            <td>Selecting a case opens the overlay panel described in <em>Sidebar case view</em> above</td>
+            <td>Selecting a case navigates to the full-page case view</td>
+          </tr>
+          <tr>
+            <td><strong>Hide resolved cases</strong></td>
+            <td>Resolved and Permanently resolved cases are excluded from the queue</td>
+            <td>All statuses are shown, subject to the Status filter</td>
+          </tr>
+          <tr>
+            <td><strong>Show channel</strong></td>
+            <td>The inbound channel (Chat, Forms) is displayed on cards and rows</td>
+            <td>The channel indicator is suppressed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-title">View settings</div>
+        <div style="margin-top: 12px; display: inline-block;">
+          <img src="images/filter-view-settings.png" alt="View settings toggle group" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 320px;">
+        </div>
+      </div>
+
+      <p class="section-desc" style="margin-top: 24px;"><strong>"Hide resolved cases" is a shortcut, not an independent control.</strong> It overlaps directly with the <strong>Status</strong> filter, which already enumerates Resolved and Permanently resolved. It should be specified and built as a <strong>write to filter state</strong> — toggling it on removes those two statuses from the Status filter selection, and toggling it off restores them — not as a second, parallel filtering mechanism layered on top.</p>
+      <p class="section-desc">Two independent mechanisms filtering the same field produce states a rep cannot reason about: Status explicitly set to "Resolved" while "Hide resolved cases" is on has no correct answer, and whichever way it resolves, one of the two controls is visibly lying about what the queue is showing. Making it a shortcut means the Status filter is always the single source of truth for what the queue includes, and the toggle simply reflects whether those two statuses are currently in the selection — so it turns itself off when a rep selects Resolved directly.</p>
+
+      <div class="divider" style="margin: 32px 0;"></div>
 
       <h3 class="sub-heading">Bulk actions</h3>
       <p class="section-desc">Bulk action bar order (left to right): <strong>[count] selected · Assign · Status · Tag · Watch · Reply all · ✕</strong></p>
@@ -2852,6 +2927,19 @@
     <section class="section" id="conv-header-actions" style="margin-bottom: 72px;">
       <h3 class="sub-heading">Header actions <span class="updated-badge">Updated</span></h3>
       <p class="section-desc" style="margin-bottom: 16px;">The conversation header exposes two icon actions, right-aligned. Neither sits in a kebab menu — both are directly exposed. These are the only two actions in the header; anything added later should be weighed against that, since a third icon starts to warrant an overflow.</p>
+
+      <p class="section-desc" style="margin-bottom: 16px;">The header runs across the top of the conversation column: a labeled <strong>"← Back to cases"</strong> control at the far left, the <strong>customer identity block</strong> beside it (avatar, customer name, and a channel-plus-opened-time line — e.g. "Chat • Opened 9:14 AM"), and the <strong>watch and copy controls</strong> right-aligned. The back control is labeled rather than a bare chevron because the full-page case view is a genuine navigation destination — the rep left the queue to get here. This is the opposite of the sidebar panel in <a href="#case-queue">Case queue → Sidebar case view</a>, which has no back control at all because the queue is still on screen behind it.</p>
+
+      <div class="card">
+        <div class="card-title">Conversation view — full page</div>
+        <div class="mockup-frame" style="margin-top: 12px;">
+          <img src="images/support/conversation-view.png" alt="Full-page conversation view; the header actions are the top strip of the conversation column" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <p style="color: var(--text-tertiary); font-size: 13px; margin: 12px 0 0;">The header specified in this section is the top strip of the middle column — "← Back to cases", the Marcus Reynolds identity block, and the right-aligned icon actions. Click to enlarge.</p>
+        <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Frame conflicts with this section.</strong> The header renders <strong>two eye icons</strong> — a blue active eye with the count "1", then a grey outline eye — and <strong>no copy icon</strong>. The spec above defines the two actions as Copy chat transcript and Watch, so either the frame is showing the watching and not-watching states side by side as a state study (in which case the shipping header is missing its copy control), or the copy action was never drawn. Needs a re-export against the two actions specified here. Note this is the inverse of the sidebar panel frame in <a href="#case-queue">Case queue</a>, which shows copy but drops Expand to full width — the two frames disagree with each other as well as with the spec.</p>
+        </div>
+      </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Copy chat transcript</h4>
       <p class="section-desc" style="margin-bottom: 8px;">Icon action. Tooltip: "Copy chat transcript", 400ms delay per the standard tooltip pattern. Copies the full conversation thread to the clipboard.</p>
