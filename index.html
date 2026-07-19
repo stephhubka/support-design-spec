@@ -1388,7 +1388,7 @@
 
     <div class="nav-group-label">Sections</div>
     <a href="#conversation-window" class="nav-item">
-      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">1.0</span> Conversation window <span class="nav-chip nav-chip--updated">Updated</span>
     </a>
     <a href="#case-details" class="nav-item">
       <span class="nav-item-num">2.0</span> Case details <span class="nav-chip nav-chip--ready">Ready</span>
@@ -1397,7 +1397,7 @@
       <span class="nav-item-num">3.0</span> Forms <span class="nav-chip nav-chip--not-started">Coming soon</span>
     </span>
     <a href="#case-queue" class="nav-item">
-      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--ready">Ready</span>
+      <span class="nav-item-num">4.0</span> Case queue <span class="nav-chip nav-chip--updated">Updated</span>
     </a>
     <!-- <a href="#ai-assistance" class="nav-item">
       <span class="nav-item-num">02</span> Research Agent (Phase 1) <span class="nav-chip nav-chip--updates">Updates</span>
@@ -1667,6 +1667,24 @@
             <td>Deferred to v2</td>
             <td>—</td>
           </tr>
+          <tr class="update-highlight-row">
+            <td>Who can permanently resolve a case, and from where</td>
+            <td>Section 1.0 defines the Permanently resolved state but not how a case reaches it. Two sub-questions: (a) is permanent resolution rep-available or admin-only, and (b) what triggers it — the status picker, the send dropdown, or a case-header action. Note that Section 2.0 already asserts the answer to (a) in passing: the Case details status table describes it as "applied by admin / compliance" and "not selectable from the rep's status picker," which would rule out both the status picker and the send dropdown. That line predates this spec and has not been confirmed as the decision.</td>
+            <td>Open</td>
+            <td>—</td>
+          </tr>
+          <tr class="update-highlight-row">
+            <td>Is Permanently resolved reopenable</td>
+            <td>The composer design shows an enabled Reopen action on the Permanently resolved banner; the status model in Section 4.0 says the status "rejects all reopen attempts and status transitions, enforced server-side." Both cannot ship. Blocks the "Case reopened by {rep name}" event definition, which currently assumes reopen is reachable from both terminal states.</td>
+            <td>Open — blocks build</td>
+            <td>—</td>
+          </tr>
+          <tr class="update-highlight-row">
+            <td>Distinguishing "watched by me" from "watched by others only"</td>
+            <td>Both states render as an eye with a count in the conversation header, so a rep cannot tell at a glance whether they are personally subscribed. Only the tooltip disambiguates, and only on hover. See Section 1.0 → Header actions.</td>
+            <td>Open</td>
+            <td>—</td>
+          </tr>
         </tbody>
       </table>
     </section>
@@ -1871,8 +1889,9 @@
       <p class="section-desc" style="margin-bottom: 8px;">The filter bar includes the following persistent filter controls:</p>
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li><strong>Assignee:</strong> Filter by assigned representative</li>
-        <li><strong>Status:</strong> Filter by case status</li>
+        <li><strong>Status:</strong> Filter by case status. The list enumerates all six statuses: New, Needs response, Awaiting customer, On hold, Resolved, Permanently resolved. Permanently resolved appears in the filter even though it has no board column — the filter is the primary way to reach archived cases.</li>
         <li><strong>Channel:</strong> Filter by inbound channel (Chat, Forms)</li>
+        <li><strong>Category:</strong> Filter by case category — the subject-matter classification of the case (e.g. Dispute, Fraud). Values come from the workspace's configured category taxonomy, the same taxonomy the rules engine matches on. Single-select. Distinct from <strong>Tags</strong>, which are free-form, multi-valued, and rep-applied: category is what the case <em>is about</em>, tags are how a team chooses to mark it.</li>
         <li><strong>More filters:</strong> Expands to reveal additional filtering options (see below)</li>
       </ul>
 
@@ -2052,9 +2071,9 @@
           </tr>
           <tr>
             <td>Permanently Closed</td>
-            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface-hover); color: var(--text-secondary); border: 1px solid var(--border-default);">PERMANENTLY CLOSED</span></td>
-            <td>Carry-over</td>
-            <td>Terminal, locked archival state applied by admin / compliance. Not reopenable. See <a href="#reopen-behavior">Reopen behavior for terminal statuses</a> below.</td>
+            <td><span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg-surface-hover); color: var(--text-secondary); border: 1px solid var(--border-default);">PERMANENTLY RESOLVED</span></td>
+            <td>Rename</td>
+            <td>Terminal archival state applied by admin / compliance. Renamed from the v1 <em>Permanently Closed</em> for the same reason Closed became Resolved — the vocabulary is now consistently "resolved" across both terminal states. See <a href="#reopen-behavior">Reopen behavior for terminal statuses</a> below.</td>
           </tr>
         </tbody>
       </table>
@@ -2062,16 +2081,22 @@
       <p class="section-desc"><strong>Organizing principle: "whose turn is it?"</strong> The status model maps to who owes the next move. <strong>New</strong> and <strong>Needs Response</strong> (from v1 <em>Pending</em>) are both states where the customer is waiting on a response — the ball is with the rep. <strong>Awaiting Customer</strong> (from v1 <em>Open</em>) means the customer has been responded to and we are now waiting on their reply. This corrects the prior inverted assignment that described Pending as "Awaiting Customer."</p>
       <p class="section-desc">Two notes on Pending: <strong>manual Pending is being retired</strong> in favor of <strong>On Hold</strong> for non-customer pauses (third party, escalation, internal investigation), so Pending no longer doubles as a manual parking state. And the <strong>auto-pended path</strong> (a case pended automatically on unread consumer input) is the dominant source of Pending by event volume, which is why Pending maps to the agent-actionable Needs Response rather than to a waiting-on-customer state.</p>
 
+      <p class="section-desc"><strong>Casing.</strong> Status names are written in <strong>sentence case</strong> in prose and in UI copy — "Permanently resolved", not "Permanently Resolved" and not "PERMANENTLY RESOLVED". The all-caps form is reserved for the Support 2.0 column of the status mapping table above, where every value is capitalized as a badge treatment. This applies to all six statuses, not just the renamed one.</p>
+
       <h4 id="reopen-behavior" style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Reopen behavior for terminal statuses</h4>
       <p class="section-desc">The two terminal statuses behave differently when activity arrives after the case has ended:</p>
       <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 12px;">
         <li><strong>Resolved is reopenable.</strong> Consumer or agent activity on a Resolved case reopens it, transitioning it back to <strong>Needs Response</strong>. This carries over the v1 behavior where a Closed case could be reopened by either party.</li>
-        <li><strong>Permanently Closed is the only non-reopenable terminal status.</strong> It rejects all reopen attempts and status transitions, enforced server-side (not just in the UI). Consumer activity on a Permanently Closed case does not reopen it.</li>
+        <li><strong>Permanently resolved is the only non-reopenable terminal status.</strong> It rejects all reopen attempts and status transitions, enforced server-side (not just in the UI). Consumer activity on a Permanently resolved case does not reopen it.</li>
       </ul>
-      <p class="section-desc" style="margin-bottom: 0;">This is the distinction between the two terminal states: <strong>Resolved = complete but reopenable; Permanently Closed = locked.</strong></p>
+      <p class="section-desc" style="margin-bottom: 12px;">This is the distinction between the two terminal states: <strong>Resolved = complete but reopenable; Permanently resolved = locked.</strong></p>
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-bottom: 0;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Conflicts with the design.</strong> The Permanently resolved composer frame in <a href="#conversation-window">Conversation window → Case resolution states</a> shows a banner with an enabled <strong>Reopen</strong> action, which contradicts "rejects all reopen attempts… enforced server-side" above. One of the two has to change: either the action is removed from the design, or this status is reopenable by some role and the language here needs to say which. Unresolved — see <a href="#backlog">Open questions</a>.</p>
+      </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Board view column mapping</h4>
-      <p class="section-desc">Board columns map 1:1 to statuses. The board displays five columns: New → Needs Response → Awaiting Customer → On Hold → Resolved.</p>
+      <p class="section-desc" style="margin-bottom: 12px;">Board columns map 1:1 to statuses, with one exception. The board displays five columns: New → Needs Response → Awaiting Customer → On Hold → Resolved.</p>
+      <p class="section-desc"><strong>Permanently resolved is not a board column.</strong> It is a filterable status but not a swimlane — it is a terminal archival state, and a column for it would accumulate indefinitely while never being worked. The board stays at five columns. Cases that become Permanently resolved leave the board; they remain reachable through the status filter and through search.</p>
 
       <div class="divider" style="margin: 32px 0;"></div>
 
@@ -2123,11 +2148,59 @@
       <p class="section-desc">Support reps can open a case directly from the card or row, at which point unread indicators clear once messages are viewed.</p>
 
       <h3 class="sub-heading">Bulk actions</h3>
-      <p class="section-desc">Bulk action bar order (left to right): [count] selected · Assign · Status · Reply all · Priority · ✕</p>
-      <p class="section-desc">Order follows frequency of use — Assign and Status are the most common triage actions, Reply all is less frequent but higher stakes, Priority is lowest frequency (writable on case records in Phase 1 but not yet a queue-level control).</p>
+      <p class="section-desc">Bulk action bar order (left to right): <strong>[count] selected · Assign · Status · Tag · Watch · Reply all · ✕</strong></p>
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Ordering rationale.</strong> The bar runs from highest-frequency and safest to lowest-frequency and most consequential:</p>
+      <ul style="list-style: disc; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0 0 12px;">
+        <li><strong>Assign</strong> and <strong>Status</strong> are the highest-frequency triage actions — the two things a rep does most often to a batch of cases.</li>
+        <li><strong>Tag</strong> and <strong>Watch</strong> are lower-frequency, non-destructive metadata actions. Both are internal-only and fully reversible.</li>
+        <li><strong>Reply all</strong> is last because it is the only customer-facing, irreversible action in the bar. Distance from the high-frequency controls is deliberate — it reduces the chance of a misclick landing on the one action that cannot be undone.</li>
+      </ul>
+      <p class="section-desc"><strong>Priority is removed from the bar.</strong> It is deferred and not a queue-level control in Phase 1. Priority remains writable on individual case records; it is simply not a bulk action.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Tag <span class="updated-badge">Updated</span></h4>
+      <p class="section-desc">Multi-select from the workspace tag taxonomy, with type-ahead search — the same taxonomy and picker behavior as the Tags filter in <em>More filters</em>. Bulk tag supports both <strong>add and remove</strong> across the selection; it is not add-only. Applying is not a replace operation — existing tags on a case are preserved unless explicitly removed.</p>
+      <p class="section-desc"><strong>Atomicity.</strong> Bulk tag is <strong>bulk-but-not-atomic</strong> (as already noted under <em>Atomicity</em> in Reply all below). A tag write may succeed on some cases and fail on others, and there is no cross-case rollback.</p>
+
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Mixed state.</strong> Because a tag may already be applied to some but not all of the selected cases, each tag row in the picker is a <strong>tri-state checkbox</strong>:</p>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Meaning</th>
+            <th>Control</th>
+            <th>Result on click</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unchecked</td>
+            <td>Tag is on none of the selected cases</td>
+            <td>Empty checkbox</td>
+            <td>Adds the tag to all selected cases</td>
+          </tr>
+          <tr>
+            <td>Checked</td>
+            <td>Tag is on every selected case</td>
+            <td>Checked checkbox</td>
+            <td>Removes the tag from all selected cases</td>
+          </tr>
+          <tr class="update-highlight-row">
+            <td>Mixed</td>
+            <td>Tag is on some but not all selected cases</td>
+            <td>Indeterminate checkbox (dash, not a tick), with the count — e.g. "Fraud <span style="color: var(--text-tertiary);">(12 of 30)</span>"</td>
+            <td>First click <strong>adds</strong> to all — resolving up, never down. A second click then removes from all.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">Mixed resolves <strong>upward on first click</strong> because add is the safer direction: adding a tag to 18 cases that lacked it is trivially reversible and visible, whereas silently stripping a tag from 12 cases that had it destroys categorization a rep may not have realized was there. The count in the row is what makes the consequence legible before the click.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Watch <span class="updated-badge">Updated</span></h4>
+      <p class="section-desc">Subscribes or unsubscribes the rep to new-message notifications across the selection, matching the Watch behavior in the conversation header (see Section 1.0 → Header actions). As there, watching is a <em>message</em> subscription only — no other events trigger notifications in Phase 1.</p>
+      <p class="section-desc"><strong>Two explicit actions, not one toggle.</strong> A selection will routinely contain a mix of watched and unwatched cases, and a single toggle would have to silently pick a direction for that mixed state. Instead the bar exposes <strong>Watch</strong> and <strong>Stop watching</strong> as two separate actions, each unambiguous regardless of the selection's starting state. Watch subscribes every selected case; Stop watching unsubscribes every selected case. Neither is a no-op on cases already in the target state.</p>
+      <p class="section-desc">Copy matches the header: <strong>"Stop watching"</strong>, not "Unwatch."</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Reply all</h4>
-      <p class="section-desc">Reply all should use a reply-arrow or send icon — not the star icon used by Priority. It needs to be visually distinct at a glance since the two actions have very different consequences.</p>
+      <p class="section-desc">Reply all should use a reply-arrow or send icon. It needs to be visually distinct at a glance from the metadata actions beside it, since it is the only action in the bar that reaches the customer. It must not reuse the star icon associated with Priority elsewhere in the product.</p>
       <ol style="list-style: decimal; padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin: 0;">
         <li>Rep clicks "Reply all" in the bulk-action bar</li>
         <li>An inline text area expands directly above the bulk action bar (not a modal or a new page)</li>
@@ -2145,7 +2218,7 @@
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Selection cap</h4>
       <p class="section-desc">Reply all is capped at <strong>50 cases per bulk send</strong>. The cap matches Gmail's bulk-operation limit (a familiar mental model for reps), stays comfortably within backend limits, and keeps operation time and partial-failure likelihood low. Most importantly, bulk reply is customer-facing and irreversible, so the cap is deliberately conservative to limit blast radius.</p>
-      <p class="section-desc">The cap applies <strong>only to Reply all</strong>, not to multi-select or the other bulk actions (Assign, Status, Priority), which have no equivalent limit.</p>
+      <p class="section-desc">The cap applies <strong>only to Reply all</strong>, not to multi-select or the other bulk actions (<strong>Assign, Status, Tag, Watch</strong>), which have no equivalent limit. Those four are internal and reversible, so there is no blast radius to contain.</p>
       <p class="section-desc"><strong>Over-limit behavior.</strong> When more than 50 cases are selected, the Reply all action is disabled — rather than blocking at send — with an inline hint: <em>"Reply all supports up to 50 cases at a time."</em> Selection itself is not constrained: the rep can still select 50+ cases and use the other bulk actions; only Reply all is gated. This is a client-side selection constraint and does not alter the <code>GetCases</code> contract or any API behavior.</p>
       <p class="section-desc"><strong>Note.</strong> The cap is a starting value based on infrequent expected use; revisit if usage data shows reps regularly hitting the ceiling.</p>
 
@@ -2219,6 +2292,9 @@
         <div class="card-title">Bulk actions bar</div>
         <div class="mockup-frame" style="margin-top: 12px;">
           <img src="images/bulk-actions.png" alt="Bulk Actions Bar" onclick="openLightbox(this)" style="cursor: zoom-in;">
+        </div>
+        <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 16px;">
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Frame is out of date.</strong> The exported frame shows <em>[count] selected · Assign · Status · Reply all · ✕</em> — it predates the addition of <strong>Tag</strong> and <strong>Watch</strong> and needs a re-export against the order specified above. Note the frame never included Priority, so removing Priority from the bar brings the written spec into line with the design rather than diverging from it. Separately, the frame renders Reply all with a speech-bubble icon; the icon direction above calls for a reply-arrow or send icon.</p>
         </div>
       </div>
 
@@ -2618,10 +2694,14 @@
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Post-removal states</h4>
       <p class="section-desc" style="margin-bottom: 8px;">Removal produces different in-thread results depending on the viewer's role.</p>
       <p class="section-desc" style="margin-bottom: 8px;"><strong>Rep view (tombstone)</strong> — The message bubble is replaced by a muted tombstone in its original position in the thread. The tombstone preserves the sender attribution and timestamp so the thread timeline remains readable. Tombstone copy: "Message removed by [name]". The tombstone is not interactive.</p>
-      <p class="section-desc" style="margin-bottom: 16px;"><strong>Admin view (content visible)</strong> — Admins see the original message content rendered normally, with a removed badge on the bubble indicating it has been suppressed. The badge shows who removed it and when on hover. This allows admins to audit removals without a separate log view.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Admin view (content visible)</strong> — Admins see the original message content rendered normally, with a removed badge on the bubble indicating it has been suppressed. Attribution is persistent, not hover-revealed: the message meta line reads "Removed by {name} at {timestamp}", using the removing actor's display name rather than their role. This matches the rep tombstone pattern ("Message removed by {name}") and allows admins to audit removals at a glance without a separate log view.</p>
 
-      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Restoration</h4>
-      <p class="section-desc" style="margin-bottom: 16px;">Admins can restore a removed message via a kebab action on the admin-view bubble. Restoring returns the message to its normal visible state for all viewers. A system event is injected into the thread: "Message restored by [name]." Reps cannot restore messages — including their own removals.</p>
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Restoration <span class="updated-badge">Updated</span></h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Restoration is admin-only. Reps cannot restore messages — including their own removals.</p>
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Trigger</strong> — Hovering a removed-message bubble in the admin view reveals a kebab on the bubble. The kebab is present in the admin view only; reps see a non-interactive tombstone with no affordance. The dropdown contains a single item: "Restore message."</p>
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>No confirmation</strong> — Selecting "Restore message" fires immediately. Unlike removal, restoration is non-destructive and re-removable, so an interruptive dialog is not warranted.</p>
+      <p class="section-desc" style="margin-bottom: 8px;"><strong>Result</strong> — The message returns to its normal visible state for all viewers. The removed badge and the "Removed by {name} at {timestamp}" meta line are cleared. A system event is injected into the thread: "Message restored by {name}."</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Post-restore feedback</strong> — No toast. The bubble returning to normal rendering plus the system event appearing in the thread are sufficient confirmation, and both are visible at the point of action. A toast would restate what the thread already shows.</p>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Scope</h4>
       <table class="spec-table">
@@ -2765,6 +2845,69 @@
         </tbody>
       </table>
       <p class="section-desc" style="margin-top: 16px;">The current version carries a "Current" badge. The original version carries an "Original" badge. Dialog title: "Edit history". Dismissed via ✕ or click outside. No version restoration in Phase 1.</p>
+
+    </section>
+
+    <!-- Header actions -->
+    <section class="section" id="conv-header-actions" style="margin-bottom: 72px;">
+      <h3 class="sub-heading">Header actions <span class="updated-badge">Updated</span></h3>
+      <p class="section-desc" style="margin-bottom: 16px;">The conversation header exposes two icon actions, right-aligned. Neither sits in a kebab menu — both are directly exposed. These are the only two actions in the header; anything added later should be weighed against that, since a third icon starts to warrant an overflow.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Copy chat transcript</h4>
+      <p class="section-desc" style="margin-bottom: 8px;">Icon action. Tooltip: "Copy chat transcript", 400ms delay per the standard tooltip pattern. Copies the full conversation thread to the clipboard.</p>
+      <p class="section-desc" style="margin-bottom: 16px;"><strong>Internal notes are included in the copied transcript.</strong> This is a deliberate choice — the transcript's primary use is handoff and escalation, where the internal reasoning is the most valuable part. The consequence is that a rep pasting a transcript into an external system, a customer-facing email, or a ticket in another tool will expose internal content. Reps need to understand this before they paste. Phase 1 ships no redaction step and no notes-excluded variant; if either is added later, the default should stay "included" and the variant should be the explicit choice.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Watch</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">A toggle. Watching a case subscribes the rep to notifications on new messages in that conversation. <strong>No other events trigger notifications in Phase 1</strong> — not status changes, not assignment, not internal notes. Watching is a message subscription, not a general case-activity subscription.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Icon</th>
+            <th>Tooltip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Not watching</td>
+            <td>Eye, outline, no count</td>
+            <td>Watch</td>
+          </tr>
+          <tr>
+            <td>Watching</td>
+            <td>Eye, active treatment, count shown</td>
+            <td>Stop watching</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px; margin-bottom: 16px;">Use <strong>"Stop watching"</strong> rather than "Unwatch" — verb-first, and consistent with the rest of the menu and tooltip copy.</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Watcher count</h4>
+      <p class="section-desc" style="margin-bottom: 16px;">Displayed immediately left of the eye icon. <strong>Includes the current rep</strong> in the total — a rep watching alone sees "1", not "0". Omitted entirely when the count is zero; it is not rendered as "0".</p>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 24px 0 8px;">Unverified badge</h4>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Element</th>
+            <th>When it appears</th>
+            <th>What it signals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="update-highlight-row">
+            <td>Unverified badge</td>
+            <td>Renders in the conversation header whenever the linked customer's segment is <strong>Unverified</strong> — an account exists but identity is not confirmed. Hidden for Retail and Business segments.</td>
+            <td>The rep is not talking to a confirmed identity. It is a caution marker before disclosing account detail or taking account action. Because segment resolves live from the customer record rather than being snapshotted at case creation, the badge disappears mid-conversation the moment a guest verifies.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="margin-top: 16px;">This badge is in the designs today but was previously undocumented. Guest / unauthenticated chat is not a separate channel — it rolls up under Chat as an auth-state of the conversation, surfaced through this segment. See <a href="#case-details">Case details</a> for the segment field itself.</p>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 24px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Open question — "watched by me" versus "watched by others only":</strong> Both currently render as an eye with a count, so a rep cannot tell at a glance whether they are personally subscribed or merely looking at a case three colleagues watch. The tooltip disambiguates, but only on hover. Logged in <a href="#backlog">Open questions</a>.</p>
+      </div>
 
     </section>
 
@@ -2982,7 +3125,7 @@
           </tr>
           <tr>
             <td><strong>Send + Resolve</strong></td>
-            <td>Dispatches the message and transitions the case to Resolved in a single action. The most common end-of-conversation pattern — avoids a separate status update step. Shown in the chevron dropdown. <strong>Atomic per case</strong> (see note below).</td>
+            <td>Dispatches the message and transitions the case to <strong>Resolved</strong> — not Permanently resolved — in a single action. The thread stays live and the composer stays fully available; the case remains reopenable. The most common end-of-conversation pattern — avoids a separate status update step. Shown in the chevron dropdown. <strong>Atomic per case</strong> (see note below). Permanent resolution is never reachable from the send dropdown in Phase 1.</td>
             <td>Phase 1</td>
           </tr>
           <tr>
@@ -3011,7 +3154,6 @@
       <div style="border-left: 3px solid var(--accent-green); padding-left: 16px; margin-top: 16px;">
         <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Reserved / Phase 2+ (note, not built):</strong> When a second variant is added, the dropdown groups into "Send and…" (state changes on send — Resolve, Assign) and "Timing" (Scheduled send), separated by a divider. This grouping keeps send-variants distinct from send-timing. Not designed or built in Phase 1.</p>
       </div>
-
 
     </section>
 
@@ -3600,11 +3742,41 @@
 
         <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
           <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Restricted access / read-only</strong>
-          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Thread history is fully visible. Composer is replaced by a persistent banner. Applies when the rep lacks write access — different queue, resolved and locked, etc.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Thread history is fully visible. <strong>Both</strong> composers — Reply and Note — are replaced by a persistent banner. Applies when the rep lacks write access to the case at all: it belongs to a different queue, or their role does not permit it. This is a <em>permission</em> state, not a <em>case lifecycle</em> state. It is distinct from Permanently resolved (see Case resolution states below), where the rep does have write access and the note composer stays available. Do not implement the two as the same state behind a shared flag.</p>
           <div style="margin: 0;">
             <img src="images/composer-read-only.png" alt="Restricted access / read-only" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
           </div>
         </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Case resolution states <span class="updated-badge">Updated</span></h4>
+      <p class="section-desc" style="margin-bottom: 8px;">The terminal case state splits into two. They differ in whether the thread stays live, and the composer reflects that difference directly. Status semantics for both are defined in <strong>Reopen behavior for terminal statuses</strong> in <a href="#case-queue">Case queue</a>.</p>
+      <p class="section-desc" style="margin-bottom: 24px;">Neither state is the same as the read-only treatment above. Read-only is triggered by <em>who the rep is</em>; these are triggered by <em>what state the case is in</em>.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Resolved — thread stays live</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 8px;">The case is complete, but the thread remains live. The composer is <strong>fully available in both Reply and Note modes</strong>, and the mode toggle renders normally. A rep can reply without an intermediate un-resolve step. This is the target state of <strong>Send + Resolve</strong>.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Status badge: <strong>Resolved</strong>, <code>success</code> treatment.</p>
+          <div style="margin: 0;">
+            <img src="images/Type=Composer, State=Resolved • composer active.png" alt="Composer — Resolved state, composer fully active in both modes" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 24px;">
+          <strong style="display: block; color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Permanently resolved — terminal</strong>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 8px;">The <em>reply</em> path closes; the case does not go dark. The Reply composer is replaced by a banner reading "This case is permanently resolved. Reopen to reply to the customer," with a <strong>Reopen</strong> action on the right.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 8px;">The <strong>internal note composer remains available inline</strong>, below the banner — yellow tint, the "Visible to your team only — not delivered to customer" lock row, and the Add note button all intact. Reps can document a case after permanent resolution without reopening it, which is the point: post-hoc annotation for audit and compliance should not require re-opening a closed case.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 8px;">The <strong>Reply / Note mode toggle is not shown</strong> — only one mode is available, so a toggle would offer a choice that does not exist.</p>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0 0 16px;">Status badge: <strong>Permanently resolved</strong>, <code>neutral</code> treatment with a lock icon. Deliberately <em>not</em> <code>success</code> — the state is terminal, not positive, and green would misread as a good outcome when permanent resolution is often a compliance or retention action.</p>
+          <div style="margin: 0;">
+            <img src="images/Type=Composer, State=Permanantly closed.png" alt="Composer — Permanently resolved state, reply replaced by banner with note composer still available" onclick="openLightbox(this)" style="cursor: zoom-in; display: block; max-width: 100%;">
+          </div>
+        </div>
+      </div>
+
+      <div style="border-left: 3px solid var(--accent-orange); padding-left: 16px; margin-top: 24px;">
+        <p style="color: var(--text-secondary); font-size: 14px; margin: 0;"><strong>Unresolved — Reopen versus "locked":</strong> The Permanently resolved banner offers an enabled <strong>Reopen</strong> action, but <strong>Reopen behavior for terminal statuses</strong> in <a href="#case-queue">Case queue</a> still states that Permanently resolved "rejects all reopen attempts and status transitions, enforced server-side (not just in the UI)" and is "the only non-reopenable terminal status." These cannot both ship. Either the Reopen action comes out of the design, or the status is reopenable-by-permission and the server-side enforcement language needs rewriting to say who may reopen. Logged in <a href="#backlog">Open questions</a>; needs a decision before build.</p>
       </div>
 
       <h4 style="font-size: 16px; font-weight: 700; margin: 40px 0 8px;">Events <span class="updated-badge">Updated</span></h4>
@@ -3649,6 +3821,11 @@
             <td>Assigned to {assignee} automatically</td>
             <td>Distinct from a manual "{rep} assigned this to {assignee}" event. The UI distinguishes auto from manual via the rules-engine special user ID. Rule-name passthrough ("via {rule name}") deferred to Phase 2+ — backend cost not justified for Phase 1 (Odd, confirmed).</td>
           </tr>
+          <tr class="update-highlight-row">
+            <td>Admin restores a removed message</td>
+            <td>Message restored by {name}</td>
+            <td>Admin-only action — see Message removal → Restoration. Uses the restoring admin's display name. Centered, standard system event treatment. Removal itself does not emit an event; attribution lives on the message meta line.</td>
+          </tr>
         </tbody>
       </table>
 
@@ -3682,12 +3859,17 @@
             <td>Resolved via Send + Resolve</td>
             <td>Case resolved by {rep name}</td>
           </tr>
+          <tr class="update-highlight-row">
+            <td>Status → Permanently resolved</td>
+            <td>Case permanently resolved by {rep name}</td>
+          </tr>
           <tr>
             <td>Case reopened after resolve</td>
             <td>Case reopened by {rep name}</td>
           </tr>
         </tbody>
       </table>
+      <p class="section-desc" style="margin-top: 16px;"><strong>Case reopened by {rep name}</strong> covers reopening from <em>either</em> terminal state — Resolved and Permanently resolved emit the same event copy. The event does not name which state the case was reopened from; the preceding resolve event in the timeline already establishes that. Note this is contingent on Permanently resolved being reopenable at all — see the unresolved question under Case resolution states above.</p>
 
       <!-- Call events -->
       <h4 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin-top: 32px; margin-bottom: 16px;">Call events</h4>
@@ -5080,7 +5262,7 @@
     'backlog': ['backlog'],
     'case-details': ['case-details', 'case-panel-anatomy', 'case-person', 'case-case'],
     'case-queue': ['case-queue'],
-    'conversation-window': ['conversation-window', 'conv-message-thread', 'conv-reply-composer', 'conv-writing-assistant', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states'],
+    'conversation-window': ['conversation-window', 'conv-message-thread', 'conv-header-actions', 'conv-reply-composer', 'conv-writing-assistant', 'conv-attachments', 'conv-noun-cards', 'conv-internal-notes', 'conv-signals', 'conv-system-states'],
     'conversation': ['conversation'],
     'intake-forms': ['intake-forms'],
     'internal-notes': ['internal-notes'],
